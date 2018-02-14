@@ -43,16 +43,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:name="com.anje.kelvin.aconting.ItemFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:layoutManager="LinearLayoutManager"
-            tools:context="com.anje.kelvin.aconting.Fragments.TransacoesFragment"
-            tools:listitem="@layout/fragment_item" />
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
