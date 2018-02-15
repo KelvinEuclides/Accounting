@@ -1,13 +1,22 @@
 
 package com.anje.kelvin.aconting.Adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.anje.kelvin.aconting.MainActivity;
+import com.anje.kelvin.aconting.Operacoes.Adicionar_deposito_Activity;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -50,6 +59,7 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView descricao,numItens,itensDispo, preco;
+        public LinearLayout linearLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -58,8 +68,8 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
            itensDispo=(TextView) view.findViewById(R.id.tv_id_itensDisp);
            preco=(TextView) view.findViewById(R.id.tv_id_preco);
 
-
         }
+
 
 
         @Override

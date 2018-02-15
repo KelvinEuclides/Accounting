@@ -75,5 +75,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_today_black_24dp" />
+        android:src="@drawable/ic_date_range24dp" />
 </android.support.design.widget.CoordinatorLayout>
