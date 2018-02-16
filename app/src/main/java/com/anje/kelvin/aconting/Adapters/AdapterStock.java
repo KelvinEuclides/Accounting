@@ -1,22 +1,19 @@
 
 package com.anje.kelvin.aconting.Adapters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.anje.kelvin.aconting.MainActivity;
-import com.anje.kelvin.aconting.Operacoes.Adicionar_deposito_Activity;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -38,17 +35,86 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_stock,parent,false);
+                .inflate(R.layout.item_venda,parent,false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Stock stock=mValues.get(position);
+        final Stock stock=mValues.get(position);
         holder.descricao.setText(stock.getNomeItem());
-        holder.preco.setText(stock.getPreco()+" MZN");
-        holder.numItens.setText(stock.getNumitem());
+        holder.preco.setText(stock.getPreco()+"");
         holder.itensDispo.setText(stock.getNumitemdisp());
+        holder.numItens.setText(stock.getNumitem());
+        holder.modificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder =new AlertDialog.Builder(context);
+                LayoutInflater inflater;
+                inflater = LayoutInflater.from(context);
+                final View dialogView=inflater.inflate(R.layout.dialogomodificar,null);
+                builder.setView(dialogView);
+                final Button editar=(Button) dialogView.findViewById(R.id.bt_dialog_editar);
+                final Button apagar=(Button) dialogView.findViewById(R.id.bt_dialog_apagar);
+                editar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder2 =new AlertDialog.Builder(context);
+                        LayoutInflater inflater1=LayoutInflater.from(context);
+                        final View dalogView1=inflater1.inflate(R.layout.dialogoeditar,null);
+                        builder2.setView(dalogView1);
+                        final TextView nomeItem=(TextView) dalogView1.findViewById(R.id.tv_dialog_editar_nomeProducto);
+                        final EditText nomeitem1=(EditText) dalogView1.findViewById(R.id.et_dialog_editar_nomep);
+                        final TextView precoItem=(TextView) dalogView1.findViewById(R.id.tv_dialog_valor_compra);
+                        final EditText precoItem1=(EditText) dalogView1.findViewById(R.id.et_add_valor_compra);
+                        final TextView precoUnidade=(EditText) dalogView1.findViewById(R.id.tv_dialog_preco_venda);
+                        final EditText precoUnidade1=(EditText) dalogView1.findViewById(R.id.tv_dialog_preco_venda)
+
+                        builder2.create();
+                        builder2.show();
+
+
+                    }
+                });
+                apagar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder1=new AlertDialog.Builder(context);
+                        builder1.setTitle("Aviso").setMessage("Tem a certeza que deseja Apagar  "+stock.getNomeItem()+" Da lista de itens");
+                        builder1.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Alforitimo para apagar item
+                                Toast toast=Toast.makeText(context,"Item "+stock.getNomeItem()+"apagado",Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                        }).setNegativeButton("Nao", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder1.create();
+                        builder1.show();
+
+                    }
+                });
+
+                builder.setPositiveButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setTitle("Selecione a Opçao");
+
+                AlertDialog b =builder.create();
+                b.show();
+
+                Toast toast=Toast.makeText(context,"Clicou em modificar  "+stock.getNomeItem(),Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
 
 
     }
@@ -59,15 +125,16 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView descricao,numItens,itensDispo, preco;
+        public Button modificar;
         public LinearLayout linearLayout;
 
         public ViewHolder(View view) {
             super(view);
-           descricao=(TextView) view.findViewById(R.id.tv_id_descricao);
-           numItens=(TextView) view.findViewById(R.id.tv_id_items);
-           itensDispo=(TextView) view.findViewById(R.id.tv_id_itensDisp);
-           preco=(TextView) view.findViewById(R.id.tv_id_preco);
-
+           descricao=(TextView) view.findViewById(R.id.tv_item_nome);
+           itensDispo=(TextView) view.findViewById(R.id.tv_item_dispo);
+           numItens=(TextView) view.findViewById(R.id.tv_item_inicial);
+           preco=(TextView) view.findViewById(R.id.tv_item_precoun);
+           modificar=(Button) view.findViewById(R.id.bt_item_modificar);
         }
 
 
@@ -77,4 +144,5 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
             return super.toString();
         }
     }
+
 }

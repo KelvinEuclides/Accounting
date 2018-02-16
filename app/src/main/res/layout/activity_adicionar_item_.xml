@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/tv_dialog_valor_compra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.137"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_dialog_valor_compra" />
 
         <TextView
             android:id="@+id/textView22"
@@ -73,6 +73,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:ems="10"
+            android:hint="0.00"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.137"
@@ -87,6 +88,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
+            android:hint="10"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.137"

@@ -1,10 +1,13 @@
 
 package com.anje.kelvin.aconting.Adapters;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +40,7 @@ public class AdapterTransicoes extends RecyclerView.Adapter<AdapterTransicoes.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Transacao_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
-        holder.valor.setText(transacao.getValor()+"MZN");
+        holder.valor.setText(transacao.getValor()+"");
         holder.data.setText(transacao.getData());
         holder.icone.setImageResource(transacao.getIcone());
 
@@ -69,4 +72,6 @@ public class AdapterTransicoes extends RecyclerView.Adapter<AdapterTransicoes.Vi
             return super.toString();
         }
     }
+
+
 }
