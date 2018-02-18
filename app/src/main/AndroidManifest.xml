@@ -33,15 +33,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Transicoes_Activity"
-            android:label="@string/title_activity_transicoes_"
+            android:label="Transicoes"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".item_stock_Activity"
-            android:label="@string/title_activity_add_item_stock_"
+            android:label="Gerir Itens Em Stock"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Operacoes.adicionar_item_Activity"
-            android:label="@string/title_activity_adicionar_item_"
+            android:label="Gerir Itens Em Stock"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Operacoes.Venda_Activity"

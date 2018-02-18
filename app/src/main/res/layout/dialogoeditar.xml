@@ -3,36 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="340dp">
 
     <EditText
         android:id="@+id/et_dialog_editar_nomep"
-        android:layout_width="356dp"
-        android:layout_height="wrap_content"
+        android:layout_width="302dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Item"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="54dp" />
-
-    <TextView
-        android:id="@+id/tv_dialog_editar_nomeProducto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Nome Do producto"
-        app:layout_constraintBottom_toTopOf="@+id/et_dialog_editar_nomep"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_editar_preco"
@@ -49,7 +35,7 @@
 
     <EditText
         android:id="@+id/et_dialog_preco"
-        android:layout_width="wrap_content"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -77,12 +63,13 @@
 
     <EditText
         android:id="@+id/et_dialog_preco_venda"
-        android:layout_width="wrap_content"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:ems="10"
+        android:hint="0.00"
         android:inputType="number|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.052"
@@ -90,26 +77,29 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_dialog_preco_venda" />
 
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="223dp"
+        android:id="@+id/sp_dialogo_unidademedida"
+        android:layout_width="304dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="168dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_dialog_preco_venda"
+        app:layout_constraintVertical_bias="0.576" />
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/tv_dialogo_unidademedida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Unidade de medida"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/sp_dialogo_unidademedida"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="parent"

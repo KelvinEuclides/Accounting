@@ -24,7 +24,7 @@ public class Selecionar_item_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selecionar_item_);
-        recyclerView = (RecyclerView) findViewById(R.id.rv_item_stock);
+   /**     recyclerView = (RecyclerView) findViewById(R.id.rv_item_stock);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -46,6 +46,6 @@ public class Selecionar_item_Activity extends AppCompatActivity {
         }
         adapter = new AdapterStock(lista,Selecionar_item_Activity.this);
         recyclerView.setAdapter(adapter);
-
+**/
     }
 }

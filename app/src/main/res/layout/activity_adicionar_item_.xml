@@ -13,10 +13,11 @@
         <EditText
             android:id="@+id/et_add_nomeitem"
             android:layout_width="326dp"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="64dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="Nome Item"
             android:inputType="textPersonName"
@@ -44,6 +45,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:background="@drawable/et_bgrnd"
+            android:backgroundTint="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="0.00"
             android:inputType="numberDecimal"
@@ -72,6 +75,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="0.00"
             android:inputType="numberDecimal"
@@ -83,10 +87,11 @@
         <EditText
             android:id="@+id/et_add_numitm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="10"
             android:inputType="number"
@@ -121,32 +126,60 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_add_numitm" />
 
-        <Spinner
-            android:id="@+id/sp_unidade_medida"
-            android:layout_width="219dp"
-            android:layout_height="43dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.167"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
         <Button
             android:id="@+id/bt_add_salvar"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
             android:background="@drawable/buttao_vermelhp"
             android:text="Adicionar"
             android:textColor="@android:color/background_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.452"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sp_unidade_medida" />
+            tools:layout_editor_absoluteY="488dp" />
+
+        <RadioButton
+            android:id="@+id/rb_kilograma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Kg"
+            app:layout_constraintBottom_toTopOf="@+id/bt_add_salvar"
+            app:layout_constraintEnd_toStartOf="@+id/radioButton2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView24"
+            app:layout_constraintVertical_bias="0.172" />
+
+        <RadioButton
+            android:id="@+id/rb_litros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:text="Litros"
+            app:layout_constraintBottom_toTopOf="@+id/bt_add_salvar"
+            app:layout_constraintEnd_toStartOf="@+id/radioButton3"
+            app:layout_constraintTop_toBottomOf="@+id/textView24"
+            app:layout_constraintVertical_bias="0.172" />
+
+        <RadioButton
+            android:id="@+id/rb_unidade"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="124dp"
+            android:layout_marginTop="8dp"
+            android:text="Unidade"
+            app:layout_constraintBottom_toTopOf="@+id/bt_add_salvar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView24"
+            app:layout_constraintVertical_bias="0.172" />
 
     </android.support.constraint.ConstraintLayout>
 

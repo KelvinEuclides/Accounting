@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,13 +64,26 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
                         LayoutInflater inflater1=LayoutInflater.from(context);
                         final View dalogView1=inflater1.inflate(R.layout.dialogoeditar,null);
                         builder2.setView(dalogView1);
-                        final TextView nomeItem=(TextView) dalogView1.findViewById(R.id.tv_dialog_editar_nomeProducto);
+
                         final EditText nomeitem1=(EditText) dalogView1.findViewById(R.id.et_dialog_editar_nomep);
                         final TextView precoItem=(TextView) dalogView1.findViewById(R.id.tv_dialog_valor_compra);
                         final EditText precoItem1=(EditText) dalogView1.findViewById(R.id.et_add_valor_compra);
-                        final TextView precoUnidade=(EditText) dalogView1.findViewById(R.id.tv_dialog_preco_venda);
+                        final TextView precoUnidade=(TextView) dalogView1.findViewById(R.id.tv_dialog_preco_venda);
                         final EditText precoUnidade1=(EditText) dalogView1.findViewById(R.id.et_dialog_preco_venda);
+                        final TextView Categoria=(TextView) dalogView1.findViewById(R.id.tv_dialogo_unidademedida);
+                        final Spinner categoria1=(Spinner) dalogView1.findViewById(R.id.sp_dialogo_unidademedida);
 
+                        builder2.setPositiveButton("Aplicar Alteracoes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
                         builder2.create();
                         builder2.show();
 

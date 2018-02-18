@@ -12,11 +12,12 @@
 
         <EditText
             android:id="@+id/et_descricao_despesa"
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
+            android:layout_width="338dp"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="68dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="Descricao"
             android:inputType="textPersonName"
@@ -77,11 +78,12 @@
 
         <EditText
             android:id="@+id/et_despesa_valor"
-            android:layout_width="185dp"
-            android:layout_height="wrap_content"
+            android:layout_width="184dp"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="00"
             android:inputType="numberDecimal"
@@ -93,9 +95,10 @@
         <EditText
             android:id="@+id/et_data_inicio_despesa"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="84dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +134,7 @@
         <TextView
             android:id="@+id/tv_data_fim"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
@@ -145,10 +148,11 @@
         <EditText
             android:id="@+id/et_data_fim_despesa"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -168,8 +172,8 @@
 
         <Button
             android:id="@+id/bt_salvar_despesa"
-            android:layout_width="135dp"
-            android:layout_height="49dp"
+            android:layout_width="224dp"
+            android:layout_height="59dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -183,6 +187,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_data_fim_despesa"
             app:layout_constraintVertical_bias="0.882" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="68dp"
+            android:layout_height="37dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Mzn"
+            android:textColor="@color/primary_text"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView19"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.136"
+            app:layout_constraintStart_toEndOf="@+id/et_despesa_valor"
+            app:layout_constraintTop_toBottomOf="@+id/rb_nenhuma"
+            app:layout_constraintVertical_bias="0.833" />
 
     </android.support.constraint.ConstraintLayout>
 
