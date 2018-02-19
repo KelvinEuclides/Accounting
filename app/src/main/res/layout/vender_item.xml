@@ -26,7 +26,7 @@
                 app:srcCompat="@drawable/preco" />
 
             <TextView
-                android:id="@+id/tv_item_nome"
+                android:id="@+id/tv_vender_nome"
                 android:layout_width="185dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
@@ -83,7 +83,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_item_dispo"
+                    android:id="@+id/tv_venda_item_dispo"
                     android:layout_width="51dp"
                     android:layout_height="13dp"
                     android:layout_marginBottom="8dp"
@@ -101,7 +101,7 @@
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
-                    android:id="@+id/tv_item_precoun"
+                    android:id="@+id/tv_venda_item_precoun"
                     android:layout_width="72dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -114,7 +114,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.741"
-                    app:layout_constraintStart_toEndOf="@+id/tv_item_dispo"
+                    app:layout_constraintStart_toEndOf="@+id/tv_venda_item_dispo"
                     app:layout_constraintTop_toBottomOf="@+id/textView35"
                     app:layout_constraintVertical_bias="1.0" />
 
@@ -133,7 +133,7 @@
                     tools:layout_editor_absoluteY="0dp" />
 
                 <TextView
-                    android:id="@+id/tv_item_inicial"
+                    android:id="@+id/tv_item_venda_item"
                     android:layout_width="37dp"
                     android:layout_height="13dp"
                     android:layout_marginBottom="8dp"
@@ -144,14 +144,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_item_dispo"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_venda_item_dispo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
             </android.support.constraint.ConstraintLayout>
 
             <Button
-                android:id="@+id/bt_item_modificar"
+                android:id="@+id/bt_item_vendr"
                 android:layout_width="80dp"
                 android:layout_height="34dp"
                 android:layout_marginBottom="8dp"
