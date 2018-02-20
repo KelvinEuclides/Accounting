@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
 import com.anje.kelvin.aconting.item_stock_Activity;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
@@ -125,6 +126,16 @@ public class MenuFragment extends Fragment {
            public void onClick(View view) {
                Intent intent=new Intent(getActivity(), Venda_Activity.class);
                startActivity(intent);
+           }
+       });
+
+       final CardView relatorios=view.findViewById(R.id.id_relatorios);
+       relatorios.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent=new Intent(getActivity(), RelatorioActivity.class);
+               startActivity(intent);
+
            }
        });
         return view ;

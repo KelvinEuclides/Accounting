@@ -227,7 +227,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginStart="44dp"
             android:layout_marginTop="8dp"
-            android:text="Depositos"
+            android:text="Depositar"
             app:layout_constraintBottom_toTopOf="@+id/id_estoque"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/id_transacoes" />
@@ -295,7 +295,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Estoque"
+            android:text="Gerir Estoque"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView11"
             app:layout_constraintHorizontal_bias="0.346"

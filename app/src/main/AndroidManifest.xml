@@ -12,13 +12,15 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Operacoes.Adicionar_despesaActivity"
             android:label="@string/title_activity_adicionar_despesa"
@@ -29,8 +31,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Classses.Login_Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Login"
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <activity
             android:name=".Transicoes_Activity"
             android:label="Transicoes"
@@ -48,7 +52,11 @@
             android:label="@string/title_activity_venda_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Selecionar_item_Activity" />
-        <activity android:name=".Operacoes.Adicionar_item_venda_Activity"></activity>
+        <activity android:name=".Operacoes.Adicionar_item_venda_Activity" />
+        <activity
+            android:name=".RelatorioActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

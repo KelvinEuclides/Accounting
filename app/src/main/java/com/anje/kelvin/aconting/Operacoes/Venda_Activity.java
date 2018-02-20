@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterStock;
+import com.anje.kelvin.aconting.Adapters.AdapterVenda;
 import com.anje.kelvin.aconting.Adapters.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
@@ -106,8 +107,15 @@ public class Venda_Activity extends AppCompatActivity {
                     public void onClick(View view) {
                        AlertDialog.Builder builder =new AlertDialog.Builder(Venda_Activity.this);
                        builder.setMessage("Selecione o item a venda");
-                       final ListView listView =(ListView) view.findViewById(R.id.lv_adicionar);
-                        builder.create().show();
+                       final RecyclerView rv =(RecyclerView) view.findViewById(R.id.rv_kel);
+                       AdapterVenda venda2=new AdapterVenda(Venda_Activity.this,venda);
+                       rv.setAdapter(venda2);
+                       builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+
+                           }
+                       }).create().show();
 
                     }
                 });
@@ -116,91 +124,6 @@ public class Venda_Activity extends AppCompatActivity {
         }
 
         }
-    public class Adapter_Venda extends BaseAdapter implements ListAdapter {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-
-        @Override
-        public int getCount() {
-            return contas.get(0).getStock().size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = getLayoutInflater().inflate(R.layout.vender_item, null);
-
-            TextView nome_item = (TextView) view.findViewById(R.id.tv_vender_nome);
-            TextView itensdispo = (TextView) view.findViewById(R.id.tv_item_dispo);
-            TextView itens = (TextView) view.findViewById(R.id.tv_item_venda_item);
-            TextView preco = (TextView) view.findViewById(R.id.tv_venda_item_precoun);
-            final Button vender = (Button) view.findViewById(R.id.bt_item_vendr);
-            nome_item.setText(contas.get(0).getStock().get(i).getNome_Item());
-            itens.setText(contas.get(0).getStock().get(i).getNum_item());
-            itensdispo.setText(contas.get(0).getStock().get(i).getItens_disponiveis());
-            preco.setText(contas.get(0).getStock().get(i).getPrecoUnidade() + "MZN");
-            vender.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final int quantidadew;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Venda_Activity.this).setTitle("QUANDIDADE").setMessage("Escreva A Quantidade" +
-                            " que deseja vender");
-                    final EditText quantidade = new EditText(Venda_Activity.this);
-                    quantidade.setHint("0");
-                    builder.setView(quantidade);
-                    quantidadew = Integer.parseInt(quantidade.getText().toString());
-                    builder.setPositiveButton("Vender", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (quantidadew <= 0) {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                                builder1.setMessage("Nao pode Adicionar Productos com valores nulos!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    }
-                                }).create().show();
-                            } else {
-                                venderItem(i, contas.get(0).getStock().get(i).getUnidade_de_Medida(), quantidadew);
-
-                            }
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    }).create().show();
-
-                }
-            });
-            return view;
-
-        }
-
-        public void venderItem(int i, String medida, int numunidade) {
-            double valor = contas.get(0).getStock().get(i).getPrecoUnidade();
-            if (medida.equals("kg") || medida.equals("KG")) {
-                valor = valor * numunidade;
-            }
-            if (medida.equals("UNIDADE") || medida.equals("unidade")) {
-                valor = valor * numunidade;
-            } else {
-                valor = valor * numunidade;
-            }
-            venda.setItems(contas.get(0).getStock().get(i), numunidade, valor);
-        }
-    }
-
 
 }
 
