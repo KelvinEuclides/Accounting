@@ -55,31 +55,17 @@ public class MenuFragment extends Fragment {
        final View view =inflater.inflate(R.layout.fragment_blank, container, false);
     Realm realm= Realm.getDefaultInstance();
         try {
-            RealmResults<Conta> contas = realm.where(Conta.class).findAll();
+            Conta contas = realm.where(Conta.class).equalTo("loggado",true).findFirst();
 
-            if (contas.size() > 0) {
                 final TextView saldo = (TextView) view.findViewById(R.id.tv_fg_menu_saldo_conta);
-                saldo.setText(contas.get(0).getSaldo_conta() + " MZN");
+                saldo.setText(contas.getSaldo_conta() + " MZN");
                 final TextView conta = (TextView) view.findViewById(R.id.tv_fg_menu_nome_conta);
-                conta.setText(contas.get(0).getNomeConta());
+                conta.setText(contas.getNomeConta());
                 final TextView despesas = (TextView) view.findViewById(R.id.tv_saldos_despesas);
                 despesas.setText(total_despesa() + "MZN");
                 final TextView depositos = (TextView) view.findViewById(R.id.tv_saldos_despositos);
                 depositos.setText(total_depositos() + "MZN");
-            } else {
-                Conta contak = new Conta("Conta", 0000);
-                realm.beginTransaction();
-                realm.copyToRealm(contak);
-                realm.commitTransaction();
-                final TextView saldo = (TextView) view.findViewById(R.id.tv_fg_menu_saldo_conta);
-                saldo.setText(contak.getSaldo_conta() + " MZN");
-                final TextView conta = (TextView) view.findViewById(R.id.tv_fg_menu_saldo_conta);
-                conta.setText(contak.getNomeConta());
-                final TextView despesas = (TextView) view.findViewById(R.id.tv_saldos_despesas);
-                despesas.setText(0 + "MZN");
-                final TextView depositos = (TextView) view.findViewById(R.id.tv_saldos_despositos);
-                depositos.setText(0 + "MZN");
-            }
+
 
         }finally {
 
@@ -169,9 +155,9 @@ public class MenuFragment extends Fragment {
         double total = 0;
         try {
             Realm realm=Realm.getDefaultInstance();
-            RealmResults<Conta>contas=realm.where(Conta.class).findAll();
-            for(int i=0;i<contas.get(0).getDeposito_dbs().size();i++){
-                total+=contas.get(0).getDeposito_dbs().get(i).getValor();
+            Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+            for(int i=0;i<contas.getDeposito_dbs().size();i++){
+                total+=contas.getDeposito_dbs().get(i).getValor();
             }
 
         }catch (NullPointerException e){
@@ -184,9 +170,9 @@ public class MenuFragment extends Fragment {
         double total = 0;
         try {
             Realm realm=Realm.getDefaultInstance();
-            RealmResults<Conta>contas=realm.where(Conta.class).findAll();
-            for(int i=0;i<contas.get(0).getDespesa_dbs().size();i++){
-                total+=contas.get(0).getDespesa_dbs().get(i).getValor();
+            Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+            for(int i=0;i<contas.getDespesa_dbs().size();i++){
+                total+=contas.getDespesa_dbs().get(i).getValor();
             }
 
         }catch (NullPointerException e){

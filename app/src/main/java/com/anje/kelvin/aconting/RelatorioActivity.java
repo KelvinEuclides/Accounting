@@ -1,49 +1,42 @@
 package com.anje.kelvin.aconting;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.anje.kelvin.aconting.Adapters.Transacao_itens;
-import com.anje.kelvin.aconting.BaseDeDados.Conta;
-
-import org.w3c.dom.Document;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Despesas_Activity;
+import com.anje.kelvin.aconting.Relatorios.RelatoriodeactividadesActivity;
 import java.util.Date;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-
 public class RelatorioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Date date=new Date();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_venda_);
+        setContentView(R.layout.activity_relatorios);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final CardView relatorio =(CardView) findViewById(R.id.relatorios);
         relatorio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Realm realm = Realm.getDefaultInstance();
-                try {
-                    RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-                    contas.get(0).getTransacaoDbs().listIterator();
-
-                }finally {
-
-                }
-
+                Intent intent=new Intent(RelatorioActivity.this, RelatoriodeactividadesActivity.class);
+                startActivity(intent);
             }
         });
+        final CardView despesa =(CardView) findViewById(R.id.reladorio_de_despesa_diaria);
+        despesa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(RelatorioActivity.this, Relatorio_de_Despesas_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
 }

@@ -66,9 +66,6 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
                         builder2.setView(dalogView1);
 
                         final EditText nomeitem1=(EditText) dalogView1.findViewById(R.id.et_dialog_editar_nomep);
-                        final TextView precoItem=(TextView) dalogView1.findViewById(R.id.tv_dialog_valor_compra);
-                        final EditText precoItem1=(EditText) dalogView1.findViewById(R.id.et_add_valor_compra);
-                        final TextView precoUnidade=(TextView) dalogView1.findViewById(R.id.tv_dialog_preco_venda);
                         final EditText precoUnidade1=(EditText) dalogView1.findViewById(R.id.et_dialog_preco_venda);
                         final TextView Categoria=(TextView) dalogView1.findViewById(R.id.tv_dialogo_unidademedida);
                         final Spinner categoria1=(Spinner) dalogView1.findViewById(R.id.sp_dialogo_unidademedida);

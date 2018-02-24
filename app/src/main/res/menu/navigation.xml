@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/navigation_estatisticas"
-        android:icon="@drawable/estatistica"
-        android:title="Estatisticas" />
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="definicoes" />
 
 </menu>

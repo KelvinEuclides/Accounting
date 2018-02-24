@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anje.kelvin.aconting">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name="com.anje.kelvin.accontingapp.Classes.MyApplication"
         android:allowBackup="true"
@@ -12,15 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+            android:label="@string/app_name"/>
         <activity
             android:name=".Operacoes.Adicionar_despesaActivity"
             android:label="@string/title_activity_adicionar_despesa"
@@ -30,10 +27,14 @@
             android:label="@string/title_activity_adicionar_deposito_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Classses.Login_Activity"
+            android:name=".Login_Activity"
             android:label="Login"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Transicoes_Activity"
@@ -44,19 +45,29 @@
             android:label="Gerir Itens Em Stock"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Operacoes.adicionar_item_Activity"
-            android:label="Gerir Itens Em Stock"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Operacoes.Venda_Activity"
             android:label="@string/title_activity_venda_"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Selecionar_item_Activity" />
         <activity android:name=".Operacoes.Adicionar_item_venda_Activity" />
         <activity
             android:name=".RelatorioActivity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Itens" />
+        <activity android:name=".Relatorios.RelatoriodeactividadesActivity" />
+        <activity android:name=".Relatorios.RelatoriodeDespesas" />
+        <activity
+            android:name=".Relatorios.Relatorio_de_Despesas_Activity"
+            android:label="@string/title_activity_relatorio_de__renda_"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegistrarActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".Login_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.Login_Activity" />
+        </activity>
     </application>
 
 </manifest>

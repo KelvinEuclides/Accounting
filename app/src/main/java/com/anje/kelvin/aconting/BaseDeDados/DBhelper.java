@@ -32,7 +32,7 @@ public class DBhelper extends SQLiteOpenHelper {
     private static final String TABLE_TRANSACAO="Transacao_db";
     private static final String TABLE_STOCK="StocK";
     private static final String TABLE_ITEM="Item";
-    private static final String TABLE_VENDA="Venda";
+    private static final String TABLE_VENDA="ReDespesa";
     // Tabela Usuario
     private static final String Nome_usuario= "nome_usuario";
     private static final String Id_usuario = "id_usuario";
@@ -54,7 +54,7 @@ public class DBhelper extends SQLiteOpenHelper {
     private static final String Quantidade_disp="quantidade_disp";
     private static final String preco_item="preco";
     private static final String data_item="data";
-    //Table Venda
+    //Table ReDespesa
     private static final String Id_venda="id_venda";
     private static final String Id_stock_venda="id_stock";
     private static final String Id_item_venda="id_venda";

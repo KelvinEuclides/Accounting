@@ -51,51 +51,56 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nome_item.setText(contas.get(0).getStock().get(position).getNome_Item());
-        holder.preco.setText(contas.get(0).getStock().get(position).getPreco()+"");
-        holder.itensdispo.setText(contas.get(0).getStock().get(position).getItens_disponiveis());
-        holder.itens.setText(contas.get(0).getStock().get(position).getNum_item());
-        holder.vender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final int quantidadew;
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context).setTitle("QUANDIDADE").setMessage("Escreva A Quantidade" +
-                        " que deseja vender");
-                final EditText quantidade = new EditText(context);
-                quantidade.setHint("0");
-                builder.setView(quantidade);
-                quantidadew = Integer.parseInt(quantidade.getText().toString());
-                builder.setPositiveButton("Vender", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (quantidadew <= 0) {
-                            android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(context);
-                            builder1.setMessage("Nao pode Adicionar Productos com valores nulos!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+        try {
+            holder.nome_item.setText(contas.get(0).getStock().get(position).getNome_Item());
+            holder.preco.setText(contas.get(0).getStock().get(position).getPreco()+"");
+            holder.itensdispo.setText(contas.get(0).getStock().get(position).getItens_disponiveis()+"");
+            holder.itens.setText(contas.get(0).getStock().get(position).getNum_item()+"");
+            holder.vender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int quantidadew;
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context).setTitle("QUANDIDADE").setMessage("Escreva A Quantidade" +
+                            " que deseja vender");
+                    final EditText quantidade = new EditText(context);
+                    quantidade.setHint("0");
+                    builder.setView(quantidade);
+                    quantidadew = Integer.parseInt(quantidade.getText().toString());
+                    builder.setPositiveButton("Vender", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (quantidadew <= 0) {
+                                android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(context);
+                                builder1.setMessage("Nao pode Adicionar Productos com valores nulos!").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                }
-                            }).create().show();
-                        } else {
-                            venderItem(i, contas.get(0).getStock().get(i).getUnidade_de_Medida(), quantidadew);
+                                    }
+                                }).create().show();
+                            } else {
+                                venderItem(i, contas.get(0).getStock().get(i).getUnidade_de_Medida(), quantidadew);
+
+                            }
+                        }
+                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
                         }
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }).create().show();
 
-                    }
-                }).create().show();
+                }
+            });
+        }catch (Exception e){
 
-            }
-        });
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return contas.get(0).getStock().size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView nome_item;
@@ -107,11 +112,11 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
         public ViewHolder(View view) {
             super(view);
-            TextView nome_item = (TextView) view.findViewById(R.id.tv_vender_nome);
-            TextView itensdispo = (TextView) view.findViewById(R.id.tv_item_dispo);
-            TextView itens = (TextView) view.findViewById(R.id.tv_item_venda_item);
-            TextView preco = (TextView) view.findViewById(R.id.tv_venda_item_precoun);
-            Button vender = (Button) view.findViewById(R.id.bt_item_vendr);
+             nome_item = (TextView) view.findViewById(R.id.tv_vender_nome);
+            itensdispo = (TextView) view.findViewById(R.id.tv_item_dispo);
+            itens = (TextView) view.findViewById(R.id.tv_item_venda_item);
+            preco = (TextView) view.findViewById(R.id.tv_venda_item_precoun);
+            vender = (Button) view.findViewById(R.id.bt_item_vendr);
         }
 
 

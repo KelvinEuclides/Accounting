@@ -1,21 +1,27 @@
 package com.anje.kelvin.aconting;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterStock;
 import com.anje.kelvin.aconting.Adapters.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
-import com.anje.kelvin.aconting.Operacoes.adicionar_item_Activity;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -55,13 +61,54 @@ public class item_stock_Activity extends AppCompatActivity {
         adapter = new AdapterStock(lista,item_stock_Activity.this);
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(item_stock_Activity.this,adicionar_item_Activity.class);
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder builder=new AlertDialog.Builder(item_stock_Activity.this);
+                LayoutInflater inflater1=LayoutInflater.from(item_stock_Activity.this);
+                final View dalogView1=inflater1.inflate(R.layout.dialogoadicionaritem,null);
+                builder.setView(dalogView1);
+                builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
+                    final String unidadee=null;
+                    final EditText nome_item=(EditText) findViewById(R.id.et_add_nomeitem2);
+                    final EditText preco_item=(EditText) findViewById(R.id.et_add_valor_compra2);
+                    final EditText preco_venda=(EditText) findViewById(R.id.et_add_preco_unidade2);
+                    final EditText numero_itens=(EditText) findViewById(R.id.et_add_numitm2);
+                    final RadioButton kg=(RadioButton) findViewById(R.id.rb_kilograma2);
+                    final RadioButton litros=(RadioButton) findViewById(R.id.rb_litros2);
+                    final RadioButton unidade=(RadioButton) findViewById(R.id.rb_unidade);
+                    final TextView tv_unidade=(TextView) findViewById(R.id.tv_dv_unimed);
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Realm realm = Realm.getDefaultInstance();
+                        RealmResults<Conta> contas=realm.where(Conta.class).findAll();
+                        Item item=new Item();
+                        item.setNome_Item(nome_item.getText().toString());
+                        item.setPreco(Double.parseDouble(preco_item.getText().toString()));
+                        item.setPrecoUnidade(Double.parseDouble(preco_venda.getText().toString()));
+                        item.setNum_item(Integer.parseInt(numero_itens.getText().toString()));;
+                        item.setUnidade_de_Medida(unidadee);
+                        Transacao_db transacao_db=new Transacao_db();
+                        transacao_db.setDescricao("Compra de "+item.getNum_item() +"Unidades de "+item.getNome_Item());
+                        transacao_db.setValor(item.getPreco());
+                        transacao_db.setCategoria("Despesa");
+                        transacao_db.setRecorrencia("Nenhuma");
+                        transacao_db.setDia(new Date());
+                        realm.beginTransaction();
+                        contas.get(0).setStock(item);
+                        contas.get(0).setTransacaoDbs(transacao_db);
+                        realm.commitTransaction();
+                    }
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create().show();
+
+
             }
         });
 

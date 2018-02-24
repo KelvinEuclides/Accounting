@@ -25,31 +25,28 @@
             app:tabTextColor="@android:color/background_light">
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tab_transicoes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hoje" />
+                android:text="Transicoes" />
 
             <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Semanal" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mensal" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+                android:id="@+id/tab_entradas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Entradas" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
+                android:id="@+id/tab_saidas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saidas" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_receitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receitas" />
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -70,6 +67,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

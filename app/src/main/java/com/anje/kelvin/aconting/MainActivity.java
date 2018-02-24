@@ -16,7 +16,6 @@ import com.anje.kelvin.aconting.Fragments.MenuFragment;
 public class MainActivity extends FragmentActivity {
 
     final FragmentManager fm=getSupportFragmentManager();
-    final FragmentTransaction ft =fm.beginTransaction();
     MenuFragment firstFragment = new MenuFragment();
     ContaFragment contaFragment=new ContaFragment();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -26,13 +25,17 @@ public class MainActivity extends FragmentActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    final FragmentTransaction ft =fm.beginTransaction();
                     ft.add(R.id.container,contaFragment);
+                    ft.commit();
+
 
                     return true;
                 case R.id.navigation_dashboard:
 
-                    ft.replace(R.id.container,firstFragment);
-
+                    FragmentTransaction f =fm.beginTransaction();
+                    f.add(R.id.container,firstFragment);
+                    f.commit();
                     return true;
                 case R.id.navigation_estatisticas:
 
@@ -48,7 +51,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // the fragment_container FrameLayout
+        FragmentTransaction ft =fm.beginTransaction();
 
 
 

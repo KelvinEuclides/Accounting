@@ -13,6 +13,34 @@ public class Conta extends RealmObject {
     private  int id_usuario;
     private String nomeConta;
     private double saldo_conta=0;
+    private boolean loggado=false;
+    private int telemovel;
+
+    public boolean isLoggado() {
+        return loggado;
+    }
+
+    public void setLoggado(boolean loggado) {
+        this.loggado = loggado;
+    }
+
+    public int getTelemovel() {
+        return telemovel;
+    }
+
+    public void setTelemovel(int telemovel) {
+        this.telemovel = telemovel;
+    }
+
+    public int getPin() {
+        return pin;
+    }
+
+    public void setPin(int pin) {
+        this.pin = pin;
+    }
+
+    private int pin;
     private RealmList<Despesa_db> despesa_dbs;
     private RealmList<Deposito_db> deposito_dbs;
     private RealmList<Transacao_db> transacaoDbs;
