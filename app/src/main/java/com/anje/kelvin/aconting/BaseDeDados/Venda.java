@@ -12,6 +12,20 @@ import io.realm.RealmObject;
 
 public class Venda extends RealmObject {
     private Double valor;
+    private String venda = "Venda";
+
+    public String getVenda() {
+        return venda;
+    }
+
+    public void setVenda(String venda) {
+        this.venda = venda;
+    }
+
+    public void setItems(RealmList<Item> items) {
+        this.items = items;
+    }
+
     private int itens_vendidos;
     private Date data;
     private RealmList<Item> items;

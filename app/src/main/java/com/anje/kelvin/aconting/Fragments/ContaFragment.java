@@ -44,7 +44,7 @@ public class ContaFragment extends Fragment {
      * @return A new instance of fragment ContaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ContaFragment newInstance(String param1, String param2) {
+    public static ContaFragment newInstance(int param1, String param2) {
         ContaFragment fragment = new ContaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);

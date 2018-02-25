@@ -13,30 +13,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="55dp"
-                android:layout_height="59dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/preco" />
-
             <TextView
                 android:id="@+id/tv_vender_nome"
-                android:layout_width="185dp"
-                android:layout_height="20dp"
+                android:layout_width="231dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Nome"
                 android:textColor="@color/primary_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+                app:layout_constraintEnd_toStartOf="@+id/bt_item_vendr"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.constraint.ConstraintLayout
@@ -49,7 +38,7 @@
                 android:layout_marginTop="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.364"
+                app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0">
@@ -145,13 +134,15 @@
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_venda_item_dispo"
+                    app:layout_constraintHorizontal_bias="0.38"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView25"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </android.support.constraint.ConstraintLayout>
 
             <Button
-                android:id="@+id/bt_item_vendr"
+                android:id="@+id/bt_item_vender"
                 android:layout_width="80dp"
                 android:layout_height="34dp"
                 android:layout_marginBottom="8dp"

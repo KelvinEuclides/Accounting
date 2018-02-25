@@ -51,8 +51,8 @@ public class Login_Activity extends AppCompatActivity {
                              Intent intent=new Intent(Login_Activity.this,MainActivity.class);
                              startActivity(intent);
                          }else {
-                             Toast toast=Toast.makeText(Login_Activity.this,"Telemovel ou Pin Errado",Toast.LENGTH_LONG);
-                         }
+                             Snackbar.make(view, "Password Ou Numero de Telemovel Errados", Snackbar.LENGTH_LONG)
+                                     .setAction("Action", null).show();}
 
                      }}});
 

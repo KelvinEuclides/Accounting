@@ -2,11 +2,13 @@ package com.anje.kelvin.aconting;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.anje.kelvin.aconting.Adapters.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.Transacao_itens;
@@ -28,6 +30,7 @@ public class Transicoes_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_transicoes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         recyclerView = (RecyclerView) findViewById(R.id.rv_transicoes);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -45,9 +48,9 @@ public class Transicoes_Activity extends AppCompatActivity {
 
             }
 
+
         adapter = new AdapterTransicoes(lista,Transicoes_Activity.this);
         recyclerView.setAdapter(adapter);
-
         }
 
 

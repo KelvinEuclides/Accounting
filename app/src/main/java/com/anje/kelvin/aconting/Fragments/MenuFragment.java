@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Estoque_Activity;
 import com.anje.kelvin.aconting.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
 import com.anje.kelvin.aconting.item_stock_Activity;
@@ -32,7 +33,7 @@ public class MenuFragment extends Fragment {
         // Required empty public constructor
     }
     // TODO: Rename and change types and number of parameters
-    public static MenuFragment newInstance() {
+    public static MenuFragment newInstance(int i, String menu) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -101,7 +102,7 @@ public class MenuFragment extends Fragment {
        estoque.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent intent=new Intent(getActivity(),item_stock_Activity.class);
+               Intent intent=new Intent(getActivity(), Estoque_Activity.class);
                MenuFragment.this.startActivity(intent);
            }
        });

@@ -3,7 +3,6 @@ package com.anje.kelvin.aconting.Operacoes;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,13 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterStock;
@@ -25,11 +18,8 @@ import com.anje.kelvin.aconting.Adapters.AdapterVenda;
 import com.anje.kelvin.aconting.Adapters.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
-import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
-import com.anje.kelvin.aconting.Itens;
 import com.anje.kelvin.aconting.R;
-import com.anje.kelvin.aconting.item_stock_Activity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +34,9 @@ public class Venda_Activity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     public List<Stock> lista;
     TextView saldo, itens;
+    Realm realm= Realm.getDefaultInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +45,8 @@ public class Venda_Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         venda = new Venda();
+        Date hoje = new Date();
+        venda.setVenda("Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth());
         saldo = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
         itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
         saldo.setText(venda.getValor() + " MZN");
@@ -63,59 +58,55 @@ public class Venda_Activity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         lista = new ArrayList<Stock>();
         try {
+            Realm realm = Realm.getDefaultInstance();
             try {
+                RealmResults<Conta> contas = realm.where(Conta.class).findAll();
+                if (contas.get(0).getStock().size() > 0) {
+                    for (int i = 0; i < contas.get(0).getStock().size(); i++) {
+                        Conta conta = contas.get(0);
+                        Stock stock = new Stock(contas.get(0).getStock().get(i).getNome_Item() + "", contas.get(0).getStock().get(i).getNum_item() + "",
+                                contas.get(0).getStock().get(i).getItens_disponiveis() + "", contas.get(0).getStock().get(i).getPreco() + "Mzn");
+                        lista.add(stock);
+                    }
+                }
 
 
-
-            }finally {
+            } finally {
 
             }
 
 
+            adapter = new AdapterVenda(lista,Venda_Activity.this);
+            recyclerView.setAdapter(adapter);
 
-                adapter = new AdapterStock(lista, Venda_Activity.this);
-                recyclerView.setAdapter(adapter);
 
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder vender = new AlertDialog.Builder(Venda_Activity.this);
-                        vender.setTitle("Aviso").setMessage("Deseja Adicionar os itens selecionados a venda").setPositiveButton("sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Realm realm = Realm.getDefaultInstance();
-                                RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-                                contas.get(0).setVendas(venda);
-                                Deposito_db deposito_db = new Deposito_db();
-                                deposito_db.setDescricao("ReDespesa de " + venda.getItens_vendidos() + "Itens");
-                                deposito_db.setValor(venda.getValor());
-                                deposito_db.setDia(new Date());
-                                contas.get(0).setDeposito_dbs(deposito_db);
-                                finish();
-                            }
-                        }).setNegativeButton("nao", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+            Button adicionar_item = (Button) findViewById(R.id.bt_adicionar_producto);
+            adicionar_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                            }
-                        });
-                        vender.show();
-                    }
-                });
-                Button adicionar_item = (Button) findViewById(R.id.bt_adicionar_producto);
-                adicionar_item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                       Intent intent=new Intent(Venda_Activity.this,Itens.class);
-                       startActivity(intent);
-                    }
-                });
-            }finally {
+                    venda.setData(new Date());
+                    AlertDialog.Builder vender = new AlertDialog.Builder(Venda_Activity.this);
+                    vender.setTitle("Aviso").setTitle("Tem a Certeza que Deseja vender os itens Selecionados").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                        }
+                    }).setNegativeButton("Nao", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).create().show();
+
+                }
+            });
+        } finally {
 
         }
 
-        }
 
+    }
 }
 

@@ -45,20 +45,38 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_descricao_despodito" />
 
-        <EditText
-            android:id="@+id/et_valor_deposito"
-            android:layout_width="245dp"
-            android:layout_height="48dp"
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="64dp"
+            android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
+            android:text="Mzn"
+            android:textColor="@color/primary_text"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/et_data_inicio_despesa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/et_valor_deposito"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.243" />
+
+        <EditText
+            android:id="@+id/et_valor_deposito"
+            android:layout_width="184dp"
+            android:layout_height="47dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/et_bgrnd"
             android:elevation="6dp"
             android:ems="10"
             android:hint="100"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.178"
+            app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -107,15 +125,16 @@
 
         <Button
             android:id="@+id/bt_salvar"
-            android:layout_width="224dp"
-            android:layout_height="59dp"
+            android:layout_width="121dp"
+            android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="152dp"
+            android:layout_marginTop="172dp"
             android:background="@drawable/buttao_vermelhp"
             android:text="Salvar"
             android:textColor="@android:color/background_light"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_data_inicio_despesa" />
 

@@ -2,8 +2,10 @@
 package com.anje.kelvin.aconting.Adapters;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,8 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
 
     private List<Stock> mValues;
     private Context context;
+    private long timestamp1=001;
+
 
     public AdapterStock(List<Stock> mValues, Context context) {
         this.mValues = mValues;
@@ -66,7 +70,9 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
                         builder2.setView(dalogView1);
 
                         final EditText nomeitem1=(EditText) dalogView1.findViewById(R.id.et_dialog_editar_nomep);
+                        nomeitem1.setText(stock.getNomeItem());
                         final EditText precoUnidade1=(EditText) dalogView1.findViewById(R.id.et_dialog_preco_venda);
+                        precoUnidade1.setText(stock.getPreco());
                         final TextView Categoria=(TextView) dalogView1.findViewById(R.id.tv_dialogo_unidademedida);
                         final Spinner categoria1=(Spinner) dalogView1.findViewById(R.id.sp_dialogo_unidademedida);
 

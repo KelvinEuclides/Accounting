@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
 import com.anje.kelvin.aconting.R;
@@ -33,12 +34,15 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
     private List<Stock> mValues;
     private Context context;
+    int quantidadew=0;
     Venda venda;
+    Item item;
     Realm realm = Realm.getDefaultInstance();
+    Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
     RealmResults<Conta> contas = realm.where(Conta.class).findAll();
 
-    public AdapterVenda(Context context,Venda venda) {
-        this.venda=venda;
+    public AdapterVenda(List<Stock> mValues,Context context) {
+         this.mValues=mValues;
         this.context = context;
     }
 
@@ -50,16 +54,21 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         try {
-            holder.nome_item.setText(contas.get(0).getStock().get(position).getNome_Item());
-            holder.preco.setText(contas.get(0).getStock().get(position).getPreco()+"");
-            holder.itensdispo.setText(contas.get(0).getStock().get(position).getItens_disponiveis()+"");
-            holder.itens.setText(contas.get(0).getStock().get(position).getNum_item()+"");
+            holder.nome_item.setText(mValues.get(position).getNomeItem());
+            holder.preco.setText(mValues.get(position).getPreco()+"");
+            holder.itensdispo.setText(mValues.get(position).getNumitemdisp());
+            holder.itens.setText(mValues.get(position).getNumitem()+"");
             holder.vender.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    final int quantidadew;
+                public void onClick(final View view) {
+
+                    venda=conta.getVendas().last();
+                    item=conta.getStock().get(position);
+                    realm.beginTransaction();
+                    venda.setItems(item,quantidadew,item.getPrecoUnidade()*quantidadew);
+                    realm.commitTransaction();
                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context).setTitle("QUANDIDADE").setMessage("Escreva A Quantidade" +
                             " que deseja vender");
                     final EditText quantidade = new EditText(context);
@@ -78,7 +87,7 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
                                     }
                                 }).create().show();
                             } else {
-                                venderItem(i, contas.get(0).getStock().get(i).getUnidade_de_Medida(), quantidadew);
+
 
                             }
                         }
@@ -100,7 +109,7 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return contas.get(0).getStock().size();
+        return mValues.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView nome_item;
@@ -116,7 +125,7 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
             itensdispo = (TextView) view.findViewById(R.id.tv_item_dispo);
             itens = (TextView) view.findViewById(R.id.tv_item_venda_item);
             preco = (TextView) view.findViewById(R.id.tv_venda_item_precoun);
-            vender = (Button) view.findViewById(R.id.bt_item_vendr);
+            vender = (Button) view.findViewById(R.id.bt_item_vender);
         }
 
 

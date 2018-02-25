@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.anje.kelvin.aconting.Add_item_Activity"
+    tools:showIn="@layout/activity_add_item">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/bt_item_adicionar"
+            android:layout_width="121dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/buttao_vermelhp"
+            android:text="Adicionar"
+            android:textColor="@android:color/background_light"
+            app:layout_anchor="@+id/include"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_dv_unimed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="84dp"
+            android:text="Unidade de Medida"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_nome_item" />
+
+        <RadioGroup
+            android:id="@+id/rg_unidade_medida"
+            android:layout_width="192dp"
+            android:layout_height="87dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dv_unimed">
+
+            <RadioButton
+                android:id="@+id/rb_unidade"
+                android:layout_width="88dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:text="Unidade"
+                tools:layout_editor_absoluteX="100dp"
+                tools:layout_editor_absoluteY="375dp" />
+
+            <RadioButton
+                android:id="@+id/rb_kilograma2"
+                android:layout_width="57dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kg"
+                tools:layout_editor_absoluteX="216dp"
+                tools:layout_editor_absoluteY="389dp" />
+
+            <RadioButton
+                android:id="@+id/rb_litros2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Litros"
+                tools:layout_editor_absoluteX="280dp"
+                tools:layout_editor_absoluteY="375dp" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/et_nome_item"
+            android:layout_width="319dp"
+            android:layout_height="47dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/et_bgrnd"
+            android:ems="10"
+            android:hint="Nome prod"
+            android:inputType="text|textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_item_preco"
+            android:layout_width="323dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/et_bgrnd"
+            android:ems="10"
+            android:hint="Preco de Compra"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/tv_dv_unimed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.115"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_nome_item"
+            app:layout_constraintVertical_bias="0.6" />
+
+        <EditText
+            android:id="@+id/item_preco_venda"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/et_bgrnd"
+            android:ems="10"
+            android:hint="Preco Venda"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/bt_item_adicionar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rg_unidade_medida"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/et_item_quantidade"
+            android:layout_width="96dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/et_bgrnd"
+            android:ems="10"
+            android:hint="Qtd"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/item_preco_venda"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.56"
+            app:layout_constraintStart_toEndOf="@+id/item_preco_venda"
+            app:layout_constraintTop_toBottomOf="@+id/rg_unidade_medida"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
