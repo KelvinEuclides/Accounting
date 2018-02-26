@@ -4,11 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
+
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,8 +53,19 @@ public class DefinicoesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_definicoes, container, false);
+        View view=inflater.inflate(R.layout.fragment_definicoes, container, false);
+        CardView logout=(CardView) view.findViewById(R.id.id_terminar_sessao);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Realm realm=Realm.getDefaultInstance();
+                Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                realm.beginTransaction();
+                conta.setLoggado(false);
+                realm.commitTransaction();
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,9 +1,7 @@
 package com.anje.kelvin.aconting.Operacoes;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.anje.kelvin.aconting.Adapters.AdapterStock;
 import com.anje.kelvin.aconting.Adapters.AdapterVenda;
 import com.anje.kelvin.aconting.Adapters.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
-import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
 

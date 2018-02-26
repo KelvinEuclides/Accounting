@@ -59,7 +59,7 @@ public class Venda extends RealmObject {
     }
 
     public void setItems(Item item,int numunidade,double valo) {
-        itens_vendidos=itens_vendidos+item.getNum_item();
+        itens_vendidos=itens_vendidos+numunidade;
         valor=valor+valo;
         items.add(item);
     }

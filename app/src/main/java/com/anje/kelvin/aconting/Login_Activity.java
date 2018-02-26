@@ -19,8 +19,8 @@ import io.realm.RealmResults;
 
 public class Login_Activity extends AppCompatActivity {
     Button login,registrar;
-    int pink=0;
-    int telk=0;
+    int pink=0000;
+    int telk=842270587;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,9 @@ public class Login_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Realm realm= Realm.getDefaultInstance();
-                     if (pink>0 && telk>0){
+                     try{
                          Conta conta=realm.where(Conta.class).equalTo("telemovel",telk).equalTo("pin",pink).findFirst();
-                         if (conta!=null){
+                         if (telk>0 ){
                              realm.beginTransaction();
                              conta.setLoggado(true);
                              realm.commitTransaction();
@@ -53,8 +53,12 @@ public class Login_Activity extends AppCompatActivity {
                          }else {
                              Snackbar.make(view, "Password Ou Numero de Telemovel Errados", Snackbar.LENGTH_LONG)
                                      .setAction("Action", null).show();}
+                     }catch (Exception e){
 
-                     }}});
+                     }
+
+
+                     }});
 
 
         registrar.setOnClickListener(new View.OnClickListener() {
