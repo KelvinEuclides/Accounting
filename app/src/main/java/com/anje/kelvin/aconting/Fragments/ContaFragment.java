@@ -4,30 +4,31 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterDepositos;
+import com.anje.kelvin.aconting.Adapters.AdapterTransicoes;
+import com.anje.kelvin.aconting.Adapters.Depositos_itens;
+import com.anje.kelvin.aconting.Adapters.Transacao_itens;
+import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.R;
+import com.anje.kelvin.aconting.Transicoes_Activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ContaFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ContaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContaFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Realm realm=Realm.getDefaultInstance();
+    Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,20 +36,9 @@ public class ContaFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ContaFragment newInstance(int param1, String param2) {
+    public static ContaFragment newInstance() {
         ContaFragment fragment = new ContaFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,16 +47,45 @@ public class ContaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_conta, container, false);
+        final View view =inflater.inflate(R.layout.fragment_conta, container, false);
+        TextView salddo=(TextView) view.findViewById(R.id.fg_conta_tv_saldo);
+        salddo.setText(contas.getSaldo_conta()+" MZN");
+        TextView depositos =(TextView) view.findViewById(R.id.fg_depositos_m);
+                depositos.setText(total_depositos()+" MZN");
+        TextView despesas=(TextView) view.findViewById(R.id.fg_contas_despesas_m);
+        despesas.setText(total_despesas()+" MZN");
+         RecyclerView recyclerView;
+        RecyclerView.Adapter adapter;
+        List<Depositos_itens> lista;
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_despesas_recentes);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(false);
+        lista = new ArrayList<Depositos_itens>();
+        Realm realm = Realm.getDefaultInstance();
+        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+        if (conta.getStock().size() > 0||conta.getTransacaoDbs().size()>0) {
+            lista.clear();
+            for (int i = 0; i < conta.getDeposito_dbs().size(); i++) {
+                Depositos_itens depositos_itens = new Depositos_itens(conta.getDeposito_dbs().get(i).getDescricao(),"Deposito", conta.getDeposito_dbs().get(i).getValor(),"HOJE");
+                lista.add(depositos_itens);
+            }
+
+        }
+
+
+        adapter = new AdapterDepositos(lista,getContext());
+        recyclerView.setAdapter(adapter);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,18 +106,42 @@ public class ContaFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public double total_depositos(){
+        double total = 0;
+        try {
+            Realm realm=Realm.getDefaultInstance();
+            Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+            for(int i=0;i<contas.getDeposito_dbs().size();i++){
+                total+=contas.getDeposito_dbs().get(i).getValor();
+            }
+
+        }catch (NullPointerException e){
+
+        }
+
+        return total;
+    }
+
+    public double total_despesas(){
+
+        double total = 0;
+        try {
+            Realm realm=Realm.getDefaultInstance();
+            Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+            for(int i=0;i<contas.getDespesa_dbs().size();i++){
+                total+=contas.getDespesa_dbs().get(i).getValor();
+            }
+
+        }catch (NullPointerException e){
+
+        }
+
+        return total;
+
     }
 }

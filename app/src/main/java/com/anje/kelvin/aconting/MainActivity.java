@@ -8,12 +8,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.anje.kelvin.aconting.Adapters.AdapterFragment;
 import com.anje.kelvin.aconting.Fragments.ContaFragment;
 import com.anje.kelvin.aconting.Fragments.MenuFragment;
 
 public class MainActivity extends FragmentActivity {
+
+    ViewPager viewPager;
+    AdapterFragment adapterFragment;
 
     final FragmentManager fm=getSupportFragmentManager();
     MenuFragment firstFragment = new MenuFragment();
@@ -25,18 +30,12 @@ public class MainActivity extends FragmentActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    final FragmentTransaction ft =fm.beginTransaction();
-                    ft.add(R.id.container,contaFragment);
-                    ft.commit();
+                   viewPager.setCurrentItem(0);
 
 
                     return true;
                 case R.id.navigation_dashboard:
-
-                    FragmentTransaction f =fm.beginTransaction();
-                    f.add(R.id.container,firstFragment);
-                    f.commit();
-                    return true;
+                    viewPager.setCurrentItem(1);
                 case R.id.navigation_estatisticas:
 
 
@@ -51,13 +50,9 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentTransaction ft =fm.beginTransaction();
-
-
-
-
-            ft.add(R.id.container,firstFragment);
-           ft.commit();
+        ViewPager vpPager = (ViewPager) findViewById(R.id.viewp);
+        adapterFragment = new AdapterFragment(getSupportFragmentManager());
+        vpPager.setAdapter(adapterFragment);
 
 
 
