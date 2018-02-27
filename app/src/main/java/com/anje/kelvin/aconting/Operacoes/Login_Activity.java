@@ -1,21 +1,19 @@
-package com.anje.kelvin.aconting;
+package com.anje.kelvin.aconting.Operacoes;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class Login_Activity extends AppCompatActivity {
     Button login,registrar;

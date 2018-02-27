@@ -27,7 +27,7 @@
             android:label="Adicionar Deposito"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Login_Activity"
+            android:name=".Operacoes.Login_Activity"
             android:label="Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -37,20 +37,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Transicoes_Activity"
-            android:label="Transicoes"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".item_stock_Activity"
-            android:label="Gerir Itens Em Stock"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Operacoes.Venda_Activity"
             android:label="Vender"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Operacoes.Adicionar_item_venda_Activity" />
         <activity
-            android:name=".RelatorioActivity"
+            android:name=".Operacoes.RelatorioActivity"
             android:label="Relatorios"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Relatorios.RelatoriodeactividadesActivity" />
@@ -60,19 +52,19 @@
             android:label="Relatorio de Despesas"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistrarActivity"
+            android:name=".Operacoes.RegistrarActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".Login_Activity">
+            android:parentActivityName=".Operacoes.Login_Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.Login_Activity" />
+                android:value="com.anje.kelvin.aconting.Operacoes.Login_Activity" />
         </activity>
         <activity
             android:name=".Relatorios.Relatorio_de_renda_Activity"
             android:label="Relatorio de Renda"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Add_item_Activity"
+            android:name=".Operacoes.Add_item_Activity"
             android:label="Adicionar Item"
             android:parentActivityName=".item_stock_Activity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -81,8 +73,17 @@
                 android:value="com.anje.kelvin.aconting.item_stock_Activity" />
         </activity>
         <activity
-            android:name=".Estoque_Activity"
+            android:name=".Operacoes.Estoque_Activity"
             android:label="Gerir Estoque"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Operacoes.TransicoesActivity"
+            android:label="@string/title_activity_main2"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

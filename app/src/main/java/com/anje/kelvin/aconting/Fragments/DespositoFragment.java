@@ -1,19 +1,24 @@
-package com.anje.kelvin.aconting;
+package com.anje.kelvin.aconting.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.anje.kelvin.aconting.dummy.DummyContent;
-import com.anje.kelvin.aconting.dummy.DummyContent.DummyItem;
+import com.anje.kelvin.aconting.Adapters.AdapterDepositos;
+import com.anje.kelvin.aconting.Adapters.Depositos_itens;
+import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.R;
 
+
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * A fragment representing a list of Items.
@@ -21,28 +26,17 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class TransacaoitensFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
+public class DespositoFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public TransacaoitensFragment() {
+    public DespositoFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static TransacaoitensFragment newInstance(int columnCount) {
-        TransacaoitensFragment fragment = new TransacaoitensFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
+    public static DespositoFragment newInstance(int columnCount) {
+        DespositoFragment fragment = new DespositoFragment();
         return fragment;
     }
 
@@ -58,15 +52,24 @@ public class TransacaoitensFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transacaoitens_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
+        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        Realm realm=Realm.getDefaultInstance();
+        List<Depositos_itens> lista;
+        RecyclerView.Adapter adapter;
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_deposito_lista);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        lista = new ArrayList<Depositos_itens>();
+        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+        if (conta.getDeposito_dbs().size()>0) {
+            for (int i = 0; i < conta.getDeposito_dbs().size(); i++) {
+                Depositos_itens transacao = new Depositos_itens(conta.getDeposito_dbs().get(i).getDescricao(),"Deposito",conta.getDeposito_dbs().get(i).getValor(),"Hoje");
+                lista.add(transacao);
+            }
 
         }
+        adapter = new AdapterDepositos(lista,context);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -85,6 +88,6 @@ public class TransacaoitensFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction();
     }
 }

@@ -11,18 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.anje.kelvin.aconting.Estoque_Activity;
-import com.anje.kelvin.aconting.RelatorioActivity;
+import com.anje.kelvin.aconting.Operacoes.Estoque_Activity;
+import com.anje.kelvin.aconting.Operacoes.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
-import com.anje.kelvin.aconting.item_stock_Activity;
+import com.anje.kelvin.aconting.Operacoes.TransicoesActivity;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_deposito_Activity;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_despesaActivity;
 import com.anje.kelvin.aconting.R;
-import com.anje.kelvin.aconting.Transicoes_Activity;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 
 public class MenuFragment extends Fragment {
@@ -93,7 +91,7 @@ public class MenuFragment extends Fragment {
        transicoes.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent intent=new Intent(getActivity(),Transicoes_Activity.class);
+               Intent intent=new Intent(getActivity(),TransicoesActivity.class);
                MenuFragment.this.startActivity(intent);
            }
        });

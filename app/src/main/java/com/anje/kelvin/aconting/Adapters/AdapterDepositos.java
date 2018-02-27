@@ -40,7 +40,7 @@ public class AdapterDepositos extends RecyclerView.Adapter<AdapterDepositos.View
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
         holder.data.setText(transacao.getData());
-        holder.icone.setImageResource(R.drawable.deposito_azul);
+        holder.icone.setImageResource(R.drawable.dinheiro_dento);
 
 
     }

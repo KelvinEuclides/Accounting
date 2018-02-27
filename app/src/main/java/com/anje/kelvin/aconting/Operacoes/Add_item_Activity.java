@@ -1,9 +1,7 @@
-package com.anje.kelvin.aconting;
+package com.anje.kelvin.aconting.Operacoes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,12 +12,11 @@ import android.widget.RadioGroup;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
-import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.R;
 
 import java.util.Date;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class Add_item_Activity extends AppCompatActivity {
 

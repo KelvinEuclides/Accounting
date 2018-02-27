@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.anje.kelvin.aconting.RelatorioActivity"
+    tools:context="com.anje.kelvin.aconting.Operacoes.RelatorioActivity"
     tools:showIn="@layout/activity relatorios">
 
     <android.support.v4.widget.NestedScrollView
@@ -53,7 +53,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -107,7 +107,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -161,7 +161,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -214,7 +214,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -267,7 +267,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -321,7 +321,7 @@
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="271dp"
-                        android:layout_height="31dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"

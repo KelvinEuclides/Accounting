@@ -10,7 +10,6 @@ import com.anje.kelvin.aconting.Adapters.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
-import com.anje.kelvin.aconting.Transicoes_Activity;
 
 import java.util.ArrayList;
 import java.util.List;

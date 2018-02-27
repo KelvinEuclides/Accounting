@@ -123,4 +123,9 @@
     <string name="title_activity_relatorio_de_renda_">Relatorio_de_renda_Activity</string>
     <string name="title_activity_add_item_">Add_item_Activity</string>
     <string name="title_activity_estoque_">Estoque_Activity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_transacoes">Transacoes</string>
 </resources>
