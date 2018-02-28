@@ -1,5 +1,5 @@
 
-package com.anje.kelvin.aconting.Adapters;
+package com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -16,12 +17,12 @@ import java.util.List;
  * Created by sala on 30-01-2018.
  */
 
-public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHolder>{
+public class AdapterTransicoes extends RecyclerView.Adapter<AdapterTransicoes.ViewHolder>{
 
-   private List<Depositos_itens> mValues;
+   private List<Transacao_itens> mValues;
     private Context context;
 
-    public AdapterDepesas(List<Depositos_itens> mValues, Context context) {
+    public AdapterTransicoes(List<Transacao_itens> mValues, Context context) {
         this.mValues = mValues;
         this.context = context;
     }
@@ -35,11 +36,11 @@ public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Depositos_itens transacao=mValues.get(position);
+        Transacao_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
         holder.data.setText(transacao.getData());
-        holder.icone.setImageResource(R.drawable.dinheiro_fora);
+        holder.icone.setImageResource(transacao.getIcone());
 
 
     }

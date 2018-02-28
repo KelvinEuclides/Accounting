@@ -26,11 +26,11 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_id_total_despesas"
+                app:layout_constraintEnd_toStartOf="@+id/tv_id_total_despesas_ac"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/tv_id_total_despesas"
+                android:id="@+id/tv_id_total_despesas_ac"
                 android:layout_width="170dp"
                 android:layout_height="25dp"
                 android:layout_marginBottom="16dp"
@@ -108,7 +108,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas"
+                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas_ac"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.135"
@@ -137,7 +137,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas"
+                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas_ac"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView7"
@@ -152,6 +152,20 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/content_relatorio_despesas"
+            layout_height="wrap_content"
+            layout_width="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="359dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="160dp"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -189,15 +203,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Valor" />
+
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_redespesass"
-                android:layout_width="match_parent"
-                android:layout_height="470dp"
-                tools:listitem="@layout/fragment_relatorio_despesas" />
-
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

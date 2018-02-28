@@ -37,6 +37,7 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_deposito_);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Date date = new Date();
         final Date dia=new Date();
 

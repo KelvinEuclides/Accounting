@@ -1,5 +1,5 @@
 
-package com.anje.kelvin.aconting.Adapters;
+package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.ReDespesa;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;

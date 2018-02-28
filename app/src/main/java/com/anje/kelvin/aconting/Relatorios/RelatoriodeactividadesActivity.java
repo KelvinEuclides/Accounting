@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.anje.kelvin.aconting.Adapters.AdapterTransicoes;
-import com.anje.kelvin.aconting.Adapters.Transacao_itens;
+import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
 
@@ -44,7 +44,7 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
             }
 
         }
-        TextView totale=(TextView) findViewById(R.id.tv_rda_total);
+        TextView totale=(TextView) findViewById(R.id.tv_id_total_despesas_ac);
         totale.setText(total+"");
 
         adapter = new AdapterTransicoes(lista,RelatoriodeactividadesActivity.this);

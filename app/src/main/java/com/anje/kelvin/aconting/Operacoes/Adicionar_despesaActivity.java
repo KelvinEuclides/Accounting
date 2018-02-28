@@ -32,6 +32,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_despesa);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView data_fim_tv;
         final EditText descricao,valor,datainicio,datafim;
         final RadioButton fixa,nehhuma;

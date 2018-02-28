@@ -1,5 +1,5 @@
 
-package com.anje.kelvin.aconting.Adapters;
+package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
@@ -31,12 +30,14 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
     private List<Stock> mValues;
     private Context context;
+    String codico;
     private long timestamp1=001;
 
 
-    public AdapterVenda(List<Stock> mValues, Context context) {
+    public AdapterVenda(List<Stock> mValues, Context context,String codico) {
         this.mValues = mValues;
         this.context = context;
+        this.codico = codico;
     }
 
     @Override
@@ -67,16 +68,14 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Realm realm=Realm.getDefaultInstance();
                        Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                        Venda venda=conta.getVendas().last();
+                       Venda ve=realm.where(Venda.class).equalTo("venda",codico).findFirst();
+                        try {
+                            realm.beginTransaction();
+                            ve.setItems(conta.getStock().get(position),Integer.parseInt(editText.getText().toString()),conta.getStock().get(position).getPreco());
+                            realm.commitTransaction();
+                        }catch (Exception e){
 
-
-                       try {
-                           realm.beginTransaction();
-                           venda.setItems(conta.getStock().get(position),1,conta.getStock().get(position).getPreco());
-                           realm.commitTransaction();
-                       }catch (Exception e){
-
-                       }
+                        }
 
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -12,8 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.anje.kelvin.aconting.Adapters.AdapterStock;
-import com.anje.kelvin.aconting.Adapters.Stock;
+import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterStock;
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
 

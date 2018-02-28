@@ -1,17 +1,15 @@
 package com.anje.kelvin.aconting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
-import com.anje.kelvin.aconting.Adapters.AdapterFragment;
+import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterFragment;
 import com.anje.kelvin.aconting.Fragments.ContaFragment;
 import com.anje.kelvin.aconting.Fragments.MenuFragment;
 

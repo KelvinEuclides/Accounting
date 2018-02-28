@@ -1,16 +1,14 @@
 
-package com.anje.kelvin.aconting.Adapters;
-import android.app.AlertDialog;
+package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -19,12 +17,12 @@ import java.util.List;
  * Created by sala on 30-01-2018.
  */
 
-public class AdapterTransicoes extends RecyclerView.Adapter<AdapterTransicoes.ViewHolder>{
+public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHolder>{
 
-   private List<Transacao_itens> mValues;
+   private List<Depositos_itens> mValues;
     private Context context;
 
-    public AdapterTransicoes(List<Transacao_itens> mValues, Context context) {
+    public AdapterDepesas(List<Depositos_itens> mValues, Context context) {
         this.mValues = mValues;
         this.context = context;
     }
@@ -38,11 +36,11 @@ public class AdapterTransicoes extends RecyclerView.Adapter<AdapterTransicoes.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Transacao_itens transacao=mValues.get(position);
+        Depositos_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
         holder.data.setText(transacao.getData());
-        holder.icone.setImageResource(transacao.getIcone());
+        holder.icone.setImageResource(R.drawable.dinheiro_fora);
 
 
     }

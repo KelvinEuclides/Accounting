@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.anje.kelvin.aconting.Adapters.AdapterDepesas;
-import com.anje.kelvin.aconting.Adapters.Depositos_itens;
+import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDepesas;
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
 

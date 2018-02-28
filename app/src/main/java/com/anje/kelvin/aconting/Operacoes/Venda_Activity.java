@@ -1,19 +1,19 @@
 package com.anje.kelvin.aconting.Operacoes;
 
-import android.content.DialogInterface;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anje.kelvin.aconting.Adapters.AdapterVenda;
-import com.anje.kelvin.aconting.Adapters.Stock;
-import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
 
@@ -22,13 +22,13 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class Venda_Activity extends AppCompatActivity {
     Venda venda;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    public List<Stock> lista;
+    public List<preco> lista;
+    String vid;
     TextView saldo, itens;
     Realm realm= Realm.getDefaultInstance();
 
@@ -40,31 +40,46 @@ public class Venda_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_venda_);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        venda = new Venda();
-        Date hoje = new Date();
-        venda.setVenda("Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth());
-        saldo = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
+        saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
         itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
-        saldo.setText(venda.getValor() + " MZN");
-        itens.setText(venda.getItens_vendidos() + "");
+        venda = new Venda();
+        Intent i=getIntent();
+        if (i != null){
+            vid =  i.getStringExtra("id");
+            venda=realm.where(Venda.class).equalTo("venda",vid).findFirst();
+        }else {
+
+            Date hoje = new Date();
+            vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth();
+            venda.setVenda(vid);
+            realm.beginTransaction();
+            realm.copyToRealm(venda);
+            realm.commitTransaction();
+        }
+        double v=0;
+        int a=0;
+        try{
+            a=venda.getItens_vendidos();
+            v=venda.getValor();
+        }catch (Exception e){
+
+        }
         recyclerView = (RecyclerView) findViewById(R.id.rv_vendas);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(false);
-        lista = new ArrayList<Stock>();
+        lista = new ArrayList<preco>();
         try {
             Realm realm = Realm.getDefaultInstance();
             try {
-                RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-                if (contas.get(0).getStock().size() > 0) {
-                    for (int i = 0; i < contas.get(0).getStock().size(); i++) {
-                        Conta conta = contas.get(0);
-                        Stock stock = new Stock(contas.get(0).getStock().get(i).getNome_Item() + "", contas.get(0).getStock().get(i).getNum_item() + "",
-                                contas.get(0).getStock().get(i).getItens_disponiveis() + "", contas.get(0).getStock().get(i).getPreco() + "Mzn");
-                        lista.add(stock);
-                    }
-                }
+                Venda q = realm.where(Venda.class).equalTo("venda",vid).findFirst();
+                       if (q != null && q.getItems().size()>0){
+                           for (int ia = 0; ia < q.getItems().size(); ia++) {
+                               preco pre = new preco(q.getItems().get(ia).getNum_item(), q.getItems().get(ia).getNome_Item(), q.getItems().get(ia).getPreco());
+                               lista.add(pre);
+                           }
+                       }
 
 
             } finally {
@@ -72,7 +87,7 @@ public class Venda_Activity extends AppCompatActivity {
             }
 
 
-            adapter = new AdapterVenda(lista,Venda_Activity.this);
+            adapter = new Vendas(lista,this);
             recyclerView.setAdapter(adapter);
 
 
@@ -80,29 +95,107 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    venda.setData(new Date());
-                    AlertDialog.Builder vender = new AlertDialog.Builder(Venda_Activity.this);
-                    vender.setTitle("Aviso").setTitle("Tem a Certeza que Deseja vender os itens Selecionados").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                        }
-                    }).setNegativeButton("Nao", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    }).create().show();
-
+                    Intent intent=new Intent(Venda_Activity.this, Itens_venda_Activity.class);
+                    intent.putExtra("id",vid);
+                    startActivity(intent);
                 }
             });
         } finally {
 
+
+    }
+    }
+     class Vendas extends RecyclerView.Adapter<Vendas.ViewHolder>{
+
+        private List<preco> mValues;
+        private Context context;
+
+        public Vendas(List<preco> mValues, Context context) {
+            this.mValues = mValues;
+            this.context = context;
+        }
+
+        @Override
+        public Vendas.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v= LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.itens_vendidos,parent,false);
+            return new Vendas.ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(Vendas.ViewHolder holder, int position) {
+            preco p=mValues.get(position);
+            holder.descricao.setText(p.getNome());
+            holder.valor.setText(p.getPreco()+"");
+            holder.peco.setText(p.getQuantidade());
+            holder.icone.setImageResource(R.drawable.dinheiro_fora);
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mValues.size();
+        }
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public TextView descricao;
+            public TextView valor;
+            public TextView peco;
+            public ImageView icone;
+
+            public ViewHolder(View view) {
+                super(view);
+
+                descricao=(TextView) view.findViewById(R.id.itens_vendidos_nome);
+                valor=(TextView) view.findViewById(R.id.itens_vendidos_preco);
+                peco=(TextView) view.findViewById(R.id.itens_vendidos_quantidade);
+                icone=(ImageView) view.findViewById(R.id.imageView4);
+
+            }
+
+            @Override
+            public String toString() {
+                return super.toString();
+            }
         }
 
 
+    }
+
+    class preco{
+        private int quantidade;
+        private String nome;
+        private double preco;
+
+        public preco(int quantidade, String nome, double preco) {
+            this.quantidade = quantidade;
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        public int getQuantidade() {
+            return quantidade;
+        }
+
+        public void setQuantidade(int quantidade) {
+            this.quantidade = quantidade;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
+        public double getPreco() {
+            return preco;
+        }
+
+        public void setPreco(double preco) {
+            this.preco = preco;
+        }
     }
 }
 

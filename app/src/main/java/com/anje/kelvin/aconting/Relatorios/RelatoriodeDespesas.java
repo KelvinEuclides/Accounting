@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.anje.kelvin.aconting.Adapters.AdapterTransicoes;
-import com.anje.kelvin.aconting.Adapters.Transacao_itens;
+import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
 

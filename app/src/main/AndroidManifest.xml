@@ -90,6 +90,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anje.kelvin.aconting.MainActivity" />
         </activity>
+        <activity
+            android:name=".Operacoes.Itens_venda_Activity"
+            android:label="@string/title_activity_main2"
+            android:parentActivityName=".Operacoes.Venda_Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.Operacoes.Venda_Activity" />
+        </activity>
+        <activity
+            android:name=".Relatorio_de_Transicoes_Activity"
+            android:label="@string/title_activity_relatorio_de__transicoes_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
