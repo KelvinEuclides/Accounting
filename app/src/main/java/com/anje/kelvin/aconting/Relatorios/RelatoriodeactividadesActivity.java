@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -34,12 +36,12 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         lista = new ArrayList<Transacao_itens>();
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-        if (contas.get(0).getStock().size() > 0) {
-            for (int i = 0; i < contas.get(0).getTransacaoDbs().size(); i++) {
-                Conta conta = contas.get(0);
-                Transacao_itens transacao = new Transacao_itens(conta.getTransacaoDbs().get(i).getDescricao(), conta.getTransacaoDbs().get(i).getCategoria(), conta.getTransacaoDbs().get(i).getValor());
-                total=total+conta.getTransacaoDbs().get(i).getValor();
+        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+        List<Transacao_db>  items=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+        if (items.size() > 0) {
+            for (int i = 0; i < items.size(); i++) {
+                Transacao_itens transacao = new Transacao_itens(items.get(i).getDescricao(), items.get(i).getCategoria(), items.get(i).getValor());
+                total=total+items.get(i).getValor();
                 lista.add(transacao);
             }
 

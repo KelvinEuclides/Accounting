@@ -16,16 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by sala on 30-01-2018.
  */
 
-public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
-
+public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
+    Realm realm=Realm.getDefaultInstance();
     private List<Stock> mValues;
     private Context context;
     private long timestamp1=001;
@@ -79,6 +82,13 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+                                Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
+                                item.setPrecoUnidade(Double.parseDouble(precoUnidade1.getText().toString()));
+                                item.setNome_Item(nomeitem1.getText().toString());
+                                realm.commitTransaction();
+                                realm.copyToRealmOrUpdate(item);
+                                realm.commitTransaction();
+
                             }
                         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
@@ -100,7 +110,9 @@ public class AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>{
                         builder1.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //Alforitimo para apagar item
+                                realm.commitTransaction();
+                                realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst().deleteFromRealm();
+                                realm.commitTransaction();
                                 Toast toast=Toast.makeText(context,"Item "+stock.getNomeItem()+"apagado",Toast.LENGTH_LONG);
                                 toast.show();
                             }

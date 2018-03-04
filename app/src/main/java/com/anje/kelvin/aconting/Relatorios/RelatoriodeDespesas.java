@@ -34,7 +34,7 @@ public class RelatoriodeDespesas extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(false);
         lista = new ArrayList<Transacao_itens>();
-        Realm realm = Realm.getDefaultInstance();
+        /**Realm realm = Realm.getDefaultInstance();
         RealmResults<Conta> contas = realm.where(Conta.class).findAll();
         if (contas.get(0).getStock().size() > 0) {
             for (int i = 0; i < contas.get(0).getTransacaoDbs().size(); i++) {
@@ -49,6 +49,6 @@ public class RelatoriodeDespesas extends AppCompatActivity {
         totale.setText(total+" MZN");
 
         adapter = new AdapterTransicoes(lista,RelatoriodeDespesas.this);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);**/
     }
 }

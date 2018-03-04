@@ -10,6 +10,16 @@ import io.realm.RealmObject;
  */
 
 public class Despesa_db extends RealmObject {
+    private  int id_usuario;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
     private String descricao;
     private double Valor;
     private String categoria;

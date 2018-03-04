@@ -2,16 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anje.kelvin.aconting">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name="com.anje.kelvin.accontingapp.Classes.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Pakitini"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -27,7 +23,7 @@
             android:label="Adicionar Deposito"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Operacoes.Login_Activity"
+            android:name=".login"
             android:label="Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -54,24 +50,15 @@
         <activity
             android:name=".Operacoes.RegistrarActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".Operacoes.Login_Activity">
+            android:parentActivityName=".Login_Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.Operacoes.Login_Activity" />
+                android:value="com.anje.kelvin.aconting.Login_Activity" />
         </activity>
         <activity
             android:name=".Relatorios.Relatorio_de_renda_Activity"
             android:label="Relatorio de Renda"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Operacoes.Add_item_Activity"
-            android:label="Adicionar Item"
-            android:parentActivityName=".item_stock_Activity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.item_stock_Activity" />
-        </activity>
         <activity
             android:name=".Operacoes.Estoque_Activity"
             android:label="Gerir Estoque"
@@ -83,7 +70,7 @@
         </activity>
         <activity
             android:name=".Operacoes.TransicoesActivity"
-            android:label="@string/title_activity_main2"
+            android:label="Transacoes"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -92,7 +79,7 @@
         </activity>
         <activity
             android:name=".Operacoes.Itens_venda_Activity"
-            android:label="@string/title_activity_main2"
+            android:label="Itens Venda"
             android:parentActivityName=".Operacoes.Venda_Activity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.Fragments.MenuFragment;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
@@ -31,6 +32,11 @@ import io.realm.RealmResults;
 public class Adicionar_deposito_Activity extends AppCompatActivity {
     String recorrencia="Nenhuma";
     boolean cliclou=false;
+    Date date = new Date();
+    Date dia=new Date();
+    EditText descricao,valor,datainicio;
+    ImageView data_inicio,data_fim_iv;
+    Button salvaar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +44,6 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final Date date = new Date();
-        final Date dia=new Date();
-
-        final EditText descricao,valor,datainicio;
-        final ImageView data_inicio,data_fim_iv;
-        final Button salvaar;
-
         descricao=(EditText) findViewById(R.id.et_descricao_despodito);
        valor=(EditText) findViewById(R.id.et_valor_deposito);
        datainicio=(EditText) findViewById(R.id.et_data_inicio_despesa);
@@ -83,9 +82,10 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 Realm realm=Realm.getDefaultInstance();
                 try {
-                    RealmResults<Conta> contas=realm.where(Conta.class).findAll();
+                    Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
                     Deposito_db deposito_dp=new Deposito_db();
                     deposito_dp.setDescricao(descricao.getText().toString());
+                    deposito_dp.setId_usuario(conta.getId_usuario());
                     deposito_dp.setCategoria("Deposito");
                     if (cliclou==true){
                         deposito_dp.setDia(date);
@@ -109,8 +109,16 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
                         if (recorrencia.equals("Fixa")) {
                             deposito_dp.setDia_fim(new Date());
                         }
+                        Transacao_db transacao_db=new Transacao_db();
+                        transacao_db.setId_usuario(deposito_dp.getId_usuario());
+                        transacao_db.setDescricao(deposito_dp.getDescricao());
+                        transacao_db.setDescricao(deposito_dp.getDescricao());
+                        transacao_db.setDia(deposito_dp.getDia());
+                        transacao_db.setDia(deposito_dp.getDia());
                         realm.beginTransaction();
-                        contas.get(0).setDeposito_dbs(deposito_dp);
+                        conta.adicionar_deposito(Double.parseDouble(valor.getText().toString()));
+                        realm.copyToRealm(deposito_dp);
+                        realm.copyToRealm(transacao_db);
                         realm.commitTransaction();
                         AlertDialog.Builder sair=new AlertDialog.Builder(Adicionar_deposito_Activity.this);
                         sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {

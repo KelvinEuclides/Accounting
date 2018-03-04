@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Despesas_Activity;
 
 import java.util.ArrayList;
@@ -52,11 +53,12 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
         try {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            if (conta.getTransacaoDbs().size()>0){
-                for (int i=0;i<conta.getTransacaoDbs().size();i++){
-                    Relatorio relatorio=new Relatorio(conta.getTransacaoDbs().get(i).getDescricao(),"28/02/2018",conta.getTransacaoDbs().get(i).getValor());
+            List<Transacao_db> item=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+            if (item.size()>0){
+                for (int i=0;i<item.size();i++){
+                    Relatorio relatorio=new Relatorio(item.get(i).getDescricao(),"28/02/2018",item.get(i).getValor());
                     lista.add(relatorio);
-                    v = v+conta.getTransacaoDbs().get(i).getValor();
+                    v = v+item.get(i).getValor();
 
                 }
                 total=v;

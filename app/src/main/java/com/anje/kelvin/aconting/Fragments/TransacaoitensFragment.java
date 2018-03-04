@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -53,10 +54,11 @@ public class TransacaoitensFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             lista = new ArrayList<Transacao_itens>();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            if (conta.getTransacaoDbs().size()>0) {
-                for (int i = 0; i < conta.getTransacaoDbs().size(); i++) {
-                    Transacao_itens transacao = new Transacao_itens(conta.getTransacaoDbs().get(i).getDescricao(), conta.getTransacaoDbs().get(i).getCategoria(), conta.getTransacaoDbs().get(i).getValor());
-                    lista.add(transacao);
+            List<Transacao_db> transacao =realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+            if (transacao.size()>0) {
+                for (int i = 0; i < transacao.size(); i++) {
+                    Transacao_itens transacaoa = new Transacao_itens(transacao.get(i).getDescricao(),transacao.get(i).getCategoria(),transacao.get(i).getValor());
+                    lista.add(transacaoa);
                 }
 
             }

@@ -7,6 +7,16 @@ import io.realm.RealmObject;
  */
 
 public class Item extends RealmObject {
+    private  int id_usuario;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
     String nome_Item;
     Double preco,precoUnidade;
     String unidade_de_Medida;

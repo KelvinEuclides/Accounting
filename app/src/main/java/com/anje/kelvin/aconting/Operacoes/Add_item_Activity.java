@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.R;
 
 import java.util.Date;
@@ -59,9 +60,16 @@ public class Add_item_Activity extends AppCompatActivity {
                 despesa_db.setDescricao("Compra de "+item.getNum_item()+" "+medida+" de "+item.getNome_Item());
                 despesa_db.setValor(item.getPreco());
                 despesa_db.setDia(new Date());
+                Transacao_db transacao_db=new Transacao_db();
+                transacao_db.setValor(despesa_db.getValor());
+                transacao_db.setDescricao(despesa_db.getDescricao());
+                transacao_db.setDia(despesa_db.getDia());
+                transacao_db.setCategoria("Compra");
                 realm.beginTransaction();
-                conta.setStock(item);
-                conta.setDespesa_dbs(despesa_db);
+                conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
+                realm.copyToRealm(item);
+                realm.copyToRealm(despesa_db);
+                realm.copyToRealm(transacao_db);
                 realm.commitTransaction();
                 Intent intent=new Intent(Add_item_Activity.this,Estoque_Activity.class);
                 startActivity(intent);

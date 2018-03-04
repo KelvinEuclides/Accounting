@@ -15,6 +15,7 @@ import android.view.View;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterStock;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -40,28 +41,27 @@ public class Estoque_Activity extends AppCompatActivity {
         lista=new ArrayList<Stock>();
         Realm realm = Realm.getDefaultInstance();
         try {
-            Conta contas = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                    for (int i = 0; i < item.size(); i++) {
+                        Stock stock=new Stock(item.get(i).getNome_Item()+"",item.get(i).getNum_item()+"",
+                                item.get(i).getItens_disponiveis()+"",item.get(i).getPreco()+"Mzn");
+                        if(item.get(i).getNum_item()<5){
+                            Notification mBuilder = new NotificationCompat.Builder(this)
+                                    .setSmallIcon(R.drawable.conta_laranja)
+                                    .setContentTitle("Alerta")
+                                    .setContentText("Tem menos que 5 Unidades de  "+item.get(i).getNome_Item())
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                    .setCategory(NotificationCompat.CATEGORY_REMINDER).build();
+                            NotificationManager notificationManager =
+                                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-            if (contas.getStock().size() > 0) {
-                for (int i = 0; i < contas.getStock().size(); i++) {
-                    Stock stock=new Stock(contas.getStock().get(i).getNome_Item()+"",contas.getStock().get(i).getNum_item()+"",
-                            contas.getStock().get(i).getItens_disponiveis()+"",contas.getStock().get(i).getPreco()+"Mzn");
-                    if(contas.getStock().get(i).getNum_item()<5){
-                        Notification mBuilder = new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.conta_laranja)
-                                .setContentTitle("Alerta")
-                                .setContentText("Tem menos que 5 Unidades de  "+contas.getStock().get(i).getNome_Item())
-                                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                .setCategory(NotificationCompat.CATEGORY_REMINDER).build();
-                        NotificationManager notificationManager =
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(0, mBuilder);
 
-                        notificationManager.notify(0, mBuilder);
-
+                        }
+                        lista.add(stock);
                     }
-                    lista.add(stock);
-                }
-            }
+
         }finally {
 
         }

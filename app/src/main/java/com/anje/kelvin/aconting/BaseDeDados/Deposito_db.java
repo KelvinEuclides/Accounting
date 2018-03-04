@@ -10,6 +10,15 @@ import io.realm.RealmObject;
  */
 
 public class Deposito_db extends RealmObject {
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    private  int id_usuario;
     private String descricao;
     private double Valor;
     private String categoria;

@@ -48,9 +48,10 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         lista =new ArrayList<Relatorio>();
 
-        try {
+      /**  try {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+
             if (conta.getDespesa_dbs().size()>0){
                 for (int i=0;i<conta.getDespesa_dbs().size();i++){
                    Relatorio relatorio=new Relatorio(conta.getDespesa_dbs().get(i).getDescricao(),conta.getDespesa_dbs().get(i).getDia().getDay()+"/"+conta.getDespesa_dbs().get(i).getDia().getMonth(),conta.getDespesa_dbs().get(i).getValor());
@@ -66,7 +67,7 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
 
         }
         adapter = new AdapterRelatoriosDespesas(lista,Relatorio_de_Despesas_Activity.this);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);**/
     }
 
 }

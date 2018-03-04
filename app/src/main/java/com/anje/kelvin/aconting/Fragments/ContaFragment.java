@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDepositos;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
+import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -68,14 +70,14 @@ public class ContaFragment extends Fragment {
         lista = new ArrayList<Depositos_itens>();
         Realm realm = Realm.getDefaultInstance();
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-        if (conta.getStock().size() > 0||conta.getTransacaoDbs().size()>0) {
+        /**if (conta.getStock().size() > 0||conta.getTransacaoDbs().size()>0) {
             lista.clear();
-            for (int i = 0; i < conta.getDeposito_dbs().size(); i++) {
+            for (int i = 0; i < .size(); i++) {
                 Depositos_itens depositos_itens = new Depositos_itens(conta.getDeposito_dbs().get(i).getDescricao(),"Deposito", conta.getDeposito_dbs().get(i).getValor(),"HOJE");
                 lista.add(depositos_itens);
             }
 
-        }
+        }**/
 
 
         adapter = new AdapterDepositos(lista,getContext());
@@ -112,8 +114,9 @@ public class ContaFragment extends Fragment {
         try {
             Realm realm=Realm.getDefaultInstance();
             Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            for(int i=0;i<contas.getDeposito_dbs().size();i++){
-                total+=contas.getDeposito_dbs().get(i).getValor();
+            List<Deposito_db> despesa_dbs=realm.where(Deposito_db.class).equalTo("id_usuario",contas.getId_usuario()).findAll();
+            for(int i=0;i<despesa_dbs.size();i++){
+                total+=despesa_dbs.get(i).getValor();
             }
 
         }catch (NullPointerException e){
@@ -129,8 +132,9 @@ public class ContaFragment extends Fragment {
         try {
             Realm realm=Realm.getDefaultInstance();
             Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            for(int i=0;i<contas.getDespesa_dbs().size();i++){
-                total+=contas.getDespesa_dbs().get(i).getValor();
+            List<Despesa_db> despesa= realm.where(Despesa_db.class).equalTo("id_usuario",contas.getId_usuario()).findAll();
+            for(int i=0;i<despesa.size();i++){
+                total+=despesa.get(i).getValor();
             }
 
         }catch (NullPointerException e){

@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
+import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.Operacoes.Estoque_Activity;
 import com.anje.kelvin.aconting.Operacoes.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
@@ -19,6 +21,8 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_deposito_Activity;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_despesaActivity;
 import com.anje.kelvin.aconting.R;
+
+import java.util.List;
 
 import io.realm.Realm;
 
@@ -155,8 +159,9 @@ public class MenuFragment extends Fragment {
         try {
             Realm realm=Realm.getDefaultInstance();
             Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            for(int i=0;i<contas.getDeposito_dbs().size();i++){
-                total+=contas.getDeposito_dbs().get(i).getValor();
+            List<Deposito_db> deposito=realm.where(Deposito_db.class).equalTo("id_usuario",contas.getId_usuario()).findAll();
+            for(int i=0;i<deposito.size();i++){
+                total+=deposito.get(i).getValor();
             }
 
         }catch (NullPointerException e){
@@ -170,8 +175,9 @@ public class MenuFragment extends Fragment {
         try {
             Realm realm=Realm.getDefaultInstance();
             Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            for(int i=0;i<contas.getDespesa_dbs().size();i++){
-                total+=contas.getDespesa_dbs().get(i).getValor();
+            List<Despesa_db> despesa=realm.where(Despesa_db.class).equalTo("id_usuario",contas.getId_usuario()).findAll();
+            for(int i=0;i<despesa.size();i++){
+                total+=despesa.get(i).getValor();
             }
 
         }catch (NullPointerException e){

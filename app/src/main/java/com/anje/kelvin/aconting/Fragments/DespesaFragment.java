@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDepesas;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -59,9 +60,10 @@ public class DespesaFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         lista = new ArrayList<Depositos_itens>();
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-        if (conta.getDespesa_dbs().size()>0) {
-            for (int i = 0; i < conta.getDespesa_dbs().size(); i++) {
-                Depositos_itens transacao = new Depositos_itens(conta.getDespesa_dbs().get(i).getDescricao(),"Deposito",conta.getDespesa_dbs().get(i).getValor(),"Hoje");
+        List<Despesa_db> despesa= realm.where(Despesa_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+        if (despesa.size()>0) {
+            for (int i = 0; i < despesa.size(); i++) {
+                Depositos_itens transacao = new Depositos_itens(despesa.get(i).getDescricao(),"Deposito",despesa.get(i).getValor(),"Hoje");
                 lista.add(transacao);
             }
 

@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity {
                 case R.id.navigation_dashboard:
                     viewPager.setCurrentItem(1);
                 case R.id.navigation_estatisticas:
-
+                    viewPager.setCurrentItem(2);
 
 
                     return true;
@@ -48,9 +48,9 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ViewPager vpPager = (ViewPager) findViewById(R.id.viewp);
+        viewPager = (ViewPager) findViewById(R.id.viewp);
         adapterFragment = new AdapterFragment(getSupportFragmentManager());
-        vpPager.setAdapter(adapterFragment);
+        viewPager.setAdapter(adapterFragment);
 
 
 

@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterVenda;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -43,12 +44,12 @@ public class Itens_venda_Activity extends AppCompatActivity {
         try {
             Realm realm = Realm.getDefaultInstance();
             try {
-                RealmResults<Conta> contas = realm.where(Conta.class).findAll();
-                if (contas.get(0).getStock().size() > 0) {
-                    for (int i = 0; i < contas.get(0).getStock().size(); i++) {
-                        Conta conta = contas.get(0);
-                        Stock stock = new Stock(contas.get(0).getStock().get(i).getNome_Item() + "", contas.get(0).getStock().get(i).getNum_item() + "",
-                                contas.get(0).getStock().get(i).getItens_disponiveis() + "", contas.get(0).getStock().get(i).getPreco() + "Mzn");
+                Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                if (item.size() > 0) {
+                    for (int i = 0; i < item.size(); i++) {
+                        Stock stock = new Stock(item.get(i).getNome_Item() + "", item.get(i).getNum_item() + "",
+                                item.get(i).getItens_disponiveis() + "", item.get(i).getPreco() + "Mzn");
                         lista.add(stock);
                     }
                 }

@@ -13,6 +13,8 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
+import java.util.Date;
+
 import io.realm.Realm;
 
 /**
@@ -40,6 +42,7 @@ public class RegistrarActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 conta = new Conta();
                 conta.setLoggado(true);
+                conta.setId_usuario(geraridusuario());
                 conta.setPin(Integer.parseInt(pin.getText().toString()));
                 conta.setTelemovel(Integer.parseInt(telemovel.getText().toString()));
                 conta.setSaldo_conta(0);
@@ -57,6 +60,13 @@ public class RegistrarActivity extends AppCompatActivity  {
     }
 
     private void setupActionBar() {
+    }
+
+    private int geraridusuario(){
+        Date d =new Date();
+        int id;
+        id=d.getDate()+d.getMonth()+d.getSeconds()+d.getHours()+1997;
+        return id;
     }
 }
 

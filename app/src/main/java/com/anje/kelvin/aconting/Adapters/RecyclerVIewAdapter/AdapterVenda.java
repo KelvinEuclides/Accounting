@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
 
@@ -69,9 +70,11 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
                         Realm realm=Realm.getDefaultInstance();
                        Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
                        Venda ve=realm.where(Venda.class).equalTo("venda",codico).findFirst();
+                        Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
+
                         try {
                             realm.beginTransaction();
-                            ve.setItems(conta.getStock().get(position),Integer.parseInt(editText.getText().toString()),conta.getStock().get(position).getPreco());
+                            ve.setItems(item,Integer.parseInt(editText.getText().toString()),item.getPreco());
                             realm.commitTransaction();
                         }catch (Exception e){
 

@@ -26,6 +26,12 @@ import io.realm.RealmResults;
 
 public class Adicionar_despesaActivity extends AppCompatActivity {
     String recorrencia="Nenhuma";
+    TextView data_fim_tv;
+    EditText descricao,valor,datainicio,datafim;
+    RadioButton fixa,nehhuma;
+    ImageView data_inicio,data_fim_iv;
+    Button salvaar;
+    double valorr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +39,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final TextView data_fim_tv;
-        final EditText descricao,valor,datainicio,datafim;
-        final RadioButton fixa,nehhuma;
-        final ImageView data_inicio,data_fim_iv;
-        final Button salvaar;
+
         data_fim_tv =(TextView) findViewById(R.id.tv_data_fim);
         data_fim_tv.setVisibility(View.GONE);
         data_fim_iv=(ImageView) findViewById(R.id.iv_data_fim_despesa);
@@ -75,8 +77,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Realm realm=Realm.getDefaultInstance();
                 try {
-
-                    RealmResults<Conta> contas=realm.where(Conta.class).findAll();
+                    Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
                     Despesa_db despesa_db=new Despesa_db();
                     if (descricao.getText().toString().equals("")){
                         AlertDialog.Builder despesa=new AlertDialog.Builder(Adicionar_despesaActivity.this);
@@ -91,6 +92,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
                         despesa_db.setDescricao(descricao.getText().toString());
                     }
                     despesa_db.setCategoria("Deposito");
+                    despesa_db.setId_usuario(conta.getId_usuario());
                     despesa_db.setDia(new Date());
                     despesa_db.setRecorrencia(recorrencia);
                     if(valor.getText().toString().equals("")){
@@ -105,13 +107,15 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
                     }
                     else{
                         despesa_db.setValor(Double.parseDouble(valor.getText().toString()));
+                        valorr=Double.parseDouble(valor.getText().toString());
                     }
 
                     if (recorrencia.equals("Fixa")){
 
                     }
                     realm.beginTransaction();
-                    contas.get(0).setDespesa_dbs(despesa_db);
+                    conta.adicionar_despesa(valorr);
+                    realm.copyToRealm(despesa_db);
                     realm.commitTransaction();
                     AlertDialog.Builder sair=new AlertDialog.Builder(Adicionar_despesaActivity.this);
                     sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {

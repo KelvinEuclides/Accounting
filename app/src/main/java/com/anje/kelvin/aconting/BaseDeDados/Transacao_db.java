@@ -10,6 +10,24 @@ import io.realm.RealmObject;
  */
 
 public class Transacao_db extends RealmObject {
+    private  int id_usuario;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public Date getDia() {
+        return dia;
+    }
+
+    public String getRecorrencia() {
+        return recorrencia;
+    }
+
     protected String descricao;
     protected double Valor;
     protected String categoria;
