@@ -56,6 +56,9 @@ public class Transacao_itens {
         if (tipo.equals("Despesa")){
             icone=R.drawable.dinheiro_fora;
         }
+        else{
+            icone= R.drawable.transferencias;
+        }
         return icone;
     }
 

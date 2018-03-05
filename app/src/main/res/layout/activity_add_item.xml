@@ -24,4 +24,14 @@
         android:id="@+id/include"
         layout="@layout/content_add_item_" />
 
+    <Button
+        android:id="@+id/bt_item_adicionar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:text="Salvar"
+        android:textColor="@color/cardview_light_background" />
+
+
 </android.support.design.widget.CoordinatorLayout>

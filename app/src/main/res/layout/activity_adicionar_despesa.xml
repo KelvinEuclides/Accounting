@@ -17,7 +17,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="68dp"
-            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="Descricao"
             android:inputType="textPersonName"
@@ -44,24 +43,25 @@
             android:id="@+id/rb_despesa_fixa"
             android:layout_width="77dp"
             android:layout_height="21dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:text="Mensal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+            app:layout_constraintBottom_toBottomOf="@+id/radioButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/radioButton"
+            app:layout_constraintTop_toTopOf="@+id/radioButton"
+            app:layout_constraintVertical_bias="1.0" />
 
         <RadioButton
             android:id="@+id/rb_nenhuma"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Nenhuma"
-            app:layout_constraintBottom_toTopOf="@+id/textView18"
-            app:layout_constraintStart_toEndOf="@+id/rb_despesa_fixa"
-            app:layout_constraintTop_toTopOf="@+id/rb_despesa_fixa"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            tools:layout_editor_absoluteX="43dp" />
 
         <TextView
             android:id="@+id/textView18"
@@ -69,14 +69,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:text="Valor"
             android:textColor="@color/primary_text"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.064"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb_despesa_fixa" />
+            app:layout_constraintTop_toBottomOf="@+id/rb_nenhuma" />
 
         <EditText
             android:id="@+id/et_despesa_valor"
@@ -85,7 +85,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:hint="00"
             android:inputType="numberDecimal"
@@ -100,7 +99,6 @@
             android:layout_height="47dp"
             android:layout_marginEnd="84dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +154,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/et_bgrnd"
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -173,24 +170,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_data_fim"
             app:srcCompat="@drawable/ic_today_black_24dp" />
-
-        <Button
-            android:id="@+id/bt_salvar_despesa"
-            android:layout_width="181dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/buttao_vermelhp"
-            android:text="Salvar"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_data_fim_despesa"
-            app:layout_constraintVertical_bias="0.882" />
 
         <TextView
             android:id="@+id/textView20"
@@ -210,6 +189,18 @@
             app:layout_constraintTop_toBottomOf="@+id/rb_nenhuma"
             app:layout_constraintVertical_bias="0.833" />
 
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="Diaria"
+            app:layout_constraintBottom_toBottomOf="@+id/rb_nenhuma"
+            app:layout_constraintStart_toEndOf="@+id/rb_nenhuma"
+            app:layout_constraintTop_toTopOf="@+id/rb_nenhuma"
+            app:layout_constraintVertical_bias="0.0" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.AppBarLayout
@@ -225,5 +216,16 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <Button
+        android:id="@+id/bt_salvar_despesa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:text="Salvar"
+        android:textColor="@android:color/background_light"
+        tools:layout_editor_absoluteX="211dp"
+        tools:layout_editor_absoluteY="360dp" />
 
 </android.support.design.widget.CoordinatorLayout>

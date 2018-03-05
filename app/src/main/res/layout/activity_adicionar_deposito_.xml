@@ -9,16 +9,15 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="572dp">
 
         <EditText
             android:id="@+id/et_descricao_despodito"
             android:layout_width="323dp"
-            android:layout_height="47dp"
+            android:layout_height="46dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="104dp"
-            android:background="@drawable/et_bgrnd"
             android:elevation="6dp"
             android:ems="10"
             android:hint="Descricao do Deposito"
@@ -66,11 +65,10 @@
         <EditText
             android:id="@+id/et_valor_deposito"
             android:layout_width="184dp"
-            android:layout_height="47dp"
+            android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/et_bgrnd"
             android:elevation="6dp"
             android:ems="10"
             android:hint="100"
@@ -98,10 +96,9 @@
         <EditText
             android:id="@+id/et_data_inicio_despesa"
             android:layout_width="205dp"
-            android:layout_height="47dp"
+            android:layout_height="51dp"
             android:layout_marginEnd="88dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/et_bgrnd"
             android:elevation="6dp"
             android:ems="10"
             android:hint="Hoje"
@@ -123,21 +120,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:srcCompat="@drawable/ic_today_black_24dp" />
 
-        <Button
-            android:id="@+id/bt_salvar"
-            android:layout_width="121dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="172dp"
-            android:background="@drawable/buttao_vermelhp"
-            android:text="Salvar"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_data_inicio_despesa" />
-
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -155,6 +137,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.AppBarLayout
@@ -170,5 +153,21 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <Button
+        android:id="@+id/bt_salvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
+         android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:text="Salvar"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_data_inicio_despesa" />
 
 </android.support.design.widget.CoordinatorLayout>

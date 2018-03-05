@@ -1,10 +1,14 @@
 package com.anje.kelvin.aconting.Operacoes;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +28,14 @@ import com.anje.kelvin.aconting.Fragments.MenuFragment;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class Adicionar_deposito_Activity extends AppCompatActivity {
+    Calendar data;
     String recorrencia="Nenhuma";
     boolean cliclou=false;
     Date date = new Date();
@@ -37,6 +43,7 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
     EditText descricao,valor,datainicio;
     ImageView data_inicio,data_fim_iv;
     Button salvaar;
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +54,10 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         descricao=(EditText) findViewById(R.id.et_descricao_despodito);
        valor=(EditText) findViewById(R.id.et_valor_deposito);
        datainicio=(EditText) findViewById(R.id.et_data_inicio_despesa);
-       data_inicio=(ImageView) findViewById(R.id.iv_data_inicio);
+        data=Calendar.getInstance();
+        datainicio.setText(DateFormat.getDateInstance().format(date));
+
+        data_inicio=(ImageView) findViewById(R.id.iv_data_inicio);
        data_inicio.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {

@@ -32,7 +32,7 @@ public class Add_item_Activity extends AppCompatActivity {
         RadioGroup unidades=(RadioGroup) findViewById(R.id.rg_unidade_medida);
         final EditText precovenda=(EditText) findViewById(R.id.item_preco_venda);
         final EditText quantidade=(EditText) findViewById(R.id.et_item_quantidade);
-        Button add=(Button) findViewById(R.id.bt_item_adicionar);
+        Button add=(Button) findViewById(R.id.bt_item_adicionar3);
         final Realm realm=Realm.getDefaultInstance();
         final Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
         add.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterStock;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
@@ -24,6 +25,7 @@ import java.util.List;
 import io.realm.Realm;
 
 public class Estoque_Activity extends AppCompatActivity {
+    Button b;
     private RecyclerView.Adapter adapter;
     public List<Stock> lista;
 
@@ -68,16 +70,17 @@ public class Estoque_Activity extends AppCompatActivity {
         adapter = new AdapterStock(lista,Estoque_Activity.this);
         recyclerView.setAdapter(adapter);
 
+        b=(Button) findViewById(R.id.add_item_stock);
+       b.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intenta=new Intent(Estoque_Activity.this,Add_item_Activity.class);
+               startActivity(intenta);
+               finish();
+           }
+       });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(Estoque_Activity.this,Add_item_Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
