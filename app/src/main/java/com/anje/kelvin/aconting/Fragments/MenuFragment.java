@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
-import com.anje.kelvin.aconting.Operacoes.Estoque_Activity;
+import com.anje.kelvin.aconting.Gerir_estoque;
 import com.anje.kelvin.aconting.Operacoes.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
 import com.anje.kelvin.aconting.Operacoes.TransicoesActivity;
@@ -104,7 +104,7 @@ public class MenuFragment extends Fragment {
        estoque.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent intent=new Intent(getActivity(), Estoque_Activity.class);
+               Intent intent=new Intent(getActivity(), Gerir_estoque.class);
                MenuFragment.this.startActivity(intent);
            }
        });

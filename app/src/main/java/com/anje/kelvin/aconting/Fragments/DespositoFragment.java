@@ -67,7 +67,7 @@ public class DespositoFragment extends Fragment {
 
         if (despesa_dbs.size()>0) {
             for (int i = 0; i < despesa_dbs.size(); i++) {
-                Depositos_itens transacao = new Depositos_itens(despesa_dbs.get(i).getDescricao(),"Deposito",despesa_dbs.get(i).getValor(),"Hoje");
+                Depositos_itens transacao = new Depositos_itens(despesa_dbs.get(i).getDescricao(),"Deposito",despesa_dbs.get(i).getValor(),despesa_dbs.get(i).getDia());
                 lista.add(transacao);
             }
 

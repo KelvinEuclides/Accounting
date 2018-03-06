@@ -1,6 +1,8 @@
 package com.anje.kelvin.aconting.Operacoes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
+import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterVenda;
+import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
+import com.anje.kelvin.aconting.Gerir_estoque;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -71,7 +79,7 @@ public class Venda_Activity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         lista = new ArrayList<preco>();
         try {
-            Realm realm = Realm.getDefaultInstance();
+            final Realm realm = Realm.getDefaultInstance();
             try {
                 Venda q = realm.where(Venda.class).equalTo("venda",vid).findFirst();
                        if (q != null && q.getItems().size()>0){
@@ -95,9 +103,45 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(Venda_Activity.this, Itens_venda_Activity.class);
-                    intent.putExtra("id",vid);
-                    startActivity(intent);
+                    RecyclerView.Adapter ada;
+                    List<Stock> lista= new ArrayList<Stock>();
+                    FrameLayout f1=(FrameLayout)findViewById(R.id.fra_vender);
+                    AlertDialog.Builder builder=new AlertDialog.Builder(Venda_Activity.this);
+                    LayoutInflater inflater=getLayoutInflater();
+                    RecyclerView recycler=(RecyclerView) findViewById(R.id.rv_itm);
+                    Realm realm = Realm.getDefaultInstance();
+                    try {
+                        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                        List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                        if (item.size() > 0) {
+                            for (int i = 0; i < item.size(); i++) {
+                                Stock stock = new Stock(item.get(i).getNome_Item() + "", item.get(i).getNum_item() + "",
+                                        item.get(i).getItens_disponiveis() + "", item.get(i).getPreco() + "Mzn");
+                                lista.add(stock);
+                            }
+                        }
+
+
+                    } finally {
+
+                    }
+
+
+                    ada = new AdapterVenda(lista,Venda_Activity.this, vid);
+                    recycler.setAdapter(ada);
+                    builder.setTitle("Escolhe o item Que deseja vender").setPositiveButton("Vender", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setView(inflater.inflate(R.layout.layout,f1,false));
+                    builder.create().show();
                 }
             });
         } finally {

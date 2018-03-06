@@ -40,7 +40,7 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
         List<Transacao_db>  items=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
         if (items.size() > 0) {
             for (int i = 0; i < items.size(); i++) {
-                Transacao_itens transacao = new Transacao_itens(items.get(i).getDescricao(), items.get(i).getCategoria(), items.get(i).getValor());
+                Transacao_itens transacao = new Transacao_itens(items.get(i).getDescricao(), items.get(i).getCategoria(), items.get(i).getValor(),items.get(i).getDia());
                 total=total+items.get(i).getValor();
                 lista.add(transacao);
             }

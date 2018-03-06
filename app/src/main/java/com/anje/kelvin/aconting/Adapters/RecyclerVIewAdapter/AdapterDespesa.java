@@ -1,7 +1,9 @@
 
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.icu.text.DateFormat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +36,13 @@ public class AdapterDespesa extends RecyclerView.Adapter<AdapterDespesa.ViewHold
         return new ViewHolder(v);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ReDespesa reDespesa=mValues.get(position);
         holder.descricao.setText(reDespesa.getDescricao());
         holder.preco.setText(reDespesa.getPreco());
-        holder.data.setText(reDespesa.getDate());
+        holder.data.setText(DateFormat.getDateInstance().format(reDespesa.getDate()));
 
 
     }

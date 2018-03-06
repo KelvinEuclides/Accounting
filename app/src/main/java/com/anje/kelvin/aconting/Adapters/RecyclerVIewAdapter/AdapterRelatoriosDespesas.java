@@ -1,6 +1,8 @@
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.icu.text.DateFormat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +34,11 @@ public class AdapterRelatoriosDespesas extends RecyclerView.Adapter<AdapterRelat
         return new ViewHolder(v);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Relatorio relatorio=mValues.get(position);
-        holder.data.setText(relatorio.getDate());
+        holder.data.setText(DateFormat.getDateInstance().format(relatorio.getDate()));
         holder.discricao.setText(relatorio.getDescricao());
         holder.preco.setText(relatorio.getPreco()+"MZN");
     }

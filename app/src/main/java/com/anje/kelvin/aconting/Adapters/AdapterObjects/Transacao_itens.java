@@ -14,15 +14,15 @@ import java.util.Date;
 public class Transacao_itens {
     String descricao,tipo;
     double valor;
-    String data;
+    Date data;
     int icone;
 
-    public Transacao_itens(String descricao, String tipo, double valor) {
+    public Transacao_itens(String descricao, String tipo, double valor,Date data) {
         this.descricao = descricao;
         this.tipo = tipo;
         this.valor = valor;
-        this.data = datetimet;
-        this.icone = escolher_icone(descricao);
+        this.data = data;
+        this.icone =R.drawable.transferencias;
     }
 
     public String getDescricao() {
@@ -37,7 +37,7 @@ public class Transacao_itens {
         return valor;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
@@ -62,7 +62,4 @@ public class Transacao_itens {
         return icone;
     }
 
-    Calendar c = Calendar.getInstance();
-         SimpleDateFormat dateformat = new SimpleDateFormat("YYYY-MM-DD hh:mm");
-         String datetimet = dateformat.format(c.getTime());
 }

@@ -35,7 +35,6 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class Adicionar_deposito_Activity extends AppCompatActivity {
-    Calendar data;
     String recorrencia="Nenhuma";
     boolean cliclou=false;
     Date date = new Date();
@@ -54,8 +53,7 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         descricao=(EditText) findViewById(R.id.et_descricao_despodito);
        valor=(EditText) findViewById(R.id.et_valor_deposito);
        datainicio=(EditText) findViewById(R.id.et_data_inicio_despesa);
-        data=Calendar.getInstance();
-        datainicio.setText(DateFormat.getDateInstance().format(date));
+        datainicio.setHint(DateFormat.getDateInstance().format(date));
 
         data_inicio=(ImageView) findViewById(R.id.iv_data_inicio);
        data_inicio.setOnClickListener(new View.OnClickListener() {

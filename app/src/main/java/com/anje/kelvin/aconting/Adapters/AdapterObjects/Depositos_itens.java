@@ -1,5 +1,7 @@
 package com.anje.kelvin.aconting.Adapters.AdapterObjects;
 
+import java.util.Date;
+
 /**
  * Created by sala on 26-02-2018.
  */
@@ -7,9 +9,9 @@ package com.anje.kelvin.aconting.Adapters.AdapterObjects;
 public class Depositos_itens {
     String descricao,tipo;
     double valor;
-    String data;
+    Date data;
 
-    public Depositos_itens(String descricao, String tipo, double valor, String data) {
+    public Depositos_itens(String descricao, String tipo, double valor, Date data) {
         this.descricao = descricao;
         this.tipo = tipo;
         this.valor = valor;
@@ -40,11 +42,11 @@ public class Depositos_itens {
         this.valor = valor;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 }

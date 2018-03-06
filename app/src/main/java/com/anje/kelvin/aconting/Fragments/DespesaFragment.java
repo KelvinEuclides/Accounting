@@ -63,7 +63,7 @@ public class DespesaFragment extends Fragment {
         List<Despesa_db> despesa= realm.where(Despesa_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
         if (despesa.size()>0) {
             for (int i = 0; i < despesa.size(); i++) {
-                Depositos_itens transacao = new Depositos_itens(despesa.get(i).getDescricao(),"Deposito",despesa.get(i).getValor(),"Hoje");
+                Depositos_itens transacao = new Depositos_itens(despesa.get(i).getDescricao(),"Deposito",despesa.get(i).getValor(),despesa.get(i).getDia());
                 lista.add(transacao);
             }
 

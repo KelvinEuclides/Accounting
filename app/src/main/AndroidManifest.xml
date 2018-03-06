@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anje.kelvin.aconting">
 
-
     <application
         android:name="com.anje.kelvin.accontingapp.Classes.MyApplication"
         android:allowBackup="true"
@@ -60,15 +59,6 @@
             android:label="Relatorio de Renda"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Operacoes.Estoque_Activity"
-            android:label="Gerir Estoque"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.MainActivity" />
-        </activity>
-        <activity
             android:name=".Operacoes.TransicoesActivity"
             android:label="Transacoes"
             android:parentActivityName=".MainActivity"
@@ -89,7 +79,16 @@
         <activity
             android:name=".Relatorio_de_Transicoes_Activity"
             android:label="@string/title_activity_relatorio_de__transicoes_"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Gerir_estoque"
+            android:label="@string/title_activity_gerir_estoque"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

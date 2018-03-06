@@ -1,6 +1,8 @@
 
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.icu.text.DateFormat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +36,13 @@ public class AdapterDepositos extends RecyclerView.Adapter<AdapterDepositos.View
         return new ViewHolder(v);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Depositos_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
-        holder.data.setText(transacao.getData());
+        holder.data.setText(DateFormat.getDateInstance().format(transacao.getData()));
         holder.icone.setImageResource(R.drawable.dinheiro_dento);
 
 

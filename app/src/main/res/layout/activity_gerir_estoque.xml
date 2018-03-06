@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anje.kelvin.aconting.Operacoes.Add_item_Activity">
+    tools:context="com.anje.kelvin.aconting.Gerir_estoque">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,18 +20,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_add_item_" />
+    <include layout="@layout/content_estoque_" />
 
     <Button
-        android:id="@+id/bt_item_adicionar3"
+        android:id="@+id/add_item_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
-        android:text="Salvar"
-        android:textColor="@color/cardview_light_background" />
-
+        android:text="Adicionar item ao estoque"
+        android:textColor="@android:color/background_light" />
 
 </android.support.design.widget.CoordinatorLayout>
