@@ -2,6 +2,7 @@
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +19,7 @@ import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.R;
 
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -57,7 +58,7 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder builder =new AlertDialog.Builder(context);
-                LayoutInflater inflater;
+                final LayoutInflater inflater;
                 inflater = LayoutInflater.from(context);
                 final View dialogView=inflater.inflate(R.layout.dialogomodificar,null);
                 builder.setView(dialogView);
@@ -66,37 +67,38 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
                 editar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder builder2 =new AlertDialog.Builder(context);
-                        LayoutInflater inflater1=LayoutInflater.from(context);
-                        final View dalogView1=inflater1.inflate(R.layout.dialogoeditar,null);
-                        builder2.setView(dalogView1);
+                        Dialog builder2 =new Dialog(context);
+                        builder2.setTitle("Adicionar item Ao Estoque");
+                        builder2.setCancelable(true);
+                        builder2.setContentView(R.layout.dialogoeditar);
 
-                        final EditText nomeitem1=(EditText) dalogView1.findViewById(R.id.et_dialog_editar_nomep);
+                        final EditText nomeitem1=(EditText) builder2.findViewById(R.id.et_dialog_editar_nomep);
                         nomeitem1.setText(stock.getNomeItem());
-                        final EditText precoUnidade1=(EditText) dalogView1.findViewById(R.id.et_dialog_preco_venda);
-                        precoUnidade1.setText(stock.getPreco());
-                        final TextView Categoria=(TextView) dalogView1.findViewById(R.id.tv_dialogo_unidademedida);
-                        final Spinner categoria1=(Spinner) dalogView1.findViewById(R.id.sp_dialogo_unidademedida);
+                        final EditText preco1=(EditText) builder2.findViewById(R.id.et_dialog_preco);
+                        preco1.setText(stock.getPreco());
+                       final  EditText quantidade=(EditText) builder2.findViewById(R.id.et_quantidade);
+                       quantidade.setText(stock.getNumitem());
+                       final Button salvar=(Button) builder2.findViewById(R.id.bt_salvar_alteracoes);
+                       try {
+                           salvar.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View v) {
+                                   Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
+                                   item.setPreco(Double.parseDouble(preco1.getText().toString()));
+                                   if(Integer.parseInt(quantidade.getText().toString())>=item.getNum_item()){
+                                       item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
+                                   }
 
-                        builder2.setPositiveButton("Aplicar Alteracoes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                                   item.setNome_Item(nomeitem1.getText().toString());
+                                   realm.commitTransaction();
+                                   realm.copyToRealmOrUpdate(item);
+                                   realm.commitTransaction();
+                               }
+                           });
+                       }catch (Exception e){
 
-                                Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
-                                item.setPrecoUnidade(Double.parseDouble(precoUnidade1.getText().toString()));
-                                item.setNome_Item(nomeitem1.getText().toString());
-                                realm.commitTransaction();
-                                realm.copyToRealmOrUpdate(item);
-                                realm.commitTransaction();
+                       }
 
-                            }
-                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        builder2.create();
                         builder2.show();
 
 
@@ -164,6 +166,7 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
            preco=(TextView) view.findViewById(R.id.tv_item_precoun);
            modificar=(Button) view.findViewById(R.id.bt_item_modificar);
         }
+       Date date=new Date();
 
 
 

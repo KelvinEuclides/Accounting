@@ -20,7 +20,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_estoque_" />
+    <include
+        layout="@layout/content_estoque_"
+        android:layout_height="407dp" />
 
     <Button
         android:id="@+id/add_item_stock"
