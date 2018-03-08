@@ -69,7 +69,7 @@ public class Conta extends RealmObject {
     }
 
     public void adicionar_item(double val){
-        saldo_conta+=val;
+        saldo_conta-=val;
     }
     public void adicionar_deposito(double val){
         saldo_conta+=val;

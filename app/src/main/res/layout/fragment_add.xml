@@ -157,5 +157,18 @@
             app:layout_constraintTop_toBottomOf="@+id/et_nome_item"
             app:layout_constraintVertical_bias="0.0" />
 
+        <Button
+            android:id="@+id/bt_vender"
+            android:layout_width="387dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimary"
+            android:text="Vender"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_item_quantidade" />
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

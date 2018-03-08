@@ -1,6 +1,7 @@
 package com.anje.kelvin.aconting.Operacoes;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,9 +52,8 @@ public class Venda_Activity extends AppCompatActivity {
         saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
         itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
         venda = new Venda();
-        Intent i=getIntent();
+        final Intent i=getIntent();
         if (i != null){
-            vid =  i.getStringExtra("id");
             venda=realm.where(Venda.class).equalTo("venda",vid).findFirst();
         }else {
 
@@ -103,45 +103,30 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    RecyclerView.Adapter ada;
+                    AdapterVenda ada;
                     List<Stock> lista= new ArrayList<Stock>();
-                    FrameLayout f1=(FrameLayout)findViewById(R.id.fra_vender);
-                    AlertDialog.Builder builder=new AlertDialog.Builder(Venda_Activity.this);
-                    LayoutInflater inflater=getLayoutInflater();
-                    RecyclerView recycler=(RecyclerView) findViewById(R.id.rv_itm);
-                    Realm realm = Realm.getDefaultInstance();
-                    try {
-                        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                        List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
-                        if (item.size() > 0) {
-                            for (int i = 0; i < item.size(); i++) {
-                                Stock stock = new Stock(item.get(i).getNome_Item() + "", item.get(i).getNum_item() + "",
-                                        item.get(i).getItens_disponiveis() + "", item.get(i).getPreco() + "Mzn");
-                                lista.add(stock);
-                            }
-                        }
-
-
-                    } finally {
-
+                    final Dialog builder=new Dialog(Venda_Activity.this);
+                    builder.setContentView(R.layout.layout);
+                    builder.setTitle("Sececione Item Para venda");
+                    RecyclerView recyclerView=(RecyclerView) builder.findViewById(R.id.rv_itm);
+                    Button button=(Button) builder.findViewById(R.id.bt_concluir);
+                    Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                    List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                    for (int i = 0; i < item.size(); i++) {
+                        Stock stock = new Stock(item.get(i).getNome_Item() + "", item.get(i).getNum_item() + "",
+                                item.get(i).getItens_disponiveis() + "", item.get(i).getPrecoUnidade() + "Mzn");
+                        lista.add(stock);
                     }
-
-
-                    ada = new AdapterVenda(lista,Venda_Activity.this, vid);
-                    recycler.setAdapter(ada);
-                    builder.setTitle("Escolhe o item Que deseja vender").setPositiveButton("Vender", new DialogInterface.OnClickListener() {
+                    ada=new AdapterVenda(lista,Venda_Activity.this,vid);
+                    recyclerView.setAdapter(ada);
+                    button.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
+                        public void onClick(View v) {
+                            builder.cancel();
                         }
                     });
-                    builder.setView(inflater.inflate(R.layout.layout,f1,false));
-                    builder.create().show();
+                    builder.show();
+
                 }
             });
         } finally {

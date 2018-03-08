@@ -8,18 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
-import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDespesa;
-import com.anje.kelvin.aconting.Adapters.AdapterObjects.ReDespesa;
-import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
-import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.R;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import io.realm.Realm;
-
 public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
