@@ -30,7 +30,6 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
     TextView datainicio,datafim;
     TextView saldo;
     Date hoje =new Date();
-    Date diainicial=new Date();
 
     @SuppressLint("NewApi")
     @Override
@@ -38,8 +37,7 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relatorio_de_despesas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Date date=new Date();
-        Date d=new Date((date.getTime()-24*24*600*1000)-6*24*3600*1000);
+        Date d=new Date((hoje.getTime()-24*24*600*1000)-6*24*3600*1000);
         setSupportActionBar(toolbar);
         datainicio= (TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
         datafim=(TextView) findViewById(R.id.tv_id_re_despesas_data_fim);
@@ -64,7 +62,7 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
       try {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            List<Despesa_db> despesa_dbs=realm.where(Despesa_db.class).equalTo("id_usuario",conta.getId_usuario()).between("dia",d,date).findAll();
+            List<Despesa_db> despesa_dbs=realm.where(Despesa_db.class).equalTo("id_usuario",conta.getId_usuario()).between("dia",d,hoje).findAll();
 
             if (despesa_dbs.size()>0){
                 for (int i=0;i<despesa_dbs.size();i++){

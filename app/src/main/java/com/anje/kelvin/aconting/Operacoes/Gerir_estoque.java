@@ -1,4 +1,4 @@
-package com.anje.kelvin.aconting;
+package com.anje.kelvin.aconting.Operacoes;
 
 import android.app.Dialog;
 import android.app.Notification;
@@ -21,6 +21,8 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.R;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -127,7 +129,7 @@ public class Gerir_estoque extends AppCompatActivity {
                         item.get(i).getItens_disponiveis()+"",item.get(i).getPrecoUnidade()+"Mzn");
                 if(item.get(i).getNum_item()<5){
                     Notification mBuilder = new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.conta_laranja)
+                            .setSmallIcon(R.drawable.conta_azul)
                             .setContentTitle("Alerta")
                             .setContentText("Tem menos que 5 Unidades de  "+item.get(i).getNome_Item())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)

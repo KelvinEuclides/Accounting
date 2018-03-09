@@ -1,20 +1,17 @@
-package com.anje.kelvin.aconting;
+package com.anje.kelvin.aconting.Relatorios;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
-import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Despesas_Activity;
+import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
 import java.util.Date;

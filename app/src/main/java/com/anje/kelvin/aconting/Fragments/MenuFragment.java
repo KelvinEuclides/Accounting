@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
-import com.anje.kelvin.aconting.Gerir_estoque;
+import com.anje.kelvin.aconting.Operacoes.Gerir_estoque;
 import com.anje.kelvin.aconting.Operacoes.RelatorioActivity;
 import com.anje.kelvin.aconting.Operacoes.Venda_Activity;
 import com.anje.kelvin.aconting.Operacoes.TransicoesActivity;

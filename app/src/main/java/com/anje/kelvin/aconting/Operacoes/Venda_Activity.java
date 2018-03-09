@@ -1,9 +1,7 @@
 package com.anje.kelvin.aconting.Operacoes;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +20,6 @@ import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterVenda;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
-import com.anje.kelvin.aconting.Gerir_estoque;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;

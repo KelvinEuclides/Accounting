@@ -38,7 +38,7 @@ public class AdapterRelatoriosDespesas extends RecyclerView.Adapter<AdapterRelat
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Relatorio relatorio=mValues.get(position);
-        holder.data.setText(DateFormat.getDateInstance().format(relatorio.getDate()));
+        holder.data.setText(relatorio.getDate());
         holder.discricao.setText(relatorio.getDescricao());
         holder.preco.setText(relatorio.getPreco()+"MZN");
     }

@@ -5,9 +5,9 @@
     <application
         android:name="com.anje.kelvin.accontingapp.Classes.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/iconeapp"
         android:label="Pakitini"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/iconeapp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -41,7 +41,6 @@
             android:label="Relatorios"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Relatorios.RelatoriodeactividadesActivity" />
-        <activity android:name=".Relatorios.RelatoriodeDespesas" />
         <activity
             android:name=".Relatorios.Relatorio_de_Despesas_Activity"
             android:label="Relatorio de Despesas"
@@ -68,20 +67,11 @@
                 android:value="com.anje.kelvin.aconting.MainActivity" />
         </activity>
         <activity
-            android:name=".Operacoes.Itens_venda_Activity"
-            android:label="Itens Venda"
-            android:parentActivityName=".Operacoes.Venda_Activity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.Operacoes.Venda_Activity" />
-        </activity>
-        <activity
-            android:name=".Relatorio_de_Transicoes_Activity"
+            android:name=".Relatorios.Relatorio_de_Transicoes_Activity"
             android:label="@string/title_activity_relatorio_de__transicoes_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Gerir_estoque"
+            android:name=".Operacoes.Gerir_estoque"
             android:label="@string/title_activity_gerir_estoque"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anje.kelvin.aconting.Relatorio_de_Transicoes_Activity">
+    tools:context="com.anje.kelvin.aconting.Relatorios.Relatorio_de_Transicoes_Activity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
