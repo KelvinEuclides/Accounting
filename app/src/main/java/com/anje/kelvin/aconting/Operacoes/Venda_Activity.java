@@ -102,19 +102,9 @@ public class Venda_Activity extends AppCompatActivity {
                     AdapterVenda ada;
                     List<Stock> lista= new ArrayList<Stock>();
                     final Dialog builder=new Dialog(Venda_Activity.this);
-                    builder.setContentView(R.layout.layout);
+                    builder.setContentView(R.layout.itensvenda);
                     builder.setTitle("Sececione Item Para venda");
-                    RecyclerView recyclerView=(RecyclerView) builder.findViewById(R.id.rv_itm);
                     Button button=(Button) builder.findViewById(R.id.bt_concluir);
-                    Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                    List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
-                    for (int i = 0; i < item.size(); i++) {
-                        Stock stock = new Stock(item.get(i).getNome_Item() + "", item.get(i).getNum_item() + "",
-                                item.get(i).getItens_disponiveis() + "", item.get(i).getPrecoUnidade() + "Mzn");
-                        lista.add(stock);
-                    }
-                    ada=new AdapterVenda(lista,Venda_Activity.this,vid);
-                    recyclerView.setAdapter(ada);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -1,4 +1,4 @@
-package com.anje.kelvin.aconting.Operacoes;
+package com.anje.kelvin.aconting;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
-import com.anje.kelvin.aconting.MainActivity;
-import com.anje.kelvin.aconting.R;
 
 import java.util.Date;
 

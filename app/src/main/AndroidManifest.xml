@@ -46,7 +46,7 @@
             android:label="Relatorio de Despesas"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Operacoes.RegistrarActivity"
+            android:name=".RegistrarActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".Login_Activity">
             <meta-data

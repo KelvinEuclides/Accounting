@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
-import com.anje.kelvin.aconting.Operacoes.RegistrarActivity;
 
 import io.realm.Realm;
 
