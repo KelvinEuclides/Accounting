@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.anje.kelvin.aconting.Operacoes.RelatorioActivity"
-    tools:showIn="@layout/activity relatorios">
+    tools:showIn="@layout/activity_relatorios">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imagemdeposito"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
@@ -40,18 +40,18 @@
                         app:srcCompat="@drawable/por" />
 
                     <TextView
-                        android:id="@+id/aassd"
+                        android:id="@+id/textorelatorios"
                         android:layout_width="285dp"
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Relatorios"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toEndOf="@+id/imagemdeposito"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/textorelatorios1"
                         android:layout_width="271dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -61,8 +61,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.275"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toBottomOf="@+id/aassd"
+                        app:layout_constraintStart_toEndOf="@+id/imagemdeposito"
+                        app:layout_constraintTop_toBottomOf="@+id/textorelatorios"
                         app:layout_constraintVertical_bias="0.272" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -82,7 +82,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imagemrelatoriovendas"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
@@ -91,21 +91,21 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/compra" />
+                        app:srcCompat="@drawable/por" />
 
                     <TextView
-                        android:id="@+id/aassd"
+                        android:id="@+id/textorelatoriovendas"
                         android:layout_width="285dp"
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Relatorio de Vendas"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriovendas"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/textorelatoriovendas1"
                         android:layout_width="271dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -115,8 +115,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.275"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toBottomOf="@+id/aassd"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriovendas"
+                        app:layout_constraintTop_toBottomOf="@+id/textorelatoriovendas"
                         app:layout_constraintVertical_bias="0.272" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -136,7 +136,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imagemrelatoriodespesas"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
@@ -145,21 +145,21 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/depositos" />
+                        app:srcCompat="@drawable/por" />
 
                     <TextView
-                        android:id="@+id/aassd"
+                        android:id="@+id/textorelatoriodespesas"
                         android:layout_width="285dp"
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Relatorios de Despesas"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriodespesas"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/textorelatoriodespesas1"
                         android:layout_width="271dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -169,8 +169,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.275"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toBottomOf="@+id/aassd"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriodespesas"
+                        app:layout_constraintTop_toBottomOf="@+id/textorelatoriodespesas"
                         app:layout_constraintVertical_bias="0.272" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -189,7 +189,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imagemrelatoriorenda"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
@@ -198,21 +198,21 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/recibos" />
+                        app:srcCompat="@drawable/por" />
 
                     <TextView
-                        android:id="@+id/aassd"
+                        android:id="@+id/textorelatoriorenda"
                         android:layout_width="285dp"
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Relatorios de Renda"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriorenda"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/textorelatoriorenda1"
                         android:layout_width="271dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -222,8 +222,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.275"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toBottomOf="@+id/aassd"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriorenda"
+                        app:layout_constraintTop_toBottomOf="@+id/textorelatoriorenda"
                         app:layout_constraintVertical_bias="0.272" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -242,7 +242,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/imagemrelatoriofluxo"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
@@ -251,21 +251,21 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/compra" />
+                        app:srcCompat="@drawable/por" />
 
                     <TextView
-                        android:id="@+id/aassd"
+                        android:id="@+id/textorelatoriofluxo"
                         android:layout_width="285dp"
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Relatorios de fluxo de caixa"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toEndOf="@+id/imagemrelatoriofluxo"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/textorelatoriofluxo1"
                         android:layout_width="271dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"

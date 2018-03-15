@@ -48,11 +48,7 @@
         <activity
             android:name=".RegistrarActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".Login_Activity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.Login_Activity" />
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Relatorios.Relatorio_de_renda_Activity"
             android:label="Relatorio de Renda"
