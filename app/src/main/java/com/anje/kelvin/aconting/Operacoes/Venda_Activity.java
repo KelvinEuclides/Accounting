@@ -103,6 +103,7 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Item man=realm.where(Item.class).findFirst();
                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
                     Realm realm = Realm.getDefaultInstance();
                     Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
@@ -113,14 +114,37 @@ public class Venda_Activity extends AppCompatActivity {
                     final Dialog builder=new Dialog(Venda_Activity.this);
                     builder.setContentView(R.layout.itensvenda);
                     builder.setTitle("Sececione Item Para venda");
-                    ListView listView=(ListView) builder.findViewById(R.id.listaitens);
+                    final ListView listView=(ListView) builder.findViewById(R.id.listaitens);
+                    listView.setAdapter(arrayAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Dialog builder=new Dialog(Venda_Activity.this);
+                            Realm realm = Realm.getDefaultInstance();
+                            Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                            Item item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findFirst();
+                            builder.setTitle(item.getNome_Item());
+                            builder.setCancelable(true);
+                            builder.setContentView(R.layout.dialogoitemavender);
+                            TextView nome=(TextView) builder.findViewById(R.id.et_vender_nome);
+                            TextView preco=(TextView) builder.findViewById(R.id.et_vender_preco);
+                            TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
+                            try{
+                                nome.setText(item.getNome_Item());
+                                preco.setText(item.getPreco()+" MZN");
+                                quantidade.setText(item.getItens_disponiveis());
+                            }catch (Exception e){
+
+                            }
+
+                            builder.show();
+
+
+
+
 
                         }
                     });
-                    listView.setAdapter(arrayAdapter);
 
                     Button button=(Button) builder.findViewById(R.id.bt_concluir);
                     button.setOnClickListener(new View.OnClickListener() {

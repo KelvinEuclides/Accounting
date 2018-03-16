@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
@@ -103,6 +104,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
                     despesa_db.setId_usuario(conta.getId_usuario());
                     despesa_db.setDia(new Date());
                     despesa_db.setRecorrencia(recorrencia);
+
                     if(valor.getText().toString().equals("")){
                         AlertDialog.Builder valor_d=new AlertDialog.Builder(Adicionar_despesaActivity.this);
                         valor_d.setMessage("Nao pode Adicionar despesa sem Descricao").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -121,9 +123,15 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
                     if (recorrencia.equals("Fixa")){
 
                     }
+                    Transacao_db transacao_db=new Transacao_db();
+                    transacao_db.setId_usuario(despesa_db.getId_usuario());
+                    transacao_db.setDescricao(despesa_db.getDescricao());
+                    transacao_db.setDia(despesa_db.getDia());
+                    transacao_db.setValor(despesa_db.getValor());
                     realm.beginTransaction();
                     conta.adicionar_despesa(valorr);
                     realm.copyToRealm(despesa_db);
+                    realm.copyToRealm(transacao_db);
                     realm.commitTransaction();
                     AlertDialog.Builder sair=new AlertDialog.Builder(Adicionar_despesaActivity.this);
                     sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -141,7 +149,7 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
 
             }
         });
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }

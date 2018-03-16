@@ -34,7 +34,6 @@
             android:name=".Operacoes.Venda_Activity"
             android:label="Vender"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Operacoes.Adicionar_item_venda_Activity" />
         <activity
             android:name=".Operacoes.RelatorioActivity"
             android:label="Relatorios"

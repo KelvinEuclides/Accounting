@@ -120,9 +120,8 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
                         Transacao_db transacao_db=new Transacao_db();
                         transacao_db.setId_usuario(deposito_dp.getId_usuario());
                         transacao_db.setDescricao(deposito_dp.getDescricao());
-                        transacao_db.setDescricao(deposito_dp.getDescricao());
                         transacao_db.setDia(deposito_dp.getDia());
-                        transacao_db.setDia(deposito_dp.getDia());
+                        transacao_db.setValor(deposito_dp.getValor());
                         realm.beginTransaction();
                         conta.adicionar_deposito(Double.parseDouble(valor.getText().toString()));
                         realm.copyToRealm(deposito_dp);

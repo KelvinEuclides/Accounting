@@ -1,15 +1,18 @@
 package com.anje.kelvin.aconting.Adapters.AdapterObjects;
 
+import java.util.Date;
+
 /**
  * Created by sala on 28-02-2018.
  */
 
 public class Relatorio {
     String Descricao;
-    String Date;
+    Date Date;
     double preco;
+    private Date dia;
 
-    public Relatorio(String descricao, String date, double preco) {
+    public Relatorio(String descricao, java.util.Date date, double preco) {
         Descricao = descricao;
         Date = date;
         this.preco = preco;
@@ -23,11 +26,11 @@ public class Relatorio {
         Descricao = descricao;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return Date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         Date = date;
     }
 
@@ -37,5 +40,9 @@ public class Relatorio {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public Date getDia() {
+        return dia;
     }
 }

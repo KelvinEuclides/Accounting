@@ -34,8 +34,9 @@ public class MainActivity extends FragmentActivity {
                     return true;
                 case R.id.navigation_dashboard:
                     viewPager.setCurrentItem(1);
+                    return true;
                 case R.id.navigation_estatisticas:
-                    viewPager.setCurrentItem(2);
+                    viewPager.setCurrentItem(3);
 
 
                     return true;

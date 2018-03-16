@@ -64,6 +64,7 @@ public class login extends AppCompatActivity {
                         Intent intent=new Intent(login.this,MainActivity.class);
                         startActivity(intent);
                     }else {
+                        int i;
                         Snackbar.make(view, "Password Ou Numero de Telemovel Errados", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();}
                 }catch (Exception e){

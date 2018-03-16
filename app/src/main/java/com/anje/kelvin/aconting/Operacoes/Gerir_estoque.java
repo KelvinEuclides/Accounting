@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,7 +54,6 @@ public class Gerir_estoque extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Dialog builder=new Dialog(Gerir_estoque.this);
-                final LayoutInflater inflater=getLayoutInflater();
                 builder.setTitle("Adicionar item Ao Estoque");
                 builder.setCancelable(true);
                 builder.setContentView(R.layout.fragment_add);

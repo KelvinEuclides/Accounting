@@ -1,5 +1,6 @@
 package com.anje.kelvin.aconting.Relatorios;
 
+import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.R;
 
@@ -28,7 +30,8 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
     TextView datainicio,datafim;
     TextView saldo;
     Date hoje =new Date();
-    Date diainicial=new Date();
+    Date d=new Date((hoje.getTime()-24*24*600*1000)-6*24*3600*1000);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +53,13 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
         try {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            List<Transacao_db> item=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
-            if (item.size()>0){
-                for (int i=0;i<item.size();i++){
-                    Relatorio relatorio=new Relatorio(item.get(i).getDescricao(),"28/02/2018",item.get(i).getValor());
+            List<Transacao_db> transacao =realm.where(Transacao_db.class).findAll();
+            if (transacao.size()>0 ){
+                for (int i=0;i<transacao.size();i++){
+                    Transacao_db item1=transacao.get(i);
+                    Relatorio relatorio=new Relatorio(item1.getDescricao(),item1.getDia(),item1.getValor());
                     lista.add(relatorio);
-                    v = v+item.get(i).getValor();
+                    v = v+transacao.get(i).getValor();
 
                 }
                 total=v;

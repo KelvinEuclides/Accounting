@@ -75,7 +75,8 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/reladorio_de_vendas"
                 android:layout_width="match_parent"
-                android:layout_height="89dp">
+                android:layout_height="89dp"
+                android:visibility="gone">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -124,7 +125,8 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="10dp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/reladorio_de_despesa_diaria"
@@ -175,13 +177,17 @@
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:visibility="gone" />
+
             <android.support.v7.widget.CardView
                 android:id="@+id/relatorio_de_renda"
                 android:layout_width="match_parent"
-                android:layout_height="89dp">
+                android:layout_height="89dp"
+                android:visibility="gone">
 
 
                 <android.support.constraint.ConstraintLayout
@@ -281,14 +287,17 @@
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="10dp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/relatorio_de_renda_diaria"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
 
                 <android.support.constraint.ConstraintLayout

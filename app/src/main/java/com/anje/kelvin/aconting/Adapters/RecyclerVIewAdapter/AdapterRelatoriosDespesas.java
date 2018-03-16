@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.R;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class AdapterRelatoriosDespesas extends RecyclerView.Adapter<AdapterRelat
     List<Relatorio> mValues;
     Context context;
 
-    public AdapterRelatoriosDespesas(List<Relatorio> mValues, Context context) {
+   public AdapterRelatoriosDespesas(List<Relatorio> mValues, Context context) {
         this.mValues = mValues;
         this.context = context;
     }
@@ -38,7 +39,7 @@ public class AdapterRelatoriosDespesas extends RecyclerView.Adapter<AdapterRelat
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Relatorio relatorio=mValues.get(position);
-        holder.data.setText(relatorio.getDate());
+        holder.data.setText(DateFormat.getDateInstance().format(relatorio.getDate()));
         holder.discricao.setText(relatorio.getDescricao());
         holder.preco.setText(relatorio.getPreco()+"MZN");
     }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.R;
@@ -63,10 +64,11 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
             List<Despesa_db> despesa_dbs=realm.where(Despesa_db.class).equalTo("id_usuario",conta.getId_usuario()).between("dia",d,hoje).findAll();
+            List<Deposito_db> deposito_dbs=realm.where(Deposito_db.class).equalTo("id_usuario",conta.getId_usuario()).between("dia",d,hoje).findAll();
 
-            if (despesa_dbs.size()>0){
+            if (despesa_dbs.size()>0||despesa_dbs.size()>0){
                 for (int i=0;i<despesa_dbs.size();i++){
-                   Relatorio relatorio=new Relatorio(despesa_dbs.get(i).getDescricao(),DateFormat.getDateInstance().format(despesa_dbs.get(i).getDia()),despesa_dbs.get(i).getValor());
+                   Relatorio relatorio=new Relatorio(despesa_dbs.get(i).getDescricao(),despesa_dbs.get(i).getDia(),despesa_dbs.get(i).getValor());
                    lista.add(relatorio);
                     v = v+despesa_dbs.get(i).getValor();
 

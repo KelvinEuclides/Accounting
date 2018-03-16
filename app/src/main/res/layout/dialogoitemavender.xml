@@ -11,17 +11,18 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="23dp"
         android:layout_marginTop="24dp"
-        android:text="Nome " />
+        android:text="Nome "
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/et_vender_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView14"
         android:layout_alignBottom="@+id/textView14"
         android:layout_marginStart="22dp"
         android:layout_toEndOf="@+id/textView14"
-        android:text="nome do item" />
+        android:text="aaaa" />
 
     <TextView
         android:id="@+id/textView51"
@@ -30,10 +31,11 @@
         android:layout_alignStart="@+id/textView14"
         android:layout_below="@+id/textView14"
         android:layout_marginTop="15dp"
-        android:text="Preco" />
+        android:text="Preco"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView52"
+        android:id="@+id/et_vender_preco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView51"
@@ -42,41 +44,42 @@
         android:text="00mzn" />
 
     <TextView
-        android:id="@+id/textView53"
+        android:id="@+id/quantidade_txto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView52"
-        android:layout_alignBottom="@+id/textView52"
-        android:layout_marginStart="41dp"
-        android:layout_toEndOf="@+id/textView52"
-        android:text="Quntidade disponivel" />
+        android:layout_above="@+id/textView56"
+        android:layout_marginStart="34dp"
+        android:layout_toEndOf="@+id/et_vender_nome"
+        android:text="Qtd:0"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView53"
-        android:layout_alignBottom="@+id/textView53"
-        android:layout_marginStart="23dp"
-        android:layout_toEndOf="@+id/textView53"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView55"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView51"
         android:layout_below="@+id/textView51"
         android:layout_marginTop="22dp"
-        android:text="Quantidade de itens que deseja vender" />
+        android:text="Quantidade de itens que deseja vender"
+        android:id="@+id/textView56" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/et_vender_quantidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView55"
-        android:layout_below="@+id/textView55"
-        android:layout_marginTop="23dp"
+        android:layout_alignStart="@+id/textView56"
+        android:layout_below="@+id/textView56"
+        android:layout_marginTop="25dp"
         android:ems="10"
         android:inputType="phone" />
+
+    <Button
+        android:id="@+id/bt_adicionar_item_v"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/et_vender_quantidade"
+        android:layout_marginTop="21dp"
+        android:background="@color/colorPrimary"
+        android:text="Adicionar"
+        android:textColor="@color/icons" />
 </RelativeLayout>

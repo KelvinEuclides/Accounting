@@ -54,7 +54,7 @@ public class TransacaoitensFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             lista = new ArrayList<Transacao_itens>();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-            List<Transacao_db> transacao =realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+            List<Transacao_db> transacao =realm.where(Transacao_db.class).findAll();
             if (transacao.size()>0) {
                 for (int i = 0; i < transacao.size(); i++) {
                     Transacao_itens transacaoa = new Transacao_itens(transacao.get(i).getDescricao(),transacao.get(i).getCategoria(),transacao.get(i).getValor(),transacao.get(i).getDia());
