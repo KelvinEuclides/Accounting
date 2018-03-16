@@ -2,6 +2,7 @@ package com.anje.kelvin.aconting.Operacoes;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
@@ -99,11 +103,25 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AdapterVenda ada;
-                    List<Stock> lista= new ArrayList<Stock>();
+                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
+                    Realm realm = Realm.getDefaultInstance();
+                    Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+                    List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                    for(int i=0;i<item.size();i++){
+                        arrayAdapter.add(item.get(i).getNome_Item());
+                    }
                     final Dialog builder=new Dialog(Venda_Activity.this);
                     builder.setContentView(R.layout.itensvenda);
                     builder.setTitle("Sececione Item Para venda");
+                    ListView listView=(ListView) builder.findViewById(R.id.listaitens);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        }
+                    });
+                    listView.setAdapter(arrayAdapter);
+
                     Button button=(Button) builder.findViewById(R.id.bt_concluir);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override

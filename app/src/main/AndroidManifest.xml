@@ -3,7 +3,6 @@
     package="com.anje.kelvin.aconting">
 
     <application
-        android:name="com.anje.kelvin.accontingapp.Classes.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/iconeapp"
         android:label="Pakitini"

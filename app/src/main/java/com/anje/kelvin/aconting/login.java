@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by sala on 02-03-2018.
@@ -31,6 +32,12 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Realm.init(this);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
+                .name("Contablilidade")
+                .schemaVersion(0)
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
         Realm realm= Realm.getDefaultInstance();
         if(realm.where(Conta.class).equalTo("loggado",true).findFirst() != null){
             Intent intent=new Intent(login.this,MainActivity.class);
