@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterVenda;
@@ -39,6 +40,7 @@ public class Venda_Activity extends AppCompatActivity {
     public List<preco> lista;
     String vid;
     TextView saldo, itens;
+    Item item1;
     Realm realm= Realm.getDefaultInstance();
 
 
@@ -52,18 +54,8 @@ public class Venda_Activity extends AppCompatActivity {
         saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
         itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
         venda = new Venda();
-        final Intent i=getIntent();
-        if (i != null){
-            venda=realm.where(Venda.class).equalTo("venda",vid).findFirst();
-        }else {
-
-            Date hoje = new Date();
-            vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth();
-            venda.setVenda(vid);
-            realm.beginTransaction();
-            realm.copyToRealm(venda);
-            realm.commitTransaction();
-        }
+        Date hoje = new Date();
+        vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth();
         double v=0;
         int a=0;
         try{
@@ -105,7 +97,7 @@ public class Venda_Activity extends AppCompatActivity {
                 public void onClick(View view) {
                     Item man=realm.where(Item.class).findFirst();
                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
-                    Realm realm = Realm.getDefaultInstance();
+                    final Realm realm = Realm.getDefaultInstance();
                     Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
                     List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
                     for(int i=0;i<item.size();i++){
@@ -119,7 +111,7 @@ public class Venda_Activity extends AppCompatActivity {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Dialog builder=new Dialog(Venda_Activity.this);
+                            final Dialog builder=new Dialog(Venda_Activity.this);
                             Realm realm = Realm.getDefaultInstance();
                             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
                             Item item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findFirst();
@@ -129,13 +121,28 @@ public class Venda_Activity extends AppCompatActivity {
                             TextView nome=(TextView) builder.findViewById(R.id.et_vender_nome);
                             TextView preco=(TextView) builder.findViewById(R.id.et_vender_preco);
                             TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
+                            Button vender_items=(Button) builder.findViewById(R.id.bt_adicionar_item_va);
+                            item1=realm.where(Item.class).equalTo("nome_Item",arrayAdapter.getItem(position)).findFirst();
+                            final int p=position;
                             try{
-                                nome.setText(item.getNome_Item());
-                                preco.setText(item.getPreco()+" MZN");
-                                quantidade.setText(item.getItens_disponiveis());
+                                nome.setText(item1.getNome_Item());
+                                preco.setText(item1.getPreco()+" MZN");
+                                quantidade.setText(item1.getItens_disponiveis());
+
                             }catch (Exception e){
 
                             }
+                            vender_items.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                        Realm realm=Realm.getDefaultInstance();
+                                        realm.beginTransaction();
+                                        venda.setItems(realm.where(Item.class).equalTo("nome_Item",arrayAdapter.getItem(p)).findFirst(),1,10);
+                                        realm.commitTransaction();
+                                    builder.cancel();
+                                }
+                            });
 
                             builder.show();
 

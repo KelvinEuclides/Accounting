@@ -88,62 +88,67 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         salvaar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Realm realm=Realm.getDefaultInstance();
                 try {
-                    Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                    Deposito_db deposito_dp=new Deposito_db();
-                    deposito_dp.setDescricao(descricao.getText().toString());
-                    deposito_dp.setId_usuario(conta.getId_usuario());
-                    deposito_dp.setCategoria("Deposito");
-                    if (cliclou==true){
-                        deposito_dp.setDia(date);
-                    }else {
-                        deposito_dp.setDia(new Date());
-                    }
-                    deposito_dp.setRecorrencia("Nenhuma");
-                    if(valor.getText().toString().equals("")){
-                        AlertDialog.Builder builder=new AlertDialog.Builder(Adicionar_deposito_Activity.this);
-                        builder.setTitle("Aviso").setMessage("Nao pode Adicionar depositos com Valores nulos").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }
-                        });
 
-                        builder.show();
-
-                    }else {
-                        deposito_dp.setValor(Double.parseDouble(valor.getText().toString()));
-                        if (recorrencia.equals("Fixa")) {
-                            deposito_dp.setDia_fim(new Date());
+                    Realm realm = Realm.getDefaultInstance();
+                    try {
+                        Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                        Deposito_db deposito_dp = new Deposito_db();
+                        deposito_dp.setDescricao(descricao.getText().toString());
+                        deposito_dp.setId_usuario(conta.getId_usuario());
+                        deposito_dp.setCategoria("Deposito");
+                        if (cliclou == true) {
+                            deposito_dp.setDia(date);
+                        } else {
+                            deposito_dp.setDia(new Date());
                         }
-                        Transacao_db transacao_db=new Transacao_db();
-                        transacao_db.setId_usuario(deposito_dp.getId_usuario());
-                        transacao_db.setDescricao(deposito_dp.getDescricao());
-                        transacao_db.setDia(deposito_dp.getDia());
-                        transacao_db.setValor(deposito_dp.getValor());
-                        realm.beginTransaction();
-                        conta.adicionar_deposito(Double.parseDouble(valor.getText().toString()));
-                        realm.copyToRealm(deposito_dp);
-                        realm.copyToRealm(transacao_db);
-                        realm.commitTransaction();
-                        AlertDialog.Builder sair=new AlertDialog.Builder(Adicionar_deposito_Activity.this);
-                        sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent=new Intent(Adicionar_deposito_Activity.this,MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                        deposito_dp.setRecorrencia("Nenhuma");
+                        if (valor.getText().toString().equals("")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Adicionar_deposito_Activity.this);
+                            builder.setTitle("Aviso").setMessage("Nao pode Adicionar depositos com Valores nulos").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+
+                            builder.show();
+
+                        } else {
+                            deposito_dp.setValor(Double.parseDouble(valor.getText().toString()));
+                            if (recorrencia.equals("Fixa")) {
+                                deposito_dp.setDia_fim(new Date());
                             }
-                        });
-                        sair.show();
+                            Transacao_db transacao_db = new Transacao_db();
+                            transacao_db.setId_usuario(deposito_dp.getId_usuario());
+                            transacao_db.setDescricao(deposito_dp.getDescricao());
+                            transacao_db.setDia(deposito_dp.getDia());
+                            transacao_db.setValor(deposito_dp.getValor());
+                            realm.beginTransaction();
+                            conta.adicionar_deposito(Double.parseDouble(valor.getText().toString()));
+                            realm.copyToRealm(deposito_dp);
+                            realm.copyToRealm(transacao_db);
+                            realm.commitTransaction();
+                            AlertDialog.Builder sair = new AlertDialog.Builder(Adicionar_deposito_Activity.this);
+                            sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent(Adicionar_deposito_Activity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            sair.show();
 
+                        }
+                    } finally {
+                        realm.close();
                     }
-                }finally {
-                    realm.close();
+
+                }catch (Exception e){
+
                 }
-
-
             }
         });
 

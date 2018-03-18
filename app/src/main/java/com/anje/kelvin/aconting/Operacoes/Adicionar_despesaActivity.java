@@ -84,69 +84,73 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
         salvaar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Realm realm=Realm.getDefaultInstance();
                 try {
-                    Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                    Despesa_db despesa_db=new Despesa_db();
-                    if (descricao.getText().toString().equals("")){
-                        AlertDialog.Builder despesa=new AlertDialog.Builder(Adicionar_despesaActivity.this);
-                        despesa.setMessage("Nao pode Adicionar despesa sem Descricao").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }
-                        });
-                        despesa.show();
-                    }else {
-                        despesa_db.setDescricao(descricao.getText().toString());
-                    }
-                    despesa_db.setCategoria("Deposito");
-                    despesa_db.setId_usuario(conta.getId_usuario());
-                    despesa_db.setDia(new Date());
-                    despesa_db.setRecorrencia(recorrencia);
 
-                    if(valor.getText().toString().equals("")){
-                        AlertDialog.Builder valor_d=new AlertDialog.Builder(Adicionar_despesaActivity.this);
-                        valor_d.setMessage("Nao pode Adicionar despesa sem Descricao").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                    Realm realm = Realm.getDefaultInstance();
+                    try {
+                        Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                        Despesa_db despesa_db = new Despesa_db();
+                        if (descricao.getText().toString().equals("")) {
+                            AlertDialog.Builder despesa = new AlertDialog.Builder(Adicionar_despesaActivity.this);
+                            despesa.setMessage("Nao pode Adicionar despesa sem Descricao").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }
-                        });
-                        valor_d.show();
-                    }
-                    else{
-                        despesa_db.setValor(Double.parseDouble(valor.getText().toString()));
-                        valorr=Double.parseDouble(valor.getText().toString());
-                    }
-
-                    if (recorrencia.equals("Fixa")){
-
-                    }
-                    Transacao_db transacao_db=new Transacao_db();
-                    transacao_db.setId_usuario(despesa_db.getId_usuario());
-                    transacao_db.setDescricao(despesa_db.getDescricao());
-                    transacao_db.setDia(despesa_db.getDia());
-                    transacao_db.setValor(despesa_db.getValor());
-                    realm.beginTransaction();
-                    conta.adicionar_despesa(valorr);
-                    realm.copyToRealm(despesa_db);
-                    realm.copyToRealm(transacao_db);
-                    realm.commitTransaction();
-                    AlertDialog.Builder sair=new AlertDialog.Builder(Adicionar_despesaActivity.this);
-                    sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent=new Intent(Adicionar_despesaActivity.this,MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                                }
+                            });
+                            despesa.show();
+                        } else {
+                            despesa_db.setDescricao(descricao.getText().toString());
                         }
-                    });
-                    sair.show();
-                }finally {
-                    realm.close();
-                }
+                        despesa_db.setCategoria("Deposito");
+                        despesa_db.setId_usuario(conta.getId_usuario());
+                        despesa_db.setDia(new Date());
+                        despesa_db.setRecorrencia(recorrencia);
 
+                        if (valor.getText().toString().equals("")) {
+                            AlertDialog.Builder valor_d = new AlertDialog.Builder(Adicionar_despesaActivity.this);
+                            valor_d.setMessage("Nao pode Adicionar despesa sem Descricao").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            valor_d.show();
+                        } else {
+                            despesa_db.setValor(Double.parseDouble(valor.getText().toString()));
+                            valorr = Double.parseDouble(valor.getText().toString());
+                        }
+
+                        if (recorrencia.equals("Fixa")) {
+
+                        }
+                        Transacao_db transacao_db = new Transacao_db();
+                        transacao_db.setId_usuario(despesa_db.getId_usuario());
+                        transacao_db.setDescricao(despesa_db.getDescricao());
+                        transacao_db.setDia(despesa_db.getDia());
+                        transacao_db.setValor(despesa_db.getValor());
+                        realm.beginTransaction();
+                        conta.adicionar_despesa(valorr);
+                        realm.copyToRealm(despesa_db);
+                        realm.copyToRealm(transacao_db);
+                        realm.commitTransaction();
+                        AlertDialog.Builder sair = new AlertDialog.Builder(Adicionar_despesaActivity.this);
+                        sair.setMessage("Deposito efectuado Com Sucesso!").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Adicionar_despesaActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        sair.show();
+                    } finally {
+                        realm.close();
+                    }
+                }catch (Exception e){
+
+                }
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

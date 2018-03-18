@@ -53,66 +53,68 @@ public class Gerir_estoque extends AppCompatActivity {
         adicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog builder=new Dialog(Gerir_estoque.this);
-                builder.setTitle("Adicionar item Ao Estoque");
-                builder.setCancelable(true);
-                builder.setContentView(R.layout.fragment_add);
+                try {
+                    Dialog builder = new Dialog(Gerir_estoque.this);
+                    builder.setTitle("Adicionar item Ao Estoque");
+                    builder.setCancelable(true);
+                    builder.setContentView(R.layout.fragment_add);
 
-                final Realm realm=Realm.getDefaultInstance();
-                Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                descricao=(EditText) builder.findViewById(R.id.et_nome_item);
-                preco=(EditText) builder.findViewById(R.id.et_item_preco);
-                unidades=(RadioGroup) builder.findViewById(R.id.rg_unidade_medida);
-                precovenda=(EditText) builder.findViewById(R.id.item_preco_venda);
-                quantidade=(EditText) builder.findViewById(R.id.et_item_quantidade);
-                adiconar=(Button) builder.findViewById(R.id.bt_vender);
-                adiconar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Realm realm=Realm.getDefaultInstance();
-                        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                        Item item=new Item();
-                        item.setNome_Item(descricao.getText().toString());
-                        item.setUnidade_de_Medida("Unidade");
-                        item.setId_usuario(conta.getId_usuario());
-                        item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
-                        item.setItens_disponiveis(Integer.parseInt(quantidade.getText().toString()));
-                        item.setPreco(Double.parseDouble(preco.getText().toString()));
-                        item.setPrecoUnidade(Double.parseDouble(precovenda.getText().toString()));
-                        Despesa_db despesa_db=new Despesa_db();
-                        despesa_db.setCategoria("Compra");
-                        String medida;
-                        if (item.getUnidade_de_Medida().equals("Kg")){
-                            medida="kilogramas";
+                    final Realm realm = Realm.getDefaultInstance();
+                    Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                    descricao = (EditText) builder.findViewById(R.id.et_nome_item);
+                    preco = (EditText) builder.findViewById(R.id.et_item_preco);
+                    unidades = (RadioGroup) builder.findViewById(R.id.rg_unidade_medida);
+                    precovenda = (EditText) builder.findViewById(R.id.item_preco_venda);
+                    quantidade = (EditText) builder.findViewById(R.id.et_item_quantidade);
+                    adiconar = (Button) builder.findViewById(R.id.bt_vender);
+                    adiconar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Realm realm = Realm.getDefaultInstance();
+                            Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                            Item item = new Item();
+                            item.setNome_Item(descricao.getText().toString());
+                            item.setUnidade_de_Medida("Unidade");
+                            item.setId_usuario(conta.getId_usuario());
+                            item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
+                            item.setItens_disponiveis(Integer.parseInt(quantidade.getText().toString()));
+                            item.setPreco(Double.parseDouble(preco.getText().toString()));
+                            item.setPrecoUnidade(Double.parseDouble(precovenda.getText().toString()));
+                            Despesa_db despesa_db = new Despesa_db();
+                            despesa_db.setCategoria("Compra");
+                            String medida;
+                            if (item.getUnidade_de_Medida().equals("Kg")) {
+                                medida = "kilogramas";
+                            }
+                            if (item.getUnidade_de_Medida().equals("Litros")) {
+                                medida = "litros";
+                            } else {
+                                medida = "Unidades";
+                            }
+                            despesa_db.setDescricao("Compra de " + item.getNum_item() + " " + medida + " de " + item.getNome_Item());
+                            despesa_db.setValor(item.getPreco());
+                            despesa_db.setId_usuario(conta.getId_usuario());
+                            despesa_db.setDia(new Date());
+                            Transacao_db transacao_db = new Transacao_db();
+                            transacao_db.setValor(despesa_db.getValor());
+                            transacao_db.setDescricao(despesa_db.getDescricao());
+                            transacao_db.setDia(despesa_db.getDia());
+                            transacao_db.setCategoria("Compra");
+                            realm.beginTransaction();
+                            conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
+                            realm.copyToRealm(item);
+                            realm.copyToRealm(despesa_db);
+                            realm.copyToRealm(transacao_db);
+                            realm.commitTransaction();
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
                         }
-                        if (item.getUnidade_de_Medida().equals("Litros")){
-                            medida="litros";
-                        }
-                        else{
-                            medida="Unidades";
-                        }
-                        despesa_db.setDescricao("Compra de "+item.getNum_item()+" "+medida+" de "+item.getNome_Item());
-                        despesa_db.setValor(item.getPreco());
-                        despesa_db.setId_usuario(conta.getId_usuario());
-                        despesa_db.setDia(new Date());
-                        Transacao_db transacao_db=new Transacao_db();
-                        transacao_db.setValor(despesa_db.getValor());
-                        transacao_db.setDescricao(despesa_db.getDescricao());
-                        transacao_db.setDia(despesa_db.getDia());
-                        transacao_db.setCategoria("Compra");
-                        realm.beginTransaction();
-                        conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
-                        realm.copyToRealm(item);
-                        realm.copyToRealm(despesa_db);
-                        realm.copyToRealm(transacao_db);
-                        realm.commitTransaction();
-                        Intent intent=getIntent();
-                        finish();
-                        startActivity(intent);
-                    }
-                });
-                builder.show();
+                    });
+                    builder.show();
+                }catch (Exception e){
 
+                }
 
 
 

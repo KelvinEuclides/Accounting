@@ -61,7 +61,7 @@ private double valor_iva;
 
     public void setItems(Item item,int numunidade,double valo) {
         itens_vendidos=itens_vendidos+numunidade;
-        valor=valor+valo;
+        valor=valor+valor;
         items.add(item);
     }
 }

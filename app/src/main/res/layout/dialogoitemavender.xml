@@ -73,7 +73,7 @@
         android:inputType="phone" />
 
     <Button
-        android:id="@+id/bt_adicionar_item_v"
+        android:id="@+id/bt_adicionar_item_va"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -82,4 +82,5 @@
         android:background="@color/colorPrimary"
         android:text="Adicionar"
         android:textColor="@color/icons" />
+
 </RelativeLayout>

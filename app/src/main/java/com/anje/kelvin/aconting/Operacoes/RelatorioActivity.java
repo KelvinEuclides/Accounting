@@ -38,11 +38,11 @@ public class RelatorioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        CardView renda=(CardView) findViewById(R.id.relatorio_de_renda);
+        CardView renda=(CardView) findViewById(R.id.relatorio_de_fluxo_de_caixa);
         renda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(RelatorioActivity.this,Relatorio_de_renda_Activity.class);
+                Intent intent=new Intent(RelatorioActivity.this, Relatorio_de_Transicoes_Activity.class);
                 startActivity(intent);
             }
         });
