@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
 import java.util.Date;
@@ -35,11 +36,11 @@ public class AdapterRelatoriosDespesas extends RecyclerView.Adapter<AdapterRelat
         return new ViewHolder(v);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Relatorio relatorio=mValues.get(position);
-        holder.data.setText(DateFormat.getDateInstance().format(relatorio.getDate()));
+        Convertar_Datas c =new Convertar_Datas();
+        holder.data.setText(c.datac(relatorio.getDate()));
         holder.discricao.setText(relatorio.getDescricao());
         holder.preco.setText(relatorio.getPreco()+"MZN");
     }

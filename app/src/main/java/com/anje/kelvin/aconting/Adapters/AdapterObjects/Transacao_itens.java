@@ -46,20 +46,4 @@ public class Transacao_itens {
         return icone;
     }
 
-    public int escolher_icone(String descricao){
-        if(tipo.equals("Transferencia")){
-            icone= R.drawable.transferencias;
-        }
-        if (tipo.equals("Deposito")){
-            icone=R.drawable.dinheiro_dento;
-        }
-        if (tipo.equals("Despesa")){
-            icone=R.drawable.dinheiro_fora;
-        }
-        else{
-            icone= R.drawable.transferencias;
-        }
-        return icone;
-    }
-
 }

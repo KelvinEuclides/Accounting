@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.ReDespesa;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -36,13 +37,13 @@ public class AdapterDespesa extends RecyclerView.Adapter<AdapterDespesa.ViewHold
         return new ViewHolder(v);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ReDespesa reDespesa=mValues.get(position);
         holder.descricao.setText(reDespesa.getDescricao());
         holder.preco.setText(reDespesa.getPreco());
-        holder.data.setText(DateFormat.getDateInstance().format(reDespesa.getDate()));
+        Convertar_Datas c =new Convertar_Datas();
+        holder.data.setText(c.datac(reDespesa.getDate()));
 
 
     }

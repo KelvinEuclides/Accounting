@@ -32,9 +32,8 @@ public class ReDespesa {
         this.preco = preco;
     }
 
-    public String getDate() {
-        String dt;
-        return date.getDay()+"/"+date.getMonth()+"/"+date.getYear();
+    public Date getDate() {
+        return date;
     }
 
     public void setDate(Date date) {

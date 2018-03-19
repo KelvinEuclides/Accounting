@@ -45,4 +45,8 @@ public class Relatorio {
     public Date getDia() {
         return dia;
     }
+
+    public void setDia(java.util.Date dia) {
+        this.dia = dia;
+    }
 }

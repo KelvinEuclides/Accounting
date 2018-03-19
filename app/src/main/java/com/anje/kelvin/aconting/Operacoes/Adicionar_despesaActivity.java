@@ -20,6 +20,7 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
@@ -37,7 +38,6 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
     ImageView data_inicio,data_fim_iv;
     Button salvaar;
     double valorr;
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +78,9 @@ public class Adicionar_despesaActivity extends AppCompatActivity {
         valor=(EditText) findViewById(R.id.et_despesa_valor);
         datainicio=(EditText) findViewById(R.id.et_data_inicio_despesa);
         Date date=new Date();
-        datainicio.setHint(DateFormat.getDateInstance().format(date));
-        data_fim_tv.setHint(DateFormat.getDateInstance().format(date));
+        Convertar_Datas c =new Convertar_Datas();
+        datainicio.setHint(c.datac(date));
+        data_fim_tv.setHint(c.datac(date));
         salvaar=(Button) findViewById(R.id.bt_salvar_despesa);
         salvaar.setOnClickListener(new View.OnClickListener() {
             @Override

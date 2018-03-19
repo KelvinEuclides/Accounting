@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.Fragments.MenuFragment;
 import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
@@ -42,7 +43,6 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
     EditText descricao,valor,datainicio;
     ImageView data_inicio,data_fim_iv;
     Button salvaar;
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,10 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
         descricao=(EditText) findViewById(R.id.et_descricao_despodito);
        valor=(EditText) findViewById(R.id.et_valor_deposito);
        datainicio=(EditText) findViewById(R.id.et_data_inicio_despesa);
-        datainicio.setHint(DateFormat.getDateInstance().format(date));
+            Convertar_Datas c =new Convertar_Datas();
+            datainicio.setHint(c.datac(date));
+
+
 
         data_inicio=(ImageView) findViewById(R.id.iv_data_inicio);
        data_inicio.setOnClickListener(new View.OnClickListener() {

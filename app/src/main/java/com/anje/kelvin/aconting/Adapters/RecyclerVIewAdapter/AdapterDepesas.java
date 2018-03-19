@@ -3,6 +3,8 @@ package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -36,14 +39,17 @@ public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHold
                 .inflate(R.layout.fragment_transacao,parent,false);
         return new ViewHolder(v);
     }
-
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Depositos_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
-        holder.data.setText(DateFormat.getDateInstance().format(transacao.getData()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.data.setText(DateFormat.getDateInstance().format(transacao.getData()));
+        }else {
+            Convertar_Datas c =new Convertar_Datas();
+            holder.data.setText(c.datac(transacao.getData()));
+        }
         holder.icone.setImageResource(R.drawable.dinheiro_fora);
 
 

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
 import java.util.List;
@@ -36,13 +37,13 @@ public class AdapterDepositos extends RecyclerView.Adapter<AdapterDepositos.View
         return new ViewHolder(v);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Depositos_itens transacao=mValues.get(position);
         holder.descricao.setText(transacao.getDescricao());
         holder.valor.setText(transacao.getValor()+"");
-        holder.data.setText(DateFormat.getDateInstance().format(transacao.getData()));
+        Convertar_Datas c =new Convertar_Datas();
+        holder.data.setText(c.datac(transacao.getData()));
         holder.icone.setImageResource(R.drawable.dinheiro_dento);
 
 
