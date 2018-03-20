@@ -90,9 +90,14 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
                                    }
 
                                    item.setNome_Item(nomeitem1.getText().toString());
-                                   realm.commitTransaction();
-                                   realm.copyToRealmOrUpdate(item);
-                                   realm.commitTransaction();
+                                   try {
+                                       realm.commitTransaction();
+                                       realm.copyToRealmOrUpdate(item);
+                                       realm.commitTransaction();
+                                   }finally {
+
+                                   }
+
                                }
                            });
                        }catch (Exception e){

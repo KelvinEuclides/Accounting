@@ -74,7 +74,6 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.ViewHolder>{
 
                         try {
                             realm.beginTransaction();
-                            ve.setItems(item,Integer.parseInt(editText.getText().toString()),item.getPreco());
                             realm.commitTransaction();
                         }catch (Exception e){
 

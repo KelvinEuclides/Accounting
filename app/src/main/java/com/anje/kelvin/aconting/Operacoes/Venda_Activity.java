@@ -2,8 +2,6 @@ package com.anje.kelvin.aconting.Operacoes;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,15 +13,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
-import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterVenda;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
+import com.anje.kelvin.aconting.BaseDeDados.ItemVendido;
+import com.anje.kelvin.aconting.BaseDeDados.Receita;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
 
@@ -41,6 +38,8 @@ public class Venda_Activity extends AppCompatActivity {
     String vid;
     TextView saldo, itens;
     Item item1;
+    double sa;
+    int quantidadea;
     Realm realm= Realm.getDefaultInstance();
 
 
@@ -51,19 +50,17 @@ public class Venda_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_venda_);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
-        itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
-        venda = new Venda();
         Date hoje = new Date();
-        vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth();
-        double v=0;
-        int a=0;
-        try{
-            a=venda.getItens_vendidos();
-            v=venda.getValor();
-        }catch (Exception e){
 
-        }
+        vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth()+""+hoje.getTime();
+        saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
+        Realm realm=Realm.getDefaultInstance();
+        sa=realm.where(ItemVendido.class).sum("Valor").doubleValue();
+        saldo.setText(sa+"Mzn");
+        itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
+        quantidadea=realm.where(ItemVendido.class).sum("quantidade").intValue();
+        itens.setText(quantidadea+"");
+        venda = new Venda();
         recyclerView = (RecyclerView) findViewById(R.id.rv_vendas);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -71,17 +68,12 @@ public class Venda_Activity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         lista = new ArrayList<preco>();
         try {
-            final Realm realm = Realm.getDefaultInstance();
             try {
-                Venda q = realm.where(Venda.class).equalTo("venda",vid).findFirst();
-                       if (q != null && q.getItems().size()>0){
-                           for (int ia = 0; ia < q.getItems().size(); ia++) {
-                               preco pre = new preco(q.getItems().get(ia).getNum_item(), q.getItems().get(ia).getNome_Item(), q.getItems().get(ia).getPreco());
+               List<ItemVendido> iv=realm.where(ItemVendido.class).equalTo("nomeitem",vid).findAll();
+                for (int ia = 0; ia <iv.size(); ia++) {
+                               preco pre = new preco(iv.get(ia).getQuantidade(),iv.get(ia).getNomeitem(),iv.get(ia).getValor());
                                lista.add(pre);
                            }
-                       }
-
-
             } finally {
 
             }
@@ -95,9 +87,9 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final Realm realm = Realm.getDefaultInstance();
                     Item man=realm.where(Item.class).findFirst();
                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
-                    final Realm realm = Realm.getDefaultInstance();
                     Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
                     List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
                     for(int i=0;i<item.size();i++){
@@ -114,13 +106,14 @@ public class Venda_Activity extends AppCompatActivity {
                             final Dialog builder=new Dialog(Venda_Activity.this);
                             Realm realm = Realm.getDefaultInstance();
                             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                            Item item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findFirst();
+                            final Item item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findFirst();
                             builder.setTitle(item.getNome_Item());
                             builder.setCancelable(true);
                             builder.setContentView(R.layout.dialogoitemavender);
                             TextView nome=(TextView) builder.findViewById(R.id.et_vender_nome);
                             TextView preco=(TextView) builder.findViewById(R.id.et_vender_preco);
-                            TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
+
+                            final TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
                             Button vender_items=(Button) builder.findViewById(R.id.bt_adicionar_item_va);
                             item1=realm.where(Item.class).equalTo("nome_Item",arrayAdapter.getItem(position)).findFirst();
                             final int p=position;
@@ -135,11 +128,25 @@ public class Venda_Activity extends AppCompatActivity {
                             vender_items.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-
+                                    EditText qtd=(EditText) builder.findViewById(R.id.et_vender_quantidade);
+                                       ItemVendido itemVendido=new ItemVendido();
+                                       itemVendido.setNomeitem(item.getNome_Item());
+                                       itemVendido.setValor(item.getPreco());
+                                       itemVendido.setVid(vid);
+                                       itemVendido.setData(new Date());
+                                       itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
                                         Realm realm=Realm.getDefaultInstance();
                                         realm.beginTransaction();
-                                        venda.setItems(realm.where(Item.class).equalTo("nome_Item",arrayAdapter.getItem(p)).findFirst(),1,10);
+                                        realm.copyToRealm(itemVendido);
                                         realm.commitTransaction();
+                                    sa=realm.where(ItemVendido.class).sum("Valor").doubleValue();
+                                    saldo.setText(sa+"Mzn");
+                                    quantidadea=realm.where(ItemVendido.class).sum("quantidade").intValue();
+                                    itens.setText(quantidadea+"");
+                                    preco pre = new preco(itemVendido.getQuantidade(),itemVendido.getNomeitem(),itemVendido.getValor());
+                                    lista.add(pre);
+                                    adapter = new Vendas(lista,getApplicationContext());
+                                    recyclerView.setAdapter(adapter);
                                     builder.cancel();
                                 }
                             });
@@ -157,6 +164,8 @@ public class Venda_Activity extends AppCompatActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Receita receita=new Receita();
+                            receita.setDescricao("Venda de "+sa+" Itens");
                             builder.cancel();
                         }
                     });

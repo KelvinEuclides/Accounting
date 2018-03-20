@@ -23,13 +23,8 @@ private double valor_iva;
         this.venda = venda;
     }
 
-    public void setItems(RealmList<Item> items) {
-        this.items = items;
-    }
-
     private int itens_vendidos;
     private Date data;
-    private RealmList<Item> items;
 
     public Double getValor() {
         return valor;
@@ -55,13 +50,4 @@ private double valor_iva;
         this.data = data;
     }
 
-    public RealmList<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Item item,int numunidade,double valo) {
-        itens_vendidos=itens_vendidos+numunidade;
-        valor=valor+valor;
-        items.add(item);
-    }
 }
