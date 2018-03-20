@@ -15,6 +15,7 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,13 +43,10 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         datainicio= (TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
         datafim=(TextView) findViewById(R.id.tv_id_re_despesas_data_fim);
+        Convertar_Datas c=new Convertar_Datas();
+            datainicio.setText(c.datac(d));
+            datafim.setText(c.datac(hoje));
 
-        try {
-            datainicio.setText(DateFormat.getDateInstance().format(d));
-            datafim.setText(DateFormat.getDateInstance().format(hoje));
-        }catch (RuntimeException e){
-
-        }
 
 
         saldo=findViewById(R.id.tv_id_total_despesas_ac);

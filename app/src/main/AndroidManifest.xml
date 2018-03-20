@@ -15,11 +15,22 @@
         <activity
             android:name=".Operacoes.Adicionar_despesaActivity"
             android:label="Adicionar Despesa"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.MainActivity" />
+        </activity>
+
+
         <activity
             android:name=".Operacoes.Adicionar_deposito_Activity"
             android:label="Adicionar Deposito"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anje.kelvin.aconting.MainActivity" />
+        </activity>
+
         <activity
             android:name=".login"
             android:label="Login"

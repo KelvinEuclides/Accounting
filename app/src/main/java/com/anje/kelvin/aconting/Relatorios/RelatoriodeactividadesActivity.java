@@ -11,6 +11,7 @@ import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +25,6 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
     Date d=new Date((hoje.getTime()-24*24*600*1000)-6*24*3600*1000);
     TextView diainicio,diafim;
     private double total;
-
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +39,10 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
         List<Transacao_db>  items=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
         diafim=(TextView) findViewById(R.id.tv_id_re_despesas_data_fim);
-        diafim.setText(DateFormat.getDateInstance().format(hoje));
+        Convertar_Datas c=new Convertar_Datas();
+        diafim.setText(c.datac(hoje));
         diainicio=(TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
-        diainicio.setText(DateFormat.getDateInstance().format(d));
+        diainicio.setText(c.datac(d));
 
 
         if (items.size() > 0) {
