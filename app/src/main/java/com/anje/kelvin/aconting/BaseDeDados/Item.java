@@ -72,4 +72,7 @@ public class Item extends RealmObject {
     public void setItens_disponiveis(int itens_disponiveis) {
         this.itens_disponiveis = itens_disponiveis;
     }
+    public void vender(int item){
+        itens_disponiveis=itens_disponiveis-item;
+    }
 }

@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.ItemVendido;
@@ -30,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class Venda_Activity extends AppCompatActivity {
     Venda venda;
@@ -92,7 +95,7 @@ public class Venda_Activity extends AppCompatActivity {
                     Item man=realm.where(Item.class).findFirst();
                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
                     final Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                    List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+                    final List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
                     for(int i=0;i<item.size();i++){
                         arrayAdapter.add(item.get(i).getNome_Item());
                     }
@@ -141,12 +144,9 @@ public class Venda_Activity extends AppCompatActivity {
                                        itemVendido.setVid(vid);
                                        itemVendido.setData(new Date());
                                        itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
-
                                         realm.beginTransaction();
                                         realm.copyToRealm(itemVendido);
                                         realm.commitTransaction();
-
-
                                     preco pre = new preco(itemVendido.getQuantidade(),itemVendido.getNomeitem(),itemVendido.getValor());
                                     lista.add(pre);
                                     adapter = new Vendas(lista,getApplicationContext());
@@ -182,6 +182,20 @@ public class Venda_Activity extends AppCompatActivity {
                             realm.copyToRealm(transacao_db);
                             conta1.adicionar_deposito(sa);
                             realm.copyToRealm(receita);
+                            List<ItemVendido> itemVendido=realm.where(ItemVendido.class).equalTo("vid",vid).findAll();
+                            int i=0;
+                            while (i<itemVendido.size()){
+                                try {
+                                    Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
+                                    realm.beginTransaction();
+                                    item2.vender(itemVendido.get(i).getQuantidade());
+                                    realm.commitTransaction();
+
+                                }catch (Exception e){
+                                    Toast.makeText(getApplicationContext(),"Item nao encontrado",Toast.LENGTH_LONG).show();
+                                }
+
+                            }
                             finish();
                         }
                     });
