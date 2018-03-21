@@ -73,38 +73,43 @@ public class Gerir_estoque extends AppCompatActivity {
                             Realm realm = Realm.getDefaultInstance();
                             Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
                             Item item = new Item();
-                            item.setNome_Item(descricao.getText().toString());
-                            item.setUnidade_de_Medida("Unidade");
-                            item.setId_usuario(conta.getId_usuario());
-                            item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
-                            item.setItens_disponiveis(Integer.parseInt(quantidade.getText().toString()));
-                            item.setPreco(Double.parseDouble(preco.getText().toString()));
-                            item.setPrecoUnidade(Double.parseDouble(precovenda.getText().toString()));
-                            Despesa_db despesa_db = new Despesa_db();
-                            despesa_db.setCategoria("Compra");
-                            String medida;
-                            if (item.getUnidade_de_Medida().equals("Kg")) {
-                                medida = "kilogramas";
+                            try {
+                                item.setNome_Item(descricao.getText().toString());
+                                item.setUnidade_de_Medida("Unidade");
+                                item.setId_usuario(conta.getId_usuario());
+                                item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
+                                item.setItens_disponiveis(Integer.parseInt(quantidade.getText().toString()));
+                                item.setPreco(Double.parseDouble(preco.getText().toString()));
+                                item.setPrecoUnidade(Double.parseDouble(precovenda.getText().toString()));
+                                Despesa_db despesa_db = new Despesa_db();
+                                despesa_db.setCategoria("Compra");
+                                String medida;
+                                if (item.getUnidade_de_Medida().equals("Kg")) {
+                                    medida = "kilogramas";
+                                }
+                                if (item.getUnidade_de_Medida().equals("Litros")) {
+                                    medida = "litros";
+                                } else {
+                                    medida = "Unidades";
+                                }
+                                despesa_db.setDescricao("Compra de " + item.getNum_item() + " " + medida + " de " + item.getNome_Item());
+                                despesa_db.setValor(item.getPreco());
+                                despesa_db.setId_usuario(conta.getId_usuario());
+                                despesa_db.setDia(new Date());
+                                Transacao_db transacao_db = new Transacao_db();
+                                transacao_db.setValor(despesa_db.getValor());
+                                transacao_db.setDescricao(despesa_db.getDescricao());
+                                transacao_db.setDia(despesa_db.getDia());
+                                transacao_db.setCategoria("Compra");
+                                realm.beginTransaction();
+                                conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
+                                realm.copyToRealm(item);
+                                realm.copyToRealm(despesa_db);
+                                realm.copyToRealm(transacao_db);
+                            }catch (Exception e){
+
                             }
-                            if (item.getUnidade_de_Medida().equals("Litros")) {
-                                medida = "litros";
-                            } else {
-                                medida = "Unidades";
-                            }
-                            despesa_db.setDescricao("Compra de " + item.getNum_item() + " " + medida + " de " + item.getNome_Item());
-                            despesa_db.setValor(item.getPreco());
-                            despesa_db.setId_usuario(conta.getId_usuario());
-                            despesa_db.setDia(new Date());
-                            Transacao_db transacao_db = new Transacao_db();
-                            transacao_db.setValor(despesa_db.getValor());
-                            transacao_db.setDescricao(despesa_db.getDescricao());
-                            transacao_db.setDia(despesa_db.getDia());
-                            transacao_db.setCategoria("Compra");
-                            realm.beginTransaction();
-                            conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
-                            realm.copyToRealm(item);
-                            realm.copyToRealm(despesa_db);
-                            realm.copyToRealm(transacao_db);
+
                             realm.commitTransaction();
                             Intent intent = getIntent();
                             finish();

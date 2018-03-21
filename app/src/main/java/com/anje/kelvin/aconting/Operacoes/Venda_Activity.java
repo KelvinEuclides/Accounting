@@ -1,8 +1,10 @@
 package com.anje.kelvin.aconting.Operacoes;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +46,7 @@ public class Venda_Activity extends AppCompatActivity {
     Item item1;
     double sa;
     int quantidadea;
+
     Realm realm= Realm.getDefaultInstance();
 
 
@@ -164,48 +167,61 @@ public class Venda_Activity extends AppCompatActivity {
                         }
                     });
                     builder.show();
-                    Button butt=(Button) findViewById(R.id.bt_vnda_vender);
-                    butt.setOnClickListener(new View.OnClickListener() {
+                    FloatingActionButton floatingActionButton=(FloatingActionButton) findViewById(R.id.fab_venda);
+                    floatingActionButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Receita receita=new Receita();
-                            receita.setDescricao("Venda de "+quantidadea+" Itens");
-                            receita.setValor(sa);
-                            receita.setData(new Date());
-                            Conta conta1=realm.where(Conta.class).equalTo("loggado",true).findFirst();
-                            Transacao_db transacao_db=new Transacao_db();
-                            transacao_db.setDescricao("Venda de "+quantidadea+" Itens");
-                            transacao_db.setId_usuario(conta.getId_usuario());
-                            transacao_db.setValor(sa);
-                            transacao_db.setDia(new Date());
-                            realm.beginTransaction();
-                            realm.copyToRealm(transacao_db);
-                            conta1.adicionar_deposito(sa);
-                            realm.copyToRealm(receita);
-                            List<ItemVendido> itemVendido=realm.where(ItemVendido.class).equalTo("vid",vid).findAll();
-                            int i=0;
-                            while (i<itemVendido.size()){
-                                try {
-                                    Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
-                                    realm.beginTransaction();
-                                    item2.vender(itemVendido.get(i).getQuantidade());
-                                    realm.commitTransaction();
+                            ItemVendido itemV=realm.where(ItemVendido.class).equalTo("vid",vid).findFirst();
+                            if(itemV!=null) {
+                                Receita receita = new Receita();
+                                receita.setDescricao("Venda de " + quantidadea + " Itens");
+                                receita.setValor(sa);
+                                receita.setData(new Date());
+                                Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                Transacao_db transacao_db = new Transacao_db();
+                                transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
+                                transacao_db.setId_usuario(conta.getId_usuario());
+                                transacao_db.setValor(sa);
+                                transacao_db.setDia(new Date());
+                                realm.beginTransaction();
+                                realm.copyToRealm(transacao_db);
+                                conta1.adicionar_deposito(sa);
+                                realm.copyToRealm(receita);
+                                List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
+                                int i = 0;
+                                while (i < itemVendido.size()) {
+                                    try {
+                                        Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
+                                        realm.beginTransaction();
+                                        item2.vender(itemVendido.get(i).getQuantidade());
+                                        realm.commitTransaction();
 
-                                }catch (Exception e){
-                                    Toast.makeText(getApplicationContext(),"Item nao encontrado",Toast.LENGTH_LONG).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
+                                    }
+
                                 }
+                                finish();
+                            }else {
+                                AlertDialog.Builder builder1=new AlertDialog.Builder(Venda_Activity.this);
+                                builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
+                                builder1.setTitle("Aviso");
+                                builder1.create();
+                                builder1.show();
 
                             }
-                            finish();
+
                         }
                     });
 
                 }
+
             });
-        } finally {
+        } finally{
 
 
     }
+        }
     }
      class Vendas extends RecyclerView.Adapter<Vendas.ViewHolder>{
 
@@ -298,5 +314,5 @@ public class Venda_Activity extends AppCompatActivity {
             this.preco = preco;
         }
     }
-}
+
 

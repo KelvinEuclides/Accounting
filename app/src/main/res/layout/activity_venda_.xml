@@ -7,45 +7,37 @@
     android:fitsSystemWindows="true"
     tools:context="com.anje.kelvin.aconting.Operacoes.Venda_Activity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_venda"
+        android:layout_width="71dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/ic_shopping_cart_24dp"
+        tools:layout_editor_absoluteX="313dp" />
+
     <include
+        android:id="@+id/include"
         layout="@layout/venda"
         layout_height="wrap_content"
         layout_width="match_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/bt_adicionar_producto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Adicionar item A Venda"
+        android:textColor="@color/cardview_light_background"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="left|bottom" />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/bt_adicionar_producto"
-            android:layout_width="161dp"
-            android:layout_height="46dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="512dp"
-            android:background="@drawable/bt_eliminar"
-            android:text="Adicionar Produto"
-            android:textColor="@color/cardview_light_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.091"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/bt_vnda_vender"
-            android:layout_width="160dp"
-            android:layout_height="46dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bt_eliminar"
-            android:text="Vender"
-            android:textColor="@color/cardview_light_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.272"
-            app:layout_constraintStart_toEndOf="@+id/bt_adicionar_producto"
-            app:layout_constraintTop_toTopOf="@+id/bt_adicionar_producto" />
+        android:layout_height="567dp">
 
     </android.support.constraint.ConstraintLayout>
 
@@ -147,6 +139,22 @@
                 app:layout_constraintStart_toEndOf="@+id/tv_venda_itens_vendidos"
                 app:layout_constraintTop_toBottomOf="@+id/textView38"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="29dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_venda_valor_venda"
+                app:layout_constraintEnd_toStartOf="@+id/textView21"
+                app:layout_constraintHorizontal_bias="0.093"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.421"
+                app:srcCompat="@drawable/ic_arrow_back24dp" />
         </android.support.constraint.ConstraintLayout>
     </android.support.design.widget.AppBarLayout>
 
