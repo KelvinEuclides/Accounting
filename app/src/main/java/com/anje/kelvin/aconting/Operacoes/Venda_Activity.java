@@ -3,6 +3,7 @@ package com.anje.kelvin.aconting.Operacoes;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class Venda_Activity extends AppCompatActivity {
     Venda venda;
@@ -44,13 +44,30 @@ public class Venda_Activity extends AppCompatActivity {
     String vid;
     TextView saldo, itens;
     Item item1;
-    double sa;
+    double totalvendas;
     int quantidadea;
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(Venda_Activity.this);
+        builder.setTitle("Deseja Realmente Sair?").setMessage("Ira perder todo progresso!");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Realm realm=Realm.getDefaultInstance();
+                final List<ItemVendido> itemVendidos=realm.where(ItemVendido.class).equalTo("vid",vid).findAll();
+                finish();
 
-    Realm realm= Realm.getDefaultInstance();
+            }
+        });
+        builder.setNegativeButton("Nao", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-
-
+            }
+        });
+        builder.create();
+        builder.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +79,15 @@ public class Venda_Activity extends AppCompatActivity {
         vid="Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth()+""+hoje.getTime();
         saldo = (TextView) findViewById(R.id.tv_venda_valor_venda);
         Realm realm=Realm.getDefaultInstance();
-        sa=realm.where(ItemVendido.class).equalTo("vid",vid).sum("Valor").doubleValue();
-        saldo.setText(sa+"Mzn");
+         List<ItemVendido> itemVendidoRealmResults =realm.where(ItemVendido.class).equalTo("vid",vid).findAll();
+        totalvendas=0;
+        for (int i=0;i<itemVendidoRealmResults.size();i++){
+            totalvendas = totalvendas +itemVendidoRealmResults.get(i).getValor();
+        }
+
+        saldo.setText(totalvendas +"Mzn");
         itens = (TextView) findViewById(R.id.tv_venda_itens_vendidos);
-        quantidadea=realm.where(ItemVendido.class).equalTo("vid",vid).sum("quantidade").intValue();
+        quantidadea=realm.where(ItemVendido.class).equalTo("vid",vid).findAll().sum("quantidade").intValue();
         itens.setText(quantidadea+"");
         venda = new Venda();
         recyclerView = (RecyclerView) findViewById(R.id.rv_vendas);
@@ -137,13 +159,10 @@ public class Venda_Activity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     EditText qtd=(EditText) builder.findViewById(R.id.et_vender_quantidade);
                                     Realm realm=Realm.getDefaultInstance();
-                                    quantidadea=realm.where(ItemVendido.class).equalTo("vid",vid).sum("quantidade").intValue();
-                                    itens.setText(quantidadea+"");
-                                    sa=realm.where(ItemVendido.class).equalTo("vid",vid).sum("Valor").doubleValue();
-                                    saldo.setText(sa+"Mzn");
+
                                        ItemVendido itemVendido=new ItemVendido();
                                        itemVendido.setNomeitem(item1.getNome_Item());
-                                       itemVendido.setValor((Double.parseDouble(item1.getPreco().toString())+Double.parseDouble(qtd.getText().toString())));
+                                       itemVendido.setValor((Double.parseDouble(item1.getPreco().toString())*Double.parseDouble(qtd.getText().toString())));
                                        itemVendido.setVid(vid);
                                        itemVendido.setData(new Date());
                                        itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
@@ -154,6 +173,17 @@ public class Venda_Activity extends AppCompatActivity {
                                     lista.add(pre);
                                     adapter = new Vendas(lista,getApplicationContext());
                                     recyclerView.setAdapter(adapter);
+                                    List<ItemVendido> item=realm.where(ItemVendido.class).equalTo("vid",vid).findAll();
+                                    quantidadea=0;
+                                    for (int i=0;i<item.size();i++){
+                                        quantidadea=quantidadea+item.get(i).getQuantidade();
+                                    }
+                                    itens.setText(quantidadea+"");
+                                    totalvendas=0;
+                                    for (int i=0;i<item.size();i++){
+                                        totalvendas = totalvendas +item.get(i).getValor();
+                                    }
+                                    saldo.setText(totalvendas +"Mzn");
                                     builder.cancel();
                                 }
                             });
@@ -175,17 +205,17 @@ public class Venda_Activity extends AppCompatActivity {
                             if(itemV!=null) {
                                 Receita receita = new Receita();
                                 receita.setDescricao("Venda de " + quantidadea + " Itens");
-                                receita.setValor(sa);
+                                receita.setValor(totalvendas);
                                 receita.setData(new Date());
                                 Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
                                 Transacao_db transacao_db = new Transacao_db();
                                 transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
                                 transacao_db.setId_usuario(conta.getId_usuario());
-                                transacao_db.setValor(sa);
+                                transacao_db.setValor(totalvendas);
                                 transacao_db.setDia(new Date());
                                 realm.beginTransaction();
                                 realm.copyToRealm(transacao_db);
-                                conta1.adicionar_deposito(sa);
+                                conta1.adicionar_deposito(totalvendas);
                                 realm.copyToRealm(receita);
                                 List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
                                 int i = 0;
@@ -222,6 +252,7 @@ public class Venda_Activity extends AppCompatActivity {
 
     }
         }
+
     }
      class Vendas extends RecyclerView.Adapter<Vendas.ViewHolder>{
 

@@ -9,13 +9,13 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_venda"
-        android:layout_width="71dp"
-        android:layout_height="50dp"
+        android:layout_width="67dp"
+        android:layout_height="70dp"
         android:clickable="true"
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_shopping_cart_24dp"
-        tools:layout_editor_absoluteX="313dp" />
+        tools:layout_editor_absoluteX="307dp" />
 
     <include
         android:id="@+id/include"
@@ -37,7 +37,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="567dp">
+        android:layout_height="567dp"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="bottom|center">
 
     </android.support.constraint.ConstraintLayout>
 
