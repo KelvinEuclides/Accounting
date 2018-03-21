@@ -106,11 +106,10 @@ public class Gerir_estoque extends AppCompatActivity {
                                 realm.copyToRealm(item);
                                 realm.copyToRealm(despesa_db);
                                 realm.copyToRealm(transacao_db);
+                                realm.commitTransaction();
                             }catch (Exception e){
 
                             }
-
-                            realm.commitTransaction();
                             Intent intent = getIntent();
                             finish();
                             startActivity(intent);
@@ -130,8 +129,8 @@ public class Gerir_estoque extends AppCompatActivity {
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
             List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
             for (int i = 0; i < item.size(); i++) {
-                Stock stock=new Stock(item.get(i).getNome_Item()+"",item.get(i).getNum_item()+"",
-                        item.get(i).getItens_disponiveis()+"",item.get(i).getPrecoUnidade()+"Mzn");
+                Stock stock=new Stock(item.get(i).getNome_Item()+"",item.get(i).getNum_item(),
+                        item.get(i).getItens_disponiveis(),item.get(i).getPrecoUnidade());
                 if(item.get(i).getNum_item()<5){
                     Notification mBuilder = new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.conta_azul)

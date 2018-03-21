@@ -52,8 +52,8 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
         final Stock stock=mValues.get(position);
         holder.descricao.setText(stock.getNomeItem());
         holder.preco.setText(stock.getPreco()+"");
-        holder.itensDispo.setText(stock.getNumitemdisp());
-        holder.numItens.setText(stock.getNumitem());
+        holder.itensDispo.setText(stock.getNumitemdisp()+"");
+        holder.numItens.setText(stock.getNumitem()+"");
         holder.modificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,25 +75,27 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
                         final EditText nomeitem1=(EditText) builder2.findViewById(R.id.et_dialog_editar_nomep);
                         nomeitem1.setText(stock.getNomeItem());
                         final EditText preco1=(EditText) builder2.findViewById(R.id.et_dialog_preco);
-                        preco1.setText(stock.getPreco());
+                        preco1.setText(stock.getPreco()+"MZN");
                        final  EditText quantidade=(EditText) builder2.findViewById(R.id.et_quantidade);
-                       quantidade.setText(stock.getNumitem());
+                       quantidade.setText(stock.getNumitem()+"");
                        final Button salvar=(Button) builder2.findViewById(R.id.bt_salvar_alteracoes);
                        try {
                            salvar.setOnClickListener(new View.OnClickListener() {
                                @Override
                                public void onClick(View v) {
-                                   Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
-                                   item.setPreco(Double.parseDouble(preco1.getText().toString()));
-                                   if(Integer.parseInt(quantidade.getText().toString())>=item.getNum_item()){
-                                       item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
-                                   }
-
-                                   item.setNome_Item(nomeitem1.getText().toString());
+                                   final Item item=realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
                                    try {
-                                       realm.commitTransaction();
-                                       realm.copyToRealmOrUpdate(item);
-                                       realm.commitTransaction();
+                                      realm.executeTransaction(new Realm.Transaction() {
+                                          @Override
+                                          public void execute(Realm realm) {
+                                              item.setPreco(Double.parseDouble(preco1.getText().toString()));
+                                              if(Integer.parseInt(quantidade.getText().toString())>=item.getNum_item()){
+                                                  item.setNum_item(Integer.parseInt(quantidade.getText().toString()));
+                                              }
+                                              item.setNome_Item(nomeitem1.getText().toString());
+                                              realm.insertOrUpdate(item);
+                                          }
+                                      });
                                    }finally {
 
                                    }
@@ -117,9 +119,19 @@ public class  AdapterStock extends RecyclerView.Adapter<AdapterStock.ViewHolder>
                         builder1.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                realm.commitTransaction();
-                                realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst().deleteFromRealm();
-                                realm.commitTransaction();
+                                try {
+
+                                    final Item item= realm.where(Item.class).equalTo("nome_Item",stock.getNomeItem()).findFirst();
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        item.deleteFromRealm();
+                                    }
+                                });
+                                }catch (NullPointerException e){
+
+                                }
+
                                 Toast toast=Toast.makeText(context,"Item "+stock.getNomeItem()+"apagado",Toast.LENGTH_LONG);
                                 toast.show();
                             }

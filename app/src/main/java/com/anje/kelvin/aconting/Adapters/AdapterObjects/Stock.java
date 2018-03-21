@@ -5,9 +5,11 @@ package com.anje.kelvin.aconting.Adapters.AdapterObjects;
  */
 
 public class Stock {
-    private String nomeItem,numitem,numitemdisp,preco;
+    private String nomeItem;
+   private int numitem,numitemdisp;
+   private Double preco;
 
-    public Stock(String nomeItem, String numitem, String numitemdisp, String preco) {
+    public Stock(String nomeItem, int numitem, int numitemdisp, Double preco) {
         this.nomeItem = nomeItem;
         this.numitem = numitem;
         this.numitemdisp = numitemdisp;
@@ -18,15 +20,31 @@ public class Stock {
         return nomeItem;
     }
 
-    public String getNumitem() {
+    public void setNomeItem(String nomeItem) {
+        this.nomeItem = nomeItem;
+    }
+
+    public int getNumitem() {
         return numitem;
     }
 
-    public String getNumitemdisp() {
+    public void setNumitem(int numitem) {
+        this.numitem = numitem;
+    }
+
+    public int getNumitemdisp() {
         return numitemdisp;
     }
 
-    public String getPreco() {
+    public void setNumitemdisp(int numitemdisp) {
+        this.numitemdisp = numitemdisp;
+    }
+
+    public Double getPreco() {
         return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 }
