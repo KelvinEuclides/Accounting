@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
@@ -33,7 +35,7 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
     TextView saldo;
     Date hoje =new Date();
 
-    @SuppressLint("NewApi")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +48,13 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
         Convertar_Datas c=new Convertar_Datas();
             datainicio.setText(c.datac(d));
             datafim.setText(c.datac(hoje));
-
-
-
+        ImageView iv=(ImageView) findViewById(R.id.vooltar_despesas);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         saldo=findViewById(R.id.tv_id_total_despesas_ac);
         saldo.setText(total+" mzn");
         recyclerView = (RecyclerView) findViewById(R.id.rv_rrelatorio);

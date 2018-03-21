@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Receita;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
@@ -44,13 +45,15 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
         diainicio=(TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
         diainicio.setText(c.datac(d));
 
-
-        if (items.size() > 0) {
+        List<Receita> receita=realm.where(Receita.class).between("data",d,hoje).findAll();
+        if (receita.size() > 0) {
             for (int i = 0; i < items.size(); i++) {
-                realm.beginTransaction();
-                Transacao_itens transacao = new Transacao_itens(items.get(i).getDescricao(), items.get(i).getCategoria(), items.get(i).getValor(),items.get(i).getDia());
-                total=total+items.get(i).getValor();
+
+                Transacao_itens transacao = new Transacao_itens(receita.get(i).getDescricao(),"venda",receita.get(i).getValor(),receita.get(i).getData());
+                Realm realm1=Realm.getDefaultInstance();
+                total=total+receita.get(i).getValor();
                 lista.add(transacao);
+
             }
 
         }

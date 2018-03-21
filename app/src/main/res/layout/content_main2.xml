@@ -45,7 +45,7 @@
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:text="Relatorios"
+                        android:text="Relatorio de Actividades"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imagemdeposito"
                         tools:layout_editor_absoluteY="16dp" />
@@ -181,13 +181,13 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/relatorio_de_renda"
                 android:layout_width="match_parent"
                 android:layout_height="89dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <android.support.constraint.ConstraintLayout
@@ -212,7 +212,7 @@
                         android:layout_height="23dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:text="Relatorios de Renda"
+                        android:text="Relatorio de Venda"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imagemrelatoriorenda"
                         tools:layout_editor_absoluteY="16dp" />
@@ -224,7 +224,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:text="Produza o seu relatorio de Renda dos ultimos 30 dias"
+                        android:text="Produza o seu relatorio de Venda dos ultimos 30 dias"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.275"
@@ -237,10 +237,12 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
+
             <android.support.v7.widget.CardView
                 android:id="@+id/relatorio_de_fluxo_de_caixa"
                 android:layout_width="match_parent"
-                android:layout_height="89dp">
+                android:layout_height="89dp"
+                android:visibility="gone">
 
 
                 <android.support.constraint.ConstraintLayout

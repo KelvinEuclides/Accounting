@@ -7,14 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
-import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +39,9 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         datainicio= (TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
         datafim=(TextView) findViewById(R.id.tv_id_re_despesas_data_fim);
+        Convertar_Datas c=new Convertar_Datas();
+        datainicio.setText(c.datac(d));
+        datafim.setText(c.datac(hoje));
         saldo=findViewById(R.id.tv_id_total_despesas_ac);
         saldo.setText(total+" mzn");
         recyclerView = (RecyclerView) findViewById(R.id.rv_transicoees);
@@ -54,6 +55,7 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
             Realm realm = Realm.getDefaultInstance();
             Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
             List<Transacao_db> transacao =realm.where(Transacao_db.class).findAll();
+
             if (transacao.size()>0 ){
                 for (int i=0;i<transacao.size();i++){
                     Transacao_db item1=transacao.get(i);

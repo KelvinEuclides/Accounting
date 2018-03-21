@@ -138,6 +138,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="180dp"
+            tools:layout_editor_absoluteY="392dp" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.AppBarLayout

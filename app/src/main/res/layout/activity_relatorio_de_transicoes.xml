@@ -22,7 +22,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
-                android:text="Total de Transacoes"
+                android:text="Total  Transiçoes"
                 android:textColor="@color/icons"
                 android:textSize="18sp"
                 android:textStyle="bold"
