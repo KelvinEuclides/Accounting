@@ -7,6 +7,15 @@
     tools:context="com.anje.kelvin.aconting.Relatorios.Relatorio_de_renda_Activity">
 
 
+    <Button
+        android:id="@+id/bt_relatorios_renda_exportar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:text="Exportar Relatorio"
+        android:textColor="@color/icons" />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -155,48 +164,33 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="26dp"
-                android:layout_height="24dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="48dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas_ac"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.135"
-                app:srcCompat="@drawable/ic_date_range24dp" />
-
-            <ImageView
                 android:id="@+id/imageView8"
                 android:layout_width="32dp"
                 android:layout_height="24dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_id_re_despesas_datainicio"
-                app:layout_constraintEnd_toStartOf="@+id/imageView7"
-                app:layout_constraintHorizontal_bias="0.027"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.25"
                 app:srcCompat="@drawable/ic_arrow_back24dp" />
 
-            <ImageView
-                android:id="@+id/imageView9"
+            <Spinner
+                android:id="@+id/spinner2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_id_total_despesas_ac"
+                android:backgroundTint="@color/cardview_light_background"
+                android:entries="@array/datas"
+                app:layout_constraintBottom_toTopOf="@+id/tv_id_re_despesas_data_fim"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintHorizontal_bias="0.951"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.135"
-                app:srcCompat="@drawable/ic_share_24dp" />
+                app:layout_constraintVertical_bias="0.25" />
 
         </android.support.constraint.ConstraintLayout>
 

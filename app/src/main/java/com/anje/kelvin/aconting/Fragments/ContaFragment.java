@@ -11,11 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDepositos;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
+import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
+import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -59,28 +63,30 @@ public class ContaFragment extends Fragment {
                 depositos.setText(total_depositos()+" MZN");
         TextView despesas=(TextView) view.findViewById(R.id.fg_contas_despesas_m);
         despesas.setText(total_despesas()+" MZN");
+        TextView vendas=(TextView) view.findViewById(R.id.fg_conta_receitas_m);
+        vendas.setText(total_vendas()+" MZN");
          RecyclerView recyclerView;
         RecyclerView.Adapter adapter;
-        List<Depositos_itens> lista;
+        List<Transacao_itens> lista;
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_despesas_recentes);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(false);
-        lista = new ArrayList<Depositos_itens>();
+        lista = new ArrayList<Transacao_itens>();
         Realm realm = Realm.getDefaultInstance();
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-        /**if (conta.getStock().size() > 0||conta.getTransacaoDbs().size()>0) {
-            lista.clear();
-            for (int i = 0; i < .size(); i++) {
-                Depositos_itens depositos_itens = new Depositos_itens(conta.getDeposito_dbs().get(i).getDescricao(),"Deposito", conta.getDeposito_dbs().get(i).getValor(),"HOJE");
-                lista.add(depositos_itens);
+        List<Transacao_db> transacao_db=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+        if (transacao_db.size()>5) {
+            for (int i = 0; i <transacao_db.size(); i++) {
+                Transacao_itens transacaoa = new Transacao_itens(lista.get(i).getDescricao(),lista.get(i).getDescricao(),lista.get(i).getValor(),lista.get(i).getData());
+                lista.add(transacaoa);
             }
 
-        }**/
+        }
 
 
-        adapter = new AdapterDepositos(lista,getContext());
+        adapter = new AdapterTransicoes(lista,getContext());
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -143,5 +149,19 @@ public class ContaFragment extends Fragment {
 
         return total;
 
+    }
+
+    public double total_vendas(){
+        double total=0;
+        try {
+            Realm realm=Realm.getDefaultInstance();
+            List<Venda> vendaList=realm.where(Venda.class).findAll();
+            for (int i=0;i<vendaList.size();i++) {
+                total += vendaList.get(i).getValor();
+            }
+        }catch (NullPointerException e){
+
+        }
+        return total;
     }
 }

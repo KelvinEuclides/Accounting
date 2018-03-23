@@ -1,9 +1,11 @@
 package com.anje.kelvin.aconting.Operacoes;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,7 @@ import com.anje.kelvin.aconting.BaseDeDados.ItemVendido;
 import com.anje.kelvin.aconting.BaseDeDados.Receita;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
+import com.anje.kelvin.aconting.MainActivity;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
@@ -128,6 +131,13 @@ public class Venda_Activity extends AppCompatActivity {
                     builder.setContentView(R.layout.itensvenda);
                     builder.setTitle("Sececione Item Para venda");
                     final ListView listView=(ListView) builder.findViewById(R.id.listaitens);
+                    Button concluir=(Button) builder.findViewById(R.id.bt_concluir);
+                    concluir.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            builder.cancel();
+                        }
+                    });
                     listView.setAdapter(arrayAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -141,15 +151,14 @@ public class Venda_Activity extends AppCompatActivity {
                             builder.setContentView(R.layout.dialogoitemavender);
                             TextView nome=(TextView) builder.findViewById(R.id.et_vender_nome);
                             TextView preco=(TextView) builder.findViewById(R.id.et_vender_preco);
-
-                            final TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
+                            TextView quantidade=(TextView) builder.findViewById(R.id.quantidade_txto);
                             Button vender_items=(Button) builder.findViewById(R.id.bt_adicionar_item_va);
                             item1=realm.where(Item.class).equalTo("nome_Item",arrayAdapter.getItem(position)).findFirst();
                             final int p=position;
                             try{
                                 nome.setText(item1.getNome_Item());
-                                preco.setText(item1.getPreco()+" MZN");
-                                quantidade.setText(item1.getItens_disponiveis());
+                                preco.setText(item1.getPrecoUnidade()+" MZN");
+                                quantidade.setText("Qtd:"+item1.getItens_disponiveis());
 
                             }catch (Exception e){
 
@@ -162,7 +171,7 @@ public class Venda_Activity extends AppCompatActivity {
 
                                        ItemVendido itemVendido=new ItemVendido();
                                        itemVendido.setNomeitem(item1.getNome_Item());
-                                       itemVendido.setValor((Double.parseDouble(item1.getPreco().toString())*Double.parseDouble(qtd.getText().toString())));
+                                       itemVendido.setValor((Double.parseDouble(item1.getPrecoUnidade().toString())*Double.parseDouble(qtd.getText().toString())));
                                        itemVendido.setVid(vid);
                                        itemVendido.setData(new Date());
                                        itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
@@ -201,6 +210,7 @@ public class Venda_Activity extends AppCompatActivity {
                     floatingActionButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Realm realm=Realm.getDefaultInstance();
                             ItemVendido itemV=realm.where(ItemVendido.class).equalTo("vid",vid).findFirst();
                             if(itemV!=null) {
                                 Receita receita = new Receita();
@@ -217,21 +227,19 @@ public class Venda_Activity extends AppCompatActivity {
                                 realm.copyToRealm(transacao_db);
                                 conta1.adicionar_deposito(totalvendas);
                                 realm.copyToRealm(receita);
+                                realm.commitTransaction();
                                 List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
-                                int i = 0;
-                                while (i < itemVendido.size()) {
+                                for(int i=0;i<itemVendido.size();i++){
+                                    Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
                                     try {
-                                        Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
                                         realm.beginTransaction();
                                         item2.vender(itemVendido.get(i).getQuantidade());
                                         realm.commitTransaction();
-
                                     } catch (Exception e) {
                                         Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
                                     }
-
                                 }
-                                finish();
+
                             }else {
                                 AlertDialog.Builder builder1=new AlertDialog.Builder(Venda_Activity.this);
                                 builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
@@ -240,7 +248,11 @@ public class Venda_Activity extends AppCompatActivity {
                                 builder1.show();
 
                             }
-
+                            finish();
+                            Intent intent=new Intent(Venda_Activity.this, MainActivity.class);
+                            startActivity(intent);
+                            AlertDialog.Builder builder1=new AlertDialog.Builder(Venda_Activity.this);
+                            builder1.setMessage("Venda Efectuada Com Susseso !");
                         }
                     });
 

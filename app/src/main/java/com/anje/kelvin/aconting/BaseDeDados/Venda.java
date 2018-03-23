@@ -12,7 +12,7 @@ import io.realm.RealmObject;
 
 public class Venda extends RealmObject {
     private double valor;
-private double valor_iva;
+    private double valor_iva;
     private String venda = "Venda";
 
     public String getVenda() {

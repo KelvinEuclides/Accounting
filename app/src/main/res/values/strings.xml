@@ -120,14 +120,19 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_relatorio_de_renda_">Relatorio_de_renda_Activity</string>
-    <string name="title_activity_add_item_">Add_item_Activity</string>
-    <string name="title_activity_estoque_">Estoque_Activity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_relatorio_de_renda_">Relatorio de renda Activity</string>
+    <string name="title_activity_add_item_">Adicionar Item</string>
+    <string name="title_activity_estoque_">Estoque Activity</string>
     <string name="title_activity_transacoes">Transacoes</string>
     <string name="title_activity_relatorio_de__transicoes_">Relatorios de entradas e saidas</string>
-    <string name="title_activity_gerir_estoque">Gerir_estoque</string>
+    <string name="title_activity_gerir_estoque">Gerir Estoque</string>
+    <string-array name="datas">
+        <item name="Mensal">30 dias</item>
+        <item name="dia"> 1 dia</item>
+        <item name="Semana">7 dias</item>
+        <item name="Quinzena">15 dias</item>
+        <item name="Trimestral">90 dias</item>
+        <item name="Semestral">180 dias</item>
+        <item name="Anual">365dias</item>
+    </string-array>
 </resources>

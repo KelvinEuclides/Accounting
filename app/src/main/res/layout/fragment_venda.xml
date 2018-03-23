@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:layout_width="380dp"
+        android:id="@+id/caard"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         app:cardCornerRadius="@dimen/cardview_default_elevation"
         app:cardElevation="@dimen/cardview_default_radius"
@@ -15,19 +16,19 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:elevation="@dimen/cardview_default_radius">
 
             <TextView
-                android:id="@+id/fg_trans_tv_descricao"
-                android:layout_width="296dp"
+                android:id="@+id/fg_trans_tv_descricao_venda"
+                android:layout_width="306dp"
                 android:layout_height="19dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:text="Descriçao"
+                app:layout_constraintBottom_toTopOf="@+id/textView12"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.157"
+                app:layout_constraintHorizontal_bias="0.159"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_transacao"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,12 +42,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dinheiro_dento" />
+                app:srcCompat="@drawable/preco" />
 
             <TextView
-                android:id="@+id/trans_tv_valor"
+                android:id="@+id/trans_tv_valor_venda"
                 android:layout_width="127dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -56,13 +57,13 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_trans_dat"
-                app:layout_constraintHorizontal_bias="0.242"
+                app:layout_constraintHorizontal_bias="0.258"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_transacao"
                 app:layout_constraintTop_toBottomOf="@+id/fg_trans_tv_descricao"
-                app:layout_constraintVertical_bias="0.25" />
+                app:layout_constraintVertical_bias="0.47" />
 
             <TextView
-                android:id="@+id/tv_trans_dat"
+                android:id="@+id/tv_trans_dat_venda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -77,34 +78,31 @@
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="36dp"
-                android:layout_height="15dp"
+                android:layout_height="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:text="Valor"
                 android:textColor="@color/primary_text"
-                app:layout_constraintBottom_toTopOf="@+id/trans_tv_valor"
+                app:layout_constraintBottom_toTopOf="@+id/trans_tv_valor_venda"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.054"
-                app:layout_constraintStart_toEndOf="@+id/iv_icon_transacao"
-                app:layout_constraintTop_toBottomOf="@+id/fg_trans_tv_descricao"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintHorizontal_bias="0.026"
+                app:layout_constraintStart_toEndOf="@+id/iv_icon_transacao" />
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:text="Data/Hora"
                 android:textColor="@color/primary_text"
-                app:layout_constraintBottom_toTopOf="@+id/tv_trans_dat"
+                app:layout_constraintBottom_toTopOf="@+id/tv_trans_dat_venda"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.859"
+                app:layout_constraintHorizontal_bias="0.774"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/fg_trans_tv_descricao"
-                app:layout_constraintVertical_bias="0.727" />
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>

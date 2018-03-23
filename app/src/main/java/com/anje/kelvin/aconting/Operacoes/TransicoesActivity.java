@@ -19,6 +19,7 @@ import android.view.View;
 import com.anje.kelvin.aconting.Fragments.DefinicoesFragment;
 import com.anje.kelvin.aconting.Fragments.DespesaFragment;
 import com.anje.kelvin.aconting.Fragments.DespositoFragment;
+import com.anje.kelvin.aconting.Fragments.FragmentVendas;
 import com.anje.kelvin.aconting.Fragments.TransacaoitensFragment;
 import com.anje.kelvin.aconting.R;
 
@@ -91,6 +92,8 @@ public class TransicoesActivity extends AppCompatActivity {
                     return new DespesaFragment();
                 case 2:
                     return new DespositoFragment();
+                case 3:
+                    return new FragmentVendas();
                 default:
                     return null;
             }
@@ -99,7 +102,7 @@ public class TransicoesActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
     }
 
