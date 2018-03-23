@@ -22,6 +22,7 @@ public class RelatorioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_relatorios);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        CardView relatorio =(CardView) findViewById(R.id.relatorios);
         relatorio.setOnClickListener(new View.OnClickListener() {
             @Override
