@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
-import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterDepositos;
-import com.anje.kelvin.aconting.Adapters.AdapterObjects.Depositos_itens;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
@@ -57,18 +55,18 @@ public class ContaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view =inflater.inflate(R.layout.fragment_conta, container, false);
-        TextView salddo=(TextView) view.findViewById(R.id.fg_conta_tv_saldo);
+        TextView salddo = view.findViewById(R.id.fg_conta_tv_saldo);
         salddo.setText(contas.getSaldo_conta()+" MZN");
-        TextView depositos =(TextView) view.findViewById(R.id.fg_depositos_m);
+        TextView depositos = view.findViewById(R.id.fg_depositos_m);
                 depositos.setText(total_depositos()+" MZN");
-        TextView despesas=(TextView) view.findViewById(R.id.fg_contas_despesas_m);
+        TextView despesas = view.findViewById(R.id.fg_contas_despesas_m);
         despesas.setText(total_despesas()+" MZN");
-        TextView vendas=(TextView) view.findViewById(R.id.fg_conta_receitas_m);
+        TextView vendas = view.findViewById(R.id.fg_conta_receitas_m);
         vendas.setText(total_vendas()+" MZN");
          RecyclerView recyclerView;
         RecyclerView.Adapter adapter;
         List<Transacao_itens> lista;
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_despesas_recentes);
+        recyclerView = view.findViewById(R.id.rv_despesas_recentes);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -77,15 +75,17 @@ public class ContaFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
         List<Transacao_db> transacao_db=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
-        if (transacao_db.size()>5) {
-            for (int i = 0; i <transacao_db.size(); i++) {
-                Transacao_itens transacaoa = new Transacao_itens(lista.get(i).getDescricao(),lista.get(i).getDescricao(),lista.get(i).getValor(),lista.get(i).getData());
-                lista.add(transacaoa);
+        try {
+            if (transacao_db.size() > 5) {
+                for (int i = 0; i < transacao_db.size(); i++) {
+                    Transacao_itens transacaoa = new Transacao_itens(lista.get(i).getDescricao(), lista.get(i).getDescricao(), lista.get(i).getValor(), lista.get(i).getData());
+                    lista.add(transacaoa);
+                }
+
             }
+        } catch (IndexOutOfBoundsException e) {
 
         }
-
-
         adapter = new AdapterTransicoes(lista,getContext());
         recyclerView.setAdapter(adapter);
 
@@ -110,11 +110,6 @@ public class ContaFragment extends Fragment {
         mListener = null;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
     public double total_depositos(){
         double total = 0;
         try {
@@ -163,5 +158,10 @@ public class ContaFragment extends Fragment {
 
         }
         return total;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

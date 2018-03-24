@@ -112,13 +112,14 @@ public class Venda_Activity extends AppCompatActivity {
 
             adapter = new Vendas(lista, this);
             recyclerView.setAdapter(adapter);
-            List<ItemVendido> itemVendidoRealmResults1 = realm.where(ItemVendido.class).equalTo("nomeitem", vid).findAll();
-            Button adicionar_item = findViewById(R.id.bt_adicionar_producto);
-            if (itemVendidoRealmResults1.isEmpty()) {
-                adicionar_item.setOnClickListener(new View.OnClickListener() {
+            final Button adicionar_item = findViewById(R.id.bt_adicionar_producto);
+            adicionar_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final Realm realm = Realm.getDefaultInstance();
+                        Realm realm = Realm.getDefaultInstance();
+                        List<ItemVendido> itemVendidoRealmResults1 = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
+                        if (itemVendidoRealmResults1.isEmpty()) {
+
                         Item man = realm.where(Item.class).findFirst();
                         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
                         final Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
@@ -169,10 +170,20 @@ public class Venda_Activity extends AppCompatActivity {
                                         Realm realm = Realm.getDefaultInstance();
                                         ItemVendido itemVendido = new ItemVendido();
                                         itemVendido.setNomeitem(item1.getNome_Item());
-                                        itemVendido.setValor((Double.parseDouble(item1.getPrecoUnidade().toString()) * Double.parseDouble(qtd.getText().toString())));
+                                        try {
+                                            itemVendido.setValor((Double.parseDouble(item1.getPrecoUnidade().toString()) * Double.parseDouble(qtd.getText().toString())));
+                                        } catch (NumberFormatException e) {
+                                            itemVendido.setQuantidade(0);
+                                        }
+
                                         itemVendido.setVid(vid);
                                         itemVendido.setData(new Date());
-                                        itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
+                                        try {
+                                            itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
+                                        } catch (NumberFormatException e) {
+                                            itemVendido.setQuantidade(0);
+                                        }
+
                                         realm.beginTransaction();
                                         realm.copyToRealm(itemVendido);
                                         realm.commitTransaction();
@@ -185,6 +196,7 @@ public class Venda_Activity extends AppCompatActivity {
                                         for (int i = 0; i < item.size(); i++) {
                                             quantidadea = quantidadea + item.get(i).getQuantidade();
                                         }
+                                        adicionar_item.setText("Concluir");
                                         itens.setText(quantidadea + "");
                                         totalvendas = 0;
                                         for (int i = 0; i < item.size(); i++) {
@@ -201,54 +213,65 @@ public class Venda_Activity extends AppCompatActivity {
                             }
                         });
                         builder.show();
-                    }
-                });
-            } else {
-                adicionar_item.setText("Concluir");
-                ItemVendido itemV = realm.where(ItemVendido.class).equalTo("vid", vid).findFirst();
-                if (itemV != null) {
-                    Receita receita = new Receita();
-                    receita.setDescricao("Venda de " + quantidadea + " Itens");
-                    receita.setValor(totalvendas);
-                    receita.setData(new Date());
-                    Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                    Transacao_db transacao_db = new Transacao_db();
-                    transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
-                    Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                    transacao_db.setId_usuario(conta.getId_usuario());
-                    transacao_db.setValor(totalvendas);
-                    transacao_db.setDia(new Date());
-                    realm.beginTransaction();
-                    realm.copyToRealm(transacao_db);
-                    conta1.adicionar_deposito(totalvendas);
-                    realm.copyToRealm(receita);
-                    realm.commitTransaction();
-                    List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
-                    for (int i = 0; i < itemVendido.size(); i++) {
-                        Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
-                        try {
-                            realm.beginTransaction();
-                            item2.vender(itemVendido.get(i).getQuantidade());
-                            realm.commitTransaction();
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
+                        } else {
+                            ItemVendido itemV = realm.where(ItemVendido.class).equalTo("vid", vid).findFirst();
+                            if (itemV != null) {
+                                Receita receita = new Receita();
+                                receita.setDescricao("Venda de " + quantidadea + " Itens");
+                                receita.setValor(totalvendas);
+                                receita.setData(new Date());
+                                Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                Transacao_db transacao_db = new Transacao_db();
+                                transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
+                                Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                transacao_db.setId_usuario(conta.getId_usuario());
+                                transacao_db.setValor(totalvendas);
+                                transacao_db.setDia(new Date());
+                                realm.beginTransaction();
+                                realm.copyToRealm(transacao_db);
+                                conta1.adicionar_deposito(totalvendas);
+                                realm.copyToRealm(receita);
+                                realm.commitTransaction();
+                                List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
+                                for (int i = 0; i < itemVendido.size(); i++) {
+                                    Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
+                                    try {
+                                        realm.beginTransaction();
+                                        item2.vender(itemVendido.get(i).getQuantidade());
+                                        realm.commitTransaction();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                            } else {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
+                                builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
+                                builder1.setTitle("Aviso");
+                                builder1.create();
+                                builder1.show();
+
+                            }
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
+                            builder1.setMessage("Venda Efectuada Com Susseso !");
+                            builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                    Intent intent = new Intent(Venda_Activity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            builder1.create().show();
+
+
                         }
+
                     }
+            });
 
-                } else {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                    builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
-                    builder1.setTitle("Aviso");
-                    builder1.create();
-                    builder1.show();
 
-                }
-                finish();
-                Intent intent = new Intent(Venda_Activity.this, MainActivity.class);
-                startActivity(intent);
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                builder1.setMessage("Venda Efectuada Com Susseso !");
-            }
+
         } finally {
         }
 

@@ -1,11 +1,8 @@
 
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +17,7 @@ import com.anje.kelvin.aconting.R;
 import java.util.List;
 
 /**
- * Created by sala on 30-01-2018.
+ * Created by kelvin euclides on 30-01-2018.
  */
 
 public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHolder>{
@@ -68,10 +65,10 @@ public class AdapterDepesas extends RecyclerView.Adapter<AdapterDepesas.ViewHold
         public ViewHolder(View view) {
             super(view);
 
-            descricao=(TextView) view.findViewById(R.id.fg_trans_tv_descricao);
-            valor=(TextView) view.findViewById(R.id.trans_tv_valor);
-            data=(TextView) view.findViewById(R.id.tv_trans_dat);
-            icone=(ImageView) view.findViewById(R.id.iv_icon_transacao);
+            descricao = view.findViewById(R.id.fg_trans_tv_descricao);
+            valor = view.findViewById(R.id.trans_tv_valor);
+            data = view.findViewById(R.id.tv_trans_dat);
+            icone = view.findViewById(R.id.iv_icon_transacao);
 
         }
 
