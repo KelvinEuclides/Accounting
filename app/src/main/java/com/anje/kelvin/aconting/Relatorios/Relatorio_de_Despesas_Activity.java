@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
     TextView datainicio,datafim;
     TextView saldo;
     Date hoje =new Date();
+    Button button;
 
 
     @Override
@@ -84,6 +86,13 @@ public class Relatorio_de_Despesas_Activity extends AppCompatActivity {
         }finally {
 
         }
+        button=(Button) findViewById(R.id.bt_relatorios_despesas_exportar);
+      button.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+
+          }
+      });
         adapter = new AdapterRelatoriosDespesas(lista,Relatorio_de_Despesas_Activity.this);
         recyclerView.setAdapter(adapter);
     }
