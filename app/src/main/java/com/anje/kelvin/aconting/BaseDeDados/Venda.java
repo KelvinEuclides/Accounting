@@ -13,8 +13,9 @@ import io.realm.RealmObject;
 public class Venda extends RealmObject {
     private double valor;
     private double valor_iva;
-    private String venda = "Venda";
-
+    private String venda = "Vendaa";
+    private int itens_vendidos;
+    private Date data;
     public String getVenda() {
         return venda;
     }
@@ -22,9 +23,6 @@ public class Venda extends RealmObject {
     public void setVenda(String venda) {
         this.venda = venda;
     }
-
-    private int itens_vendidos;
-    private Date data;
 
     public Double getValor() {
         return valor;

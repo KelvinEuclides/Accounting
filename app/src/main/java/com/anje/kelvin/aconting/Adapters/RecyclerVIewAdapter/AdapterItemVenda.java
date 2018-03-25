@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Vendaa;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
@@ -15,9 +16,9 @@ import java.util.List;
 
 public class AdapterItemVenda extends RecyclerView.Adapter<AdapterItemVenda.ViewHolder> {
 
-    private final List<Venda> mValues;
+    private final List<Vendaa> mValues;
 
-    public AdapterItemVenda(List<Venda> items) {
+    public AdapterItemVenda(List<Vendaa> items) {
         mValues = items;
 
     }
@@ -31,7 +32,7 @@ public class AdapterItemVenda extends RecyclerView.Adapter<AdapterItemVenda.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.descricao.setText(mValues.get(position).getVenda());
+        holder.descricao.setText(mValues.get(position).getDescricao());
         holder.valor.setText(mValues.get(position).getValor()+"MZN");
         Convertar_Datas c=new Convertar_Datas();
         holder.data.setText(c.datac(mValues.get(position).getData()));

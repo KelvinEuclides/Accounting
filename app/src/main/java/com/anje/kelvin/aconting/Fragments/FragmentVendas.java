@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.anje.kelvin.aconting.Adapters.AdapterObjects.Vendaa;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterItemVenda;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
@@ -50,13 +52,18 @@ public class FragmentVendas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_venda, container, false);
         Realm realm=Realm.getDefaultInstance();
-        List<Item> lista;
+        List<Vendaa> lista;
         RecyclerView.Adapter adapter;
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_vendas);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        lista = new ArrayList<Item>();
+        lista = new ArrayList<Vendaa>();
         List<Venda> vendas=realm.where(Venda.class).findAll();
-        adapter = new AdapterItemVenda(vendas);
+        for (int i=0;i<vendas.size();i++){
+            Vendaa vendaa=new Vendaa(vendas.get(i).getValor(),vendas.get(i).getVenda(),vendas.get(i).getItens_vendidos());
+            lista.add(vendaa);
+        }
+
+        adapter = new AdapterItemVenda(lista);
         recyclerView.setAdapter(adapter);
 
         return view;

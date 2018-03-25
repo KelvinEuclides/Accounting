@@ -78,7 +78,7 @@ public class Venda_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Date hoje = new Date();
 
-        vid = "Venda" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth() + "" + hoje.getTime();
+        vid = "Vendaa" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth() + "" + hoje.getTime();
         saldo = findViewById(R.id.tv_venda_valor_venda);
         Realm realm = Realm.getDefaultInstance();
         List<ItemVendido> itemVendidoRealmResults = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
@@ -217,12 +217,12 @@ public class Venda_Activity extends AppCompatActivity {
                             ItemVendido itemV = realm.where(ItemVendido.class).equalTo("vid", vid).findFirst();
                             if (itemV != null) {
                                 Receita receita = new Receita();
-                                receita.setDescricao("Venda de " + quantidadea + " Itens");
+                                receita.setDescricao("Vendaa de " + quantidadea + " Itens");
                                 receita.setValor(totalvendas);
                                 receita.setData(new Date());
                                 Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
                                 Transacao_db transacao_db = new Transacao_db();
-                                transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
+                                transacao_db.setDescricao("Vendaa de " + quantidadea + " Itens");
                                 Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
                                 transacao_db.setId_usuario(conta.getId_usuario());
                                 transacao_db.setValor(totalvendas);
@@ -253,7 +253,7 @@ public class Venda_Activity extends AppCompatActivity {
 
                             }
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                            builder1.setMessage("Venda Efectuada Com Susseso !");
+                            builder1.setMessage("Vendaa Efectuada Com Susseso !");
                             builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
