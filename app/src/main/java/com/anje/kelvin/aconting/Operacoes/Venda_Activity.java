@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Item;
 import com.anje.kelvin.aconting.BaseDeDados.ItemVendido;
 import com.anje.kelvin.aconting.BaseDeDados.Receita;
@@ -80,7 +81,7 @@ public class Venda_Activity extends AppCompatActivity {
 
         vid = "Vendaa" + hoje.getDate() + "" + hoje.getYear() + "" + hoje.getMonth() + "" + hoje.getTime();
         saldo = findViewById(R.id.tv_venda_valor_venda);
-        Realm realm = Realm.getDefaultInstance();
+        final Realm realm = Realm.getDefaultInstance();
         List<ItemVendido> itemVendidoRealmResults = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
         totalvendas = 0;
         for (int i = 0; i < itemVendidoRealmResults.size(); i++) {
@@ -116,158 +117,219 @@ public class Venda_Activity extends AppCompatActivity {
             adicionar_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Realm realm = Realm.getDefaultInstance();
-                        List<ItemVendido> itemVendidoRealmResults1 = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
-                        if (itemVendidoRealmResults1.isEmpty()) {
-
-                        Item man = realm.where(Item.class).findFirst();
-                        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
-                        final Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                        final List<Item> item = realm.where(Item.class).equalTo("id_usuario", conta.getId_usuario()).findAll();
-                        for (int i = 0; i < item.size(); i++) {
-                            arrayAdapter.add(item.get(i).getNome_Item());
-                        }
-                        final Dialog builder = new Dialog(Venda_Activity.this);
-                        builder.setContentView(R.layout.itensvenda);
-                        builder.setTitle("Sececione Item Para venda");
-                        final ListView listView = builder.findViewById(R.id.listaitens);
-                        Button concluir = builder.findViewById(R.id.bt_concluir);
-                        concluir.setOnClickListener(new View.OnClickListener() {
+                        Dialog builde=new Dialog(Venda_Activity.this);
+                        builde.setTitle("Selecione o tipo de venda");
+                        builde.setContentView(R.layout.dialogo_vender);
+                        Button item_em_estoque=(Button) builde.findViewById(R.id.bt_item_em_stock);
+                        item_em_estoque.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {
-                                builder.cancel();
-                            }
-                        });
-                        listView.setAdapter(arrayAdapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                final Dialog builder = new Dialog(Venda_Activity.this);
+                            public void onClick(View view) {
                                 Realm realm = Realm.getDefaultInstance();
-                                Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                                final Item item = realm.where(Item.class).equalTo("id_usuario", conta.getId_usuario()).findFirst();
-                                builder.setTitle(item.getNome_Item());
-                                builder.setCancelable(true);
-                                builder.setContentView(R.layout.dialogoitemavender);
-                                TextView nome = builder.findViewById(R.id.et_vender_nome);
-                                TextView preco = builder.findViewById(R.id.et_vender_preco);
-                                TextView quantidade = builder.findViewById(R.id.quantidade_txto);
-                                Button vender_items = builder.findViewById(R.id.bt_adicionar_item_va);
-                                item1 = realm.where(Item.class).equalTo("nome_Item", arrayAdapter.getItem(position)).findFirst();
-                                final int p = position;
-                                try {
-                                    nome.setText(item1.getNome_Item());
-                                    preco.setText(item1.getPrecoUnidade() + " MZN");
-                                    quantidade.setText("Qtd:" + item1.getItens_disponiveis());
-
-                                } catch (Exception e) {
-
+                                Item man = realm.where(Item.class).findFirst();
+                                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Venda_Activity.this, android.R.layout.select_dialog_singlechoice);
+                                final Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                final List<Item> item = realm.where(Item.class).equalTo("id_usuario", conta.getId_usuario()).findAll();
+                                for (int i = 0; i < item.size(); i++) {
+                                    arrayAdapter.add(item.get(i).getNome_Item());
                                 }
-                                vender_items.setOnClickListener(new View.OnClickListener() {
+                                final Dialog builder = new Dialog(Venda_Activity.this);
+                                builder.setContentView(R.layout.itensvenda);
+                                builder.setTitle("Sececione Item Para venda");
+                                final ListView listView = builder.findViewById(R.id.listaitens);
+                                Button concluir = builder.findViewById(R.id.bt_concluir);
+                                concluir.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        EditText qtd = builder.findViewById(R.id.et_vender_quantidade);
-                                        Realm realm = Realm.getDefaultInstance();
-                                        ItemVendido itemVendido = new ItemVendido();
-                                        itemVendido.setNomeitem(item1.getNome_Item());
-                                        try {
-                                            itemVendido.setValor((Double.parseDouble(item1.getPrecoUnidade().toString()) * Double.parseDouble(qtd.getText().toString())));
-                                        } catch (NumberFormatException e) {
-                                            itemVendido.setQuantidade(0);
-                                        }
-
-                                        itemVendido.setVid(vid);
-                                        itemVendido.setData(new Date());
-                                        try {
-                                            itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
-                                        } catch (NumberFormatException e) {
-                                            itemVendido.setQuantidade(0);
-                                        }
-
-                                        realm.beginTransaction();
-                                        realm.copyToRealm(itemVendido);
-                                        realm.commitTransaction();
-                                        preco pre = new preco(itemVendido.getQuantidade(), itemVendido.getNomeitem(), itemVendido.getValor());
-                                        lista.add(pre);
-                                        adapter = new Vendas(lista, getApplicationContext());
-                                        recyclerView.setAdapter(adapter);
-                                        List<ItemVendido> item = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
-                                        quantidadea = 0;
-                                        for (int i = 0; i < item.size(); i++) {
-                                            quantidadea = quantidadea + item.get(i).getQuantidade();
-                                        }
-                                        adicionar_item.setText("Concluir");
-                                        itens.setText(quantidadea + "");
-                                        totalvendas = 0;
-                                        for (int i = 0; i < item.size(); i++) {
-                                            totalvendas = totalvendas + item.get(i).getValor();
-                                        }
-                                        saldo.setText(totalvendas + "Mzn");
                                         builder.cancel();
                                     }
                                 });
+                                listView.setAdapter(arrayAdapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        final Dialog builder = new Dialog(Venda_Activity.this);
+                                        Realm realm = Realm.getDefaultInstance();
+                                        Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                        final Item item = realm.where(Item.class).equalTo("id_usuario", conta.getId_usuario()).findFirst();
+                                        builder.setTitle(item.getNome_Item());
+                                        builder.setCancelable(true);
+                                        builder.setContentView(R.layout.dialogoitemavender);
+                                        TextView nome = builder.findViewById(R.id.et_vender_nome);
+                                        TextView preco = builder.findViewById(R.id.et_vender_preco);
+                                        TextView quantidade = builder.findViewById(R.id.quantidade_txto);
+                                        Button vender_items = builder.findViewById(R.id.bt_adicionar_item_va);
+                                        item1 = realm.where(Item.class).equalTo("nome_Item", arrayAdapter.getItem(position)).findFirst();
+                                        try {
+                                            nome.setText(item1.getNome_Item());
+                                            preco.setText(item1.getPrecoUnidade() + " MZN");
+                                            quantidade.setText("Qtd:" + item1.getItens_disponiveis());
 
+                                        } catch (Exception e) {
+
+                                        }
+                                        vender_items.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                EditText qtd = builder.findViewById(R.id.et_vender_quantidade);
+                                                Realm realm = Realm.getDefaultInstance();
+                                                ItemVendido itemVendido = new ItemVendido();
+                                                itemVendido.setNomeitem(item1.getNome_Item());
+                                                try {
+                                                    itemVendido.setValor((Double.parseDouble(item1.getPrecoUnidade().toString()) * Double.parseDouble(qtd.getText().toString())));
+                                                } catch (NumberFormatException e) {
+                                                    itemVendido.setQuantidade(0);
+                                                }
+
+                                                itemVendido.setVid(vid);
+                                                itemVendido.setData(new Date());
+                                                try {
+                                                    itemVendido.setQuantidade(Integer.parseInt(qtd.getText().toString()));
+                                                } catch (NumberFormatException e) {
+                                                    itemVendido.setQuantidade(0);
+                                                }
+
+                                                realm.beginTransaction();
+                                                realm.copyToRealm(itemVendido);
+                                                realm.commitTransaction();
+                                                preco pre = new preco(itemVendido.getQuantidade(), itemVendido.getNomeitem(), itemVendido.getValor());
+                                                lista.add(pre);
+                                                adapter = new Vendas(lista, getApplicationContext());
+                                                recyclerView.setAdapter(adapter);
+                                                List<ItemVendido> item = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
+                                                quantidadea = 0;
+                                                for (int i = 0; i < item.size(); i++) {
+                                                    quantidadea = quantidadea + item.get(i).getQuantidade();
+                                                }
+                                                itens.setText(quantidadea + "");
+                                                totalvendas = 0;
+                                                for (int i = 0; i < item.size(); i++) {
+                                                    totalvendas = totalvendas + item.get(i).getValor();
+                                                }
+                                                saldo.setText(totalvendas + "Mzn");
+                                                builder.cancel();
+                                            }
+                                        });
+
+                                        builder.show();
+
+
+                                    }
+                                });
                                 builder.show();
-
-
                             }
                         });
-                        builder.show();
-                        } else {
-                            ItemVendido itemV = realm.where(ItemVendido.class).equalTo("vid", vid).findFirst();
-                            if (itemV != null) {
-                                Receita receita = new Receita();
-                                receita.setDescricao("Vendaa de " + quantidadea + " Itens");
-                                receita.setValor(totalvendas);
-                                receita.setData(new Date());
-                                Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                                Transacao_db transacao_db = new Transacao_db();
-                                transacao_db.setDescricao("Vendaa de " + quantidadea + " Itens");
-                                Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
-                                transacao_db.setId_usuario(conta.getId_usuario());
-                                transacao_db.setValor(totalvendas);
-                                transacao_db.setDia(new Date());
-                                realm.beginTransaction();
-                                realm.copyToRealm(transacao_db);
-                                conta1.adicionar_deposito(totalvendas);
-                                realm.copyToRealm(receita);
-                                realm.commitTransaction();
-                                List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
-                                for (int i = 0; i < itemVendido.size(); i++) {
-                                    Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
-                                    try {
-                                        realm.beginTransaction();
-                                        item2.vender(itemVendido.get(i).getQuantidade());
-                                        realm.commitTransaction();
-                                    } catch (Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
+                        builde.show();
+
+                        Button item_manufacturadoa=(Button) builde.findViewById(R.id.bt_item_em_fabricado);
+                        item_manufacturadoa.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                final Dialog dialog=new Dialog(Venda_Activity.this);
+                                dialog.setTitle("Item Manufacturado");
+                                dialog.setContentView(R.layout.dialogoitemmanufacturado);
+                                dialog.show();
+                                final EditText nome=(EditText) dialog.findViewById(R.id.et_nomeprod_manufac);
+                                final EditText precofabrico=(EditText) dialog.findViewById(R.id.et_precfrabmanufac);
+                                final EditText precovenda=(EditText) dialog.findViewById(R.id.et_precvendamanufac);
+                                final EditText numvenda=(EditText) dialog.findViewById(R.id.et_quantidade_itemmanufacturado);
+                                Button butaoter=(Button) dialog.findViewById(R.id.bt_adicionar_pd_manufacturado);
+                                butaoter.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Realm realm1=Realm.getDefaultInstance();
+                                        int i=1;
+                                        Conta conta=realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                                        ItemVendido itemVendido=new ItemVendido();
+                                        itemVendido.setNomeitem(nome.getText().toString());
+                                        try {
+                                            i=Integer.parseInt(numvenda.getText().toString());
+                                        }catch (NumberFormatException e){
+                                            i=1;
+                                        }
+                                        itemVendido.setQuantidade(i);
+                                        itemVendido.setData(new Date());
+                                        itemVendido.setVid(vid);
+                                        itemVendido.setValor(Double.parseDouble(precovenda.getText().toString())*i);
+                                        Despesa_db despesa_db=new Despesa_db();
+                                        despesa_db.setDescricao("Material para  "+nome.getText().toString());
+                                        despesa_db.setDia(new Date());
+                                        despesa_db.setValor(Double.parseDouble(precofabrico.getText().toString())*i);
+                                        despesa_db.setId_usuario(conta.getId_usuario());
+                                        realm1.beginTransaction();
+                                        realm1.copyToRealm(itemVendido);
+                                        realm1.copyToRealm(despesa_db);
+                                        realm1.commitTransaction();
+                                        preco pre = new preco(i,itemVendido.getNomeitem(),itemVendido.getValor());
+                                        lista.add(pre);
+                                        dialog.cancel();
                                     }
-                                }
-
-                            } else {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                                builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
-                                builder1.setTitle("Aviso");
-                                builder1.create();
-                                builder1.show();
-
+                                });
                             }
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
-                            builder1.setMessage("Vendaa Efectuada Com Susseso !");
-                            builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                    Intent intent = new Intent(Venda_Activity.this, MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                            builder1.create().show();
-
-
-                        }
+                        });
 
                     }
+            });
+
+            Button concluir=(Button) findViewById(R.id.bt_concluir_venda);
+            concluir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Realm realm=Realm.getDefaultInstance();
+                    ItemVendido itemV = realm.where(ItemVendido.class).equalTo("vid", vid).findFirst();
+                    if (itemV != null) {
+                        Receita receita = new Receita();
+                        receita.setDescricao("Venda de " + quantidadea + " Itens");
+                        receita.setValor(totalvendas);
+                        receita.setData(new Date());
+                        Conta conta1 = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                        Transacao_db transacao_db = new Transacao_db();
+                        transacao_db.setDescricao("Venda de " + quantidadea + " Itens");
+                        Conta conta = realm.where(Conta.class).equalTo("loggado", true).findFirst();
+                        venda.setData(new Date());
+                        venda.setValor(totalvendas);
+                        venda.setItens_vendidos(quantidadea);
+                        transacao_db.setId_usuario(conta.getId_usuario());
+                        transacao_db.setValor(totalvendas);
+                        transacao_db.setDia(new Date());
+                        realm.beginTransaction();
+                        realm.copyToRealm(transacao_db);
+                        conta1.adicionar_deposito(totalvendas);
+                        realm.copyToRealm(venda);
+                        realm.copyToRealm(receita);
+                        realm.commitTransaction();
+                        List<ItemVendido> itemVendido = realm.where(ItemVendido.class).equalTo("vid", vid).findAll();
+                        for (int i = 0; i < itemVendido.size(); i++) {
+                            Item item2 = realm.where(Item.class).equalTo("nome_Item", itemVendido.get(i).getNomeitem()).findFirst();
+                            try {
+                                realm.beginTransaction();
+                                item2.vender(itemVendido.get(i).getQuantidade());
+                                realm.commitTransaction();
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), "Item nao encontrado", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
+                        builder1.setMessage("Vendaa Efectuada Com Susseso !");
+                        builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                                Intent intent = new Intent(Venda_Activity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        builder1.create().show();
+
+                    } else {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(Venda_Activity.this);
+                        builder1.setMessage("Nao e possivel efectuar a venda sem itens, Adicione alguns Itens A venda!");
+                        builder1.setTitle("Aviso");
+                        builder1.create();
+                        builder1.show();
+
+                    }
+
+                }
             });
 
 
@@ -302,6 +364,12 @@ public class Venda_Activity extends AppCompatActivity {
             holder.descricao.setText(p.getNome());
             holder.valor.setText(p.getPreco()+"");
             holder.peco.setText(p.getQuantidade()+"");
+            holder.icone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
 
         }

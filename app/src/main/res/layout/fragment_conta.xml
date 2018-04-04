@@ -60,11 +60,11 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="625dp">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="332dp"
-            android:layout_height="456dp"
+            android:layout_height="503dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="116dp"
@@ -75,7 +75,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
@@ -169,44 +169,51 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="98dp"
-                    android:elevation="@dimen/cardview_default_elevation"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="8dp">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="61dp"
+                        android:elevation="@dimen/cardview_default_elevation">
 
                         <TextView
                             android:id="@+id/textView23"
                             android:layout_width="232dp"
                             android:layout_height="32dp"
+                            android:layout_marginBottom="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
-                            android:text="Despositos Mensais"
+                            android:text="Total Vendas Mensais"
                             android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.066"
+                            app:layout_constraintHorizontal_bias="0.095"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
-                            android:id="@+id/fg_depositos_m"
-                            android:layout_width="241dp"
+                            android:id="@+id/textView29"
+                            android:layout_width="wrap_content"
                             android:layout_height="27dp"
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="8dp"
-                            android:text="0.00MZN"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="8dp"
+                            android:text="0"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView23"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.264"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView23"
+                            app:layout_constraintHorizontal_bias="0.255"
+                            app:layout_constraintStart_toEndOf="@+id/textView23"
+                            app:layout_constraintTop_toTopOf="@+id/textView23"
                             app:layout_constraintVertical_bias="0.0" />
                     </android.support.constraint.ConstraintLayout>
 
@@ -214,44 +221,13 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Transacoes Recentes" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_despesas_recentes"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </android.support.v7.widget.RecyclerView>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vendas Recentes" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </android.support.v7.widget.RecyclerView>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="10dp"
+                    tools:layout_editor_absoluteX="26dp"
+                    tools:layout_editor_absoluteY="440dp" />
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="98dp"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="8dp">
 
                     <android.support.constraint.ConstraintLayout
@@ -263,37 +239,39 @@
                             android:id="@+id/textView23"
                             android:layout_width="232dp"
                             android:layout_height="32dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Total de Vendas"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Transacoes Agendadas"
                             android:textSize="18sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.066"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
-                            android:id="@+id/textView29"
-                            android:layout_width="241dp"
+                            android:id="@+id/Total Trans Agendadas"
+                            android:layout_width="wrap_content"
                             android:layout_height="27dp"
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginStart="32dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:text="0.00MZN"
+                            android:text="0"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.264"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView23"
-                            app:layout_constraintVertical_bias="0.0" />
+                            app:layout_constraintHorizontal_bias="0.161"
+                            app:layout_constraintStart_toEndOf="@+id/textView23"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="1.0" />
                     </android.support.constraint.ConstraintLayout>
 
                 </android.support.v7.widget.CardView>
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

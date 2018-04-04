@@ -35,7 +35,7 @@ public class AdapterItemVenda extends RecyclerView.Adapter<AdapterItemVenda.View
         holder.descricao.setText(mValues.get(position).getDescricao());
         holder.valor.setText(mValues.get(position).getValor()+"MZN");
         Convertar_Datas c=new Convertar_Datas();
-        holder.data.setText(c.datac(mValues.get(position).getData()));
+        holder.data.setText("");
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

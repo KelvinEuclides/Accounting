@@ -13,25 +13,7 @@
         layout_height="wrap_content"
         layout_width="match_parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bt_adicionar_producto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Adicionar item A Venda"
-        android:textColor="@color/cardview_light_background"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="left|bottom" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="bottom|center">
-
-    </android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -134,5 +116,48 @@
 
         </android.support.constraint.ConstraintLayout>
     </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/bt_adicionar_producto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="Adicionar item A Venda"
+            android:textColor="@color/cardview_light_background"
+            app:layout_anchor="@+id/include"
+            app:layout_anchorGravity="left|bottom" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_concluir_venda"
+            android:layout_width="194dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="Concluir"
+            android:textColor="@color/cardview_light_background"
+            app:layout_anchor="@+id/include"
+            app:layout_anchorGravity="right|bottom" />
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

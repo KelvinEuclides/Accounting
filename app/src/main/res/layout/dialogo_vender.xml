@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="290dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -18,7 +18,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="15dp" />
 
     <Button
         android:id="@+id/bt_item_em_fabricado"
@@ -27,4 +27,8 @@
         android:background="@color/colorPrimary"
         android:text="Item Fabricado"
         android:textColor="@color/cardview_light_background" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 </LinearLayout>
