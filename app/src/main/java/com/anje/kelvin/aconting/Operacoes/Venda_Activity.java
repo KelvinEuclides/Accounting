@@ -170,6 +170,7 @@ public class Venda_Activity extends AppCompatActivity {
                                         vender_items.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+
                                                 EditText qtd = builder.findViewById(R.id.et_vender_quantidade);
                                                 Realm realm = Realm.getDefaultInstance();
                                                 ItemVendido itemVendido = new ItemVendido();

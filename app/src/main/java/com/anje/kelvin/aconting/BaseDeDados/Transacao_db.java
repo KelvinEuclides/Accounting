@@ -1,8 +1,6 @@
 package com.anje.kelvin.aconting.BaseDeDados;
 
 import java.util.Date;
-
-import io.realm.Realm;
 import io.realm.RealmObject;
 
 /**

@@ -1,7 +1,4 @@
 package com.anje.kelvin.aconting.BaseDeDados;
-
-import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -16,6 +13,24 @@ public class Conta extends RealmObject {
     private boolean loggado=false;
     private int telemovel;
     private int pin;
+    private Boolean notificacoes=true;
+    private Boolean Alertas=true;
+
+    public Boolean getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setNotificacoes(Boolean notificacoes) {
+        this.notificacoes = notificacoes;
+    }
+
+    public Boolean getAlertas() {
+        return Alertas;
+    }
+
+    public void setAlertas(Boolean alertas) {
+        Alertas = alertas;
+    }
 
     public Conta() {
     }

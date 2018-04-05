@@ -1,5 +1,4 @@
 package com.anje.kelvin.aconting.BaseDeDados;
-
 import io.realm.RealmObject;
 
 /**

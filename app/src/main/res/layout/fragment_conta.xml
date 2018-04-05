@@ -201,7 +201,7 @@
                             app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
-                            android:id="@+id/textView29"
+                            android:id="@+id/n_vendas_mensais"
                             android:layout_width="wrap_content"
                             android:layout_height="27dp"
                             android:layout_marginBottom="8dp"
@@ -250,7 +250,7 @@
                             app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
-                            android:id="@+id/Total Trans Agendadas"
+                            android:id="@+id/total_trans_age"
                             android:layout_width="wrap_content"
                             android:layout_height="27dp"
                             android:layout_marginBottom="8dp"

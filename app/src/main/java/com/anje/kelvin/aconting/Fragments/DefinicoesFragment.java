@@ -56,8 +56,8 @@ public class DefinicoesFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        //CardView pin=(CardView) view.findViewById(R.id.ia);
-       /** pin.setOnClickListener(new View.OnClickListener() {
+        CardView pin=(CardView) view.findViewById(R.id.cardpin);
+       pin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Realm realm=Realm.getDefaultInstance();
@@ -105,7 +105,7 @@ public class DefinicoesFragment extends Fragment {
                 });
 
             }
-        });**/
+        });
         return view;
     }
 

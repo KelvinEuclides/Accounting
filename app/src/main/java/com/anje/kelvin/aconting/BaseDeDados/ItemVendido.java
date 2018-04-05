@@ -4,10 +4,6 @@ import java.util.Date;
 
 import io.realm.RealmObject;
 
-/**
- * Created by sala on 20-03-2018.
- */
-
 public class ItemVendido extends RealmObject {
     String vid;
     String nomeitem;

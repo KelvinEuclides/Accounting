@@ -10,17 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
+import com.anje.kelvin.aconting.BaseDeDados.Debito_automatico;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
 import com.anje.kelvin.aconting.BaseDeDados.Venda;
+import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -28,6 +32,8 @@ import io.realm.Realm;
 
 public class ContaFragment extends Fragment {
     Realm realm=Realm.getDefaultInstance();
+    Date inicio=new Date();
+
     Conta contas=realm.where(Conta.class).equalTo("loggado",true).findFirst();
 
     private OnFragmentInteractionListener mListener;
@@ -57,42 +63,30 @@ public class ContaFragment extends Fragment {
         final View view =inflater.inflate(R.layout.fragment_conta, container, false);
         TextView salddo = view.findViewById(R.id.fg_conta_tv_saldo);
         salddo.setText(contas.getSaldo_conta()+" MZN");
-        TextView depositos = view.findViewById(R.id.fg_depositos_m);
-                depositos.setText(total_depositos()+" MZN");
         TextView despesas = view.findViewById(R.id.fg_contas_despesas_m);
         despesas.setText(total_despesas()+" MZN");
         TextView vendas = view.findViewById(R.id.fg_conta_receitas_m);
         vendas.setText(total_vendas()+" MZN");
-         RecyclerView recyclerView;
-        RecyclerView.Adapter adapter;
-        List<Transacao_itens> lista;
-        recyclerView = view.findViewById(R.id.rv_despesas_recentes);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(false);
-        lista = new ArrayList<Transacao_itens>();
         Realm realm = Realm.getDefaultInstance();
-        Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
-        List<Transacao_db> transacao_db=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+        Convertar_Datas co=new Convertar_Datas();
+        TextView totalvendas=(TextView) view.findViewById(R.id.n_vendas_mensais);
         try {
-            if (transacao_db.size() > 5) {
-                for (int i = 0; i < transacao_db.size(); i++) {
-                    Transacao_itens transacaoa = new Transacao_itens(lista.get(i).getDescricao(), lista.get(i).getDescricao(), lista.get(i).getValor(), lista.get(i).getData());
-                    lista.add(transacaoa);
-                }
-
+            Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
+            List<Venda> venda=realm.where(Venda.class).between("data",co.primeirodiadomes(inicio),inicio).findAll();
+            List<Debito_automatico> debito_automaticoList =realm.where(Debito_automatico.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
+            TextView total_transacoes=(TextView) view.findViewById(R.id.total_trans_age);
+            try {
+                total_transacoes.setText(debito_automaticoList.size());
+                totalvendas.setText(venda.size());
+            }catch (Exception e){
             }
-        } catch (IndexOutOfBoundsException e) {
+        }catch (IllegalArgumentException e){
 
         }
-        adapter = new AdapterTransicoes(lista,getContext());
-        recyclerView.setAdapter(adapter);
 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -161,7 +155,6 @@ public class ContaFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -9,6 +9,7 @@ import io.realm.RealmObject;
  */
 
 public class Debito_automatico extends RealmObject {
+
     private String Descricao;
     private double valor;
     private Date DataFim;

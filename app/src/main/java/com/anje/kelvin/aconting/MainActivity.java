@@ -24,7 +24,6 @@ import java.util.List;
 import io.realm.Realm;
 
 public class MainActivity extends FragmentActivity {
-
     ViewPager viewPager;
     AdapterFragment adapterFragment;
 
@@ -68,6 +67,7 @@ public class MainActivity extends FragmentActivity {
         for(int i=0;i<item.size();i++){
             if(item.get(i).getItens_disponiveis()<5) {
                 final Dialog dialog=new Dialog(MainActivity.this);
+                dialog.setTitle("Aviso");
                 dialog.setContentView(R.layout.dialogalerta);
                 TextView textView=(TextView) dialog.findViewById(R.id.textView52);
                 textView.setText("Tem Apenas"+item.get(i).getItens_disponiveis()+"Itens de "+item.get(i).getNome_Item()+" Em Estoque deseja repor?");
@@ -83,6 +83,7 @@ public class MainActivity extends FragmentActivity {
                 repor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
 
                     }
                 });
