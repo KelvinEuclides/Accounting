@@ -11,6 +11,7 @@ import com.anje.kelvin.aconting.R;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Transicoes_Activity;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Despesas_Activity;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_renda_Activity;
+import com.anje.kelvin.aconting.Relatorios.RelatoriodeactividadesActivity;
 
 import java.util.Date;
 public class RelatorioActivity extends AppCompatActivity {
@@ -39,11 +40,11 @@ public class RelatorioActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        CardView renda=(CardView) findViewById(R.id.relatorio_de_fluxo_de_caixa);
+        CardView renda=(CardView) findViewById(R.id.relatorio_de_renda);
         renda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(RelatorioActivity.this, Relatorio_de_Transicoes_Activity.class);
+                Intent intent=new Intent(RelatorioActivity.this, RelatoriodeactividadesActivity.class);
                 startActivity(intent);
             }
         });

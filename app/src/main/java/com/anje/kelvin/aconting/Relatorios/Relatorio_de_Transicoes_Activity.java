@@ -2,10 +2,13 @@ package com.anje.kelvin.aconting.Relatorios;
 
 import android.icu.text.DateFormat;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterRelatoriosDespesas;
@@ -29,6 +32,7 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
     TextView saldo;
     Date hoje =new Date();
     Date d=new Date((hoje.getTime()-24*24*600*1000)-6*24*3600*1000);
+    Button button;
 
 
     @Override
@@ -73,7 +77,14 @@ public class Relatorio_de_Transicoes_Activity extends AppCompatActivity {
         }
         adapter = new AdapterRelatoriosDespesas(lista,Relatorio_de_Transicoes_Activity.this);
         recyclerView.setAdapter(adapter);
-
+        button=(Button) findViewById(R.id.bt_relatorios_transacoes_exportar);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(Relatorio_de_Transicoes_Activity.this);
+                builder.setMessage("Relatorio de venda gerado!").create().show();
+            }
+        });
 
 
 

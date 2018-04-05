@@ -9,10 +9,28 @@ import io.realm.RealmObject;
  */
 
 public class Debito_automatico extends RealmObject {
-
+    private  int id_usuario;
     private String Descricao;
     private double valor;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public Boolean getMensal() {
+        return mensal;
+    }
+
+    public void setMensal(Boolean mensal) {
+        this.mensal = mensal;
+    }
+
     private Date DataFim;
+    private Boolean mensal=false;
 
     public Debito_automatico() {
     }

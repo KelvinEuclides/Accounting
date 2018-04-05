@@ -1,8 +1,10 @@
 package com.anje.kelvin.aconting.Operacoes;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -14,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Stock;
 import com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter.AdapterStock;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
@@ -54,7 +58,7 @@ public class Gerir_estoque extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Dialog builder = new Dialog(Gerir_estoque.this);
+                    final Dialog builder = new Dialog(Gerir_estoque.this);
                     builder.setTitle("Adicionar item Ao Estoque");
                     builder.setCancelable(true);
                     builder.setContentView(R.layout.fragment_add);
@@ -92,21 +96,36 @@ public class Gerir_estoque extends AppCompatActivity {
                                 } else {
                                     medida = "Unidades";
                                 }
-                                despesa_db.setDescricao("Compra de " + item.getNum_item() + " " + medida + " de " + item.getNome_Item());
-                                despesa_db.setValor(item.getPreco());
-                                despesa_db.setId_usuario(conta.getId_usuario());
-                                despesa_db.setDia(new Date());
-                                Transacao_db transacao_db = new Transacao_db();
-                                transacao_db.setValor(despesa_db.getValor());
-                                transacao_db.setDescricao(despesa_db.getDescricao());
-                                transacao_db.setDia(despesa_db.getDia());
-                                transacao_db.setCategoria("Compra");
-                                realm.beginTransaction();
-                                conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
-                                realm.copyToRealm(item);
-                                realm.copyToRealm(despesa_db);
-                                realm.copyToRealm(transacao_db);
-                                realm.commitTransaction();
+                                if(Double.parseDouble(preco.getText().toString())>=conta.getSaldo_conta()){
+                                    despesa_db.setDescricao("Compra de " + item.getNum_item() + " " + medida + " de " + item.getNome_Item());
+                                    despesa_db.setValor(item.getPreco());
+                                    despesa_db.setId_usuario(conta.getId_usuario());
+                                    despesa_db.setDia(new Date());
+                                    Transacao_db transacao_db = new Transacao_db();
+                                    transacao_db.setValor(despesa_db.getValor());
+                                    transacao_db.setDescricao(despesa_db.getDescricao());
+                                    transacao_db.setDia(despesa_db.getDia());
+                                    transacao_db.setCategoria("Compra");
+                                    realm.beginTransaction();
+                                    conta.adicionar_item(Double.parseDouble(preco.getText().toString()));
+                                    realm.copyToRealm(item);
+                                    realm.copyToRealm(despesa_db);
+                                    realm.copyToRealm(transacao_db);
+                                    realm.commitTransaction();
+                                }else{
+                                    AlertDialog.Builder builder1 =new AlertDialog.Builder(Gerir_estoque.this);
+                                    builder1.setTitle("Aviso");
+                                    builder1.setMessage("Nao e possivel adicionar "+item.getNome_Item()+" Ao estoque Porque Tem um saldo inferior a "+item.getPreco()+"MZN");
+                                    builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    builder1.create();
+                                    builder.show();
+                                }
+
                             }catch (Exception e){
 
                             }

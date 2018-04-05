@@ -2,16 +2,20 @@ package com.anje.kelvin.aconting.Relatorios;
 
 import android.annotation.SuppressLint;
 import android.icu.text.DateFormat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter.AdapterTransicoes;
 import com.anje.kelvin.aconting.Adapters.AdapterObjects.Transacao_itens;
 import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.BaseDeDados.Receita;
 import com.anje.kelvin.aconting.BaseDeDados.Transacao_db;
+import com.anje.kelvin.aconting.BaseDeDados.Venda;
 import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 import java.util.ArrayList;
@@ -29,7 +33,6 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.relatoriodeactividades);
         recyclerView = (RecyclerView) findViewById(R.id.rv_re_actividades);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -40,16 +43,14 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
         Conta conta = realm.where(Conta.class).equalTo("loggado",true).findFirst();
         List<Transacao_db>  items=realm.where(Transacao_db.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
         diafim=(TextView) findViewById(R.id.tv_id_re_despesas_data_fim);
-        Convertar_Datas c=new Convertar_Datas();
-        diafim.setText(c.datac(hoje));
         diainicio=(TextView) findViewById(R.id.tv_id_re_despesas_datainicio);
-        diainicio.setText(c.datac(d));
+        Convertar_Datas c=new Convertar_Datas();
 
-        List<Receita> receita=realm.where(Receita.class).between("data",d,hoje).findAll();
+        List<Venda> receita=realm.where(Venda.class).findAll();
         if (receita.size() > 0) {
             for (int i = 0; i < items.size(); i++) {
 
-                Transacao_itens transacao = new Transacao_itens(receita.get(i).getDescricao(),"venda",receita.get(i).getValor(),receita.get(i).getData());
+                Transacao_itens transacao = new Transacao_itens("Venda De "+receita.get(i).getItens_vendidos()+items,"venda",receita.get(i).getValor(),receita.get(i).getData());
                 Realm realm1=Realm.getDefaultInstance();
                 total=total+receita.get(i).getValor();
                 lista.add(transacao);
@@ -62,5 +63,13 @@ public class RelatoriodeactividadesActivity extends AppCompatActivity {
 
         adapter = new AdapterTransicoes(lista,RelatoriodeactividadesActivity.this);
         recyclerView.setAdapter(adapter);
+        Button button = (Button) findViewById(R.id.bt_relatorios_transacoes_exportar);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(RelatoriodeactividadesActivity.this);
+                builder.setMessage("Relatorio de venda gerado!").create().show();
+            }
+        });
     }
 }
