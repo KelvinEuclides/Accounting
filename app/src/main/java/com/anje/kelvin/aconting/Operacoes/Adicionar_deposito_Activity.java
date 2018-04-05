@@ -2,6 +2,7 @@ package com.anje.kelvin.aconting.Operacoes;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.DateFormat;
@@ -65,35 +66,18 @@ public class Adicionar_deposito_Activity extends AppCompatActivity {
        data_inicio.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               AlertDialog.Builder builder = new AlertDialog.Builder(Adicionar_deposito_Activity.this);
-               cliclou=true;
-               DatePicker datePicker=(DatePicker) findViewById(R.id.datePicker);
-               builder.setView(datePicker);
-               datePicker.init(date.getYear(), date.getMonth(), date.getDay(), new DatePicker.OnDateChangedListener() {
+               DatePickerDialog.OnDateSetListener date=new DatePickerDialog.OnDateSetListener() {
                    @Override
-                   public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                       Calendar calendar=Calendar.getInstance();
-                       calendar.set(i,i1,i2);
-                       calendar.getTime();
-                       Convertar_Datas convertar_datas=new Convertar_Datas();
-                       datainicio.setText(convertar_datas.datac(calendar.getTime()));
-                   }
-               });
-               builder.setView(R.layout.dialogescolherdata);
-               builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialogInterface, int i) {
-
-
+                   public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                    Calendar calendar=Calendar.getInstance();
+                    calendar.set(Calendar.YEAR,i);
+                       calendar.set(Calendar.MONTH,i1);
+                       calendar.set(Calendar.DAY_OF_MONTH,i2);
 
 
                    }
-               }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialogInterface, int i) {
-                       cliclou=false;
-                   }
-               }).create().show();
+               };
+
            }
        });
        salvaar=(Button) findViewById(R.id.bt_salvar);
