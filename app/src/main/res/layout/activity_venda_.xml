@@ -115,13 +115,15 @@
                 app:layout_constraintVertical_bias="0.0" />
 
         </android.support.constraint.ConstraintLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary"
         android:gravity="bottom"
         android:orientation="horizontal"
         app:layout_anchor="@+id/include"
@@ -139,17 +141,13 @@
             android:background="@color/colorPrimary"
             android:text="Adicionar item A Venda"
             android:textColor="@color/cardview_light_background"
+            android:textSize="12sp"
             app:layout_anchor="@+id/include"
             app:layout_anchorGravity="left|bottom" />
 
-        <Space
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/bt_concluir_venda"
-            android:layout_width="194dp"
+            android:layout_width="173dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"

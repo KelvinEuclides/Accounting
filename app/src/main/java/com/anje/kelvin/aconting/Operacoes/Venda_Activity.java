@@ -365,12 +365,6 @@ public class Venda_Activity extends AppCompatActivity {
             holder.descricao.setText(p.getNome());
             holder.valor.setText(p.getPreco()+"");
             holder.peco.setText(p.getQuantidade()+"");
-            holder.icone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
 
 
         }
@@ -391,7 +385,7 @@ public class Venda_Activity extends AppCompatActivity {
                 descricao = view.findViewById(R.id.itens_vendidos_nome);
                 valor = view.findViewById(R.id.itens_vendidos_preco);
                 peco = view.findViewById(R.id.itens_vendidos_quantidade);
-                icone = view.findViewById(R.id.imageView4);
+               // icone = view.findViewById(R.id.imageView4);
 
             }
 

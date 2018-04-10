@@ -3,6 +3,7 @@ package com.anje.kelvin.aconting;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -70,60 +71,44 @@ public class MainActivity extends FragmentActivity {
         final Conta conta=realm.where(Conta.class).equalTo("loggado",true).findFirst();
         List<Item> item=realm.where(Item.class).equalTo("id_usuario",conta.getId_usuario()).findAll();
         for(int i=0;i<item.size();i++){
-            if(item.get(i).getItens_disponiveis()<5) {
-                final Dialog dialog=new Dialog(MainActivity.this);
-                dialog.setTitle("Aviso");
-                dialog.setContentView(R.layout.dialogalerta);
-                TextView textView=(TextView) dialog.findViewById(R.id.textView52);
-                textView.setText("Tem Apenas"+item.get(i).getItens_disponiveis()+"Itens de "+item.get(i).getNome_Item()+" Em Estoque deseja repor?");
-                Button ignorar=(Button) dialog.findViewById(R.id.bt_not_eliminar);
-                ignorar.setOnClickListener(new View.OnClickListener() {
+            if(item.get(i).getItens_disponiveis()<5 && conta.getAlertas()==true) {
+                AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Aviso").setMessage("Tem Apenas"+item.get(i).getItens_disponiveis()+"Itens de "+item.get(i).getNome_Item()+" Em Estoque deseja repor?");
+                builder.setPositiveButton("ignorar", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                Button repor=(Button) dialog.findViewById(R.id.bt_repor);
-                repor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
-                });
-                dialog.show();
+                }).setNegativeButton("Repor", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create().show();
+
             }
         }
         if(conta.getSaldo_conta()<0){
             AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Aviso").setMessage("Possui saldo negativo na conta Efecctue algum Deposito").create().show();
+            builder.setTitle("Aviso").setMessage("Possui saldo negativo na conta Efecctue algum Deposito").setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            }).create().show();
         }
         try {
             List<Debito_automatico> debito_automaticoList = realm.where(Debito_automatico.class).equalTo("id_usuario;", conta.getId_usuario()).greaterThanOrEqualTo("DataFim", new Date()).findAll();
-            if (debito_automaticoList.isEmpty() == false) {
+            if (debito_automaticoList.isEmpty() == false && conta.getAlertas()==true) {
                 for (int i = 0; i < debito_automaticoList.size(); i++) {
                     if (debito_automaticoList.get(i).getMensal() == false) {
-                        final Dialog dialog = new Dialog(MainActivity.this);
-                        final int k = i;
-                        dialog.setTitle("Aviso");
-                        dialog.setContentView(R.layout.dialogalerta);
-                        TextView textView = (TextView) dialog.findViewById(R.id.textView52);
-                        textView.setText("Deseja Adicionar a despesa " + debito_automaticoList.get(i).getDescricao() + " ? ");
-                        Button ignorar = (Button) dialog.findViewById(R.id.bt_not_eliminar);
-                        ignorar.setOnClickListener(new View.OnClickListener() {
+                        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("Deseja Adicionar a despesa " + debito_automaticoList.get(i).getDescricao() + " ? ");
+                        builder.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(View v) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        Button repor = (Button) dialog.findViewById(R.id.bt_repor);
-                        repor.setText("Adicionar Despesa");
-                        repor.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 List<Debito_automatico> debito_automaticoList = realm.where(Debito_automatico.class).equalTo("id_usuario;", conta.getId_usuario()).greaterThanOrEqualTo("DataFim", new Date()).findAll();
+                                final int k = i;
                                 Despesa_db despesa_db = new Despesa_db();
                                 despesa_db.setId_usuario(conta.getId_usuario());
                                 despesa_db.setValor(debito_automaticoList.get(k).getValor());
@@ -139,11 +124,14 @@ public class MainActivity extends FragmentActivity {
                                 realm1.copyToRealm(despesa_db);
                                 realm1.copyToRealm(transacao_db);
                                 realm1.commitTransaction();
-
+                            }
+                        }).setNegativeButton("Nao", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
                             }
-                        });
-                        dialog.show();
+                        }).create().show();
+
                     }
                 }
 
