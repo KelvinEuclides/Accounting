@@ -9,8 +9,10 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.anje.kelvin.aconting.BaseDeDados.Debito_automatico;
 import com.anje.kelvin.aconting.BaseDeDados.Deposito_db;
 import com.anje.kelvin.aconting.BaseDeDados.Despesa_db;
 import com.anje.kelvin.aconting.Operacoes.Gerir_estoque;
@@ -21,6 +23,11 @@ import com.anje.kelvin.aconting.BaseDeDados.Conta;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_deposito_Activity;
 import com.anje.kelvin.aconting.Operacoes.Adicionar_despesaActivity;
 import com.anje.kelvin.aconting.R;
+import com.takusemba.spotlight.OnSpotlightEndedListener;
+import com.takusemba.spotlight.OnSpotlightStartedListener;
+import com.takusemba.spotlight.OnTargetStateChangedListener;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 import java.util.List;
 
@@ -73,8 +80,23 @@ public class MenuFragment extends Fragment {
         }finally {
 
         }
+
+
             final CardView depositos=view.findViewById(R.id.id_deposito);
-       depositos.setOnClickListener(new View.OnClickListener() {
+        SimpleTarget depositostarget =new SimpleTarget.Builder(getActivity()).setPoint(depositos).setRadius(80f).setTitle("Depositos")
+                .setDescription("Faça a inserçao de todas  as receitas do seu negocio")
+                .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                    @Override
+                    public void onStarted(SimpleTarget target) {
+
+                    }
+
+                    @Override
+                    public void onEnded(SimpleTarget target) {
+
+                    }
+                }).build();
+        depositos.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Intent intent=new Intent(getActivity(),Adicionar_deposito_Activity.class);
@@ -82,6 +104,20 @@ public class MenuFragment extends Fragment {
            }
        });
        final CardView despesa=view.findViewById(R.id.id_despesa);
+       SimpleTarget despesatarget=new SimpleTarget.Builder(getActivity()).setPoint(despesa).setTitle("Despesa")
+               .setDescription("Adicione as Despesas Mensais")
+               .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                   @Override
+                   public void onStarted(SimpleTarget target) {
+
+                   }
+
+                   @Override
+                   public void onEnded(SimpleTarget target) {
+
+                   }
+               }).build();
+
        despesa.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -92,6 +128,18 @@ public class MenuFragment extends Fragment {
        });
 
        final CardView transicoes=view.findViewById(R.id.id_transacoes);
+       SimpleTarget transacoestarget = new SimpleTarget.Builder(getActivity()).setPoint(transicoes).setDescription("Vizualize todas as transacoes efectuadas no Mes Corrente").setTitle("Transacoes ")
+               .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                   @Override
+                   public void onStarted(SimpleTarget target) {
+
+                   }
+
+                   @Override
+                   public void onEnded(SimpleTarget target) {
+
+                   }
+               }).build();
        transicoes.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -127,6 +175,19 @@ public class MenuFragment extends Fragment {
 
            }
        });
+        final Spotlight spotlight = Spotlight.with(getActivity()).setAnimation(new DecelerateInterpolator(2f)).setDuration(1000L).setTargets(depositostarget,despesatarget,transacoestarget)
+                .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                    @Override
+                    public void onStarted() {
+
+                    }
+                }).setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                    @Override
+                    public void onEnded() {
+
+                    }
+                });
+        spotlight.start();
         return view ;
     }
 

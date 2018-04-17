@@ -36,30 +36,6 @@ public class MainActivity extends FragmentActivity {
     final FragmentManager fm=getSupportFragmentManager();
     MenuFragment firstFragment = new MenuFragment();
     ContaFragment contaFragment=new ContaFragment();
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                   viewPager.setCurrentItem(0);
-
-
-                    return true;
-                case R.id.navigation_dashboard:
-                    viewPager.setCurrentItem(1);
-                    return true;
-                case R.id.navigation_estatisticas:
-                    viewPager.setCurrentItem(3);
-
-
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +120,28 @@ public class MainActivity extends FragmentActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    viewPager.setCurrentItem(0);
+                    return true;
+                case R.id.navigation_dashboard:
+                    viewPager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_estatisticas:
+                    viewPager.setCurrentItem(3);
+
+
+                    return true;
+            }
+            return false;
+        }
+    };
+
 
     public static void reiniciar(Activity activity){
         activity.recreate();
