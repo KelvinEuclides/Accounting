@@ -1,8 +1,8 @@
 package com.anje.kelvin.aconting.Adapters.ViewPAgerAdapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.anje.kelvin.aconting.Fragments.ContaFragment;
 import com.anje.kelvin.aconting.Fragments.DefinicoesFragment;

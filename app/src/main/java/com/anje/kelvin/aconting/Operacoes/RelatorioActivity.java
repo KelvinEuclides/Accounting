@@ -2,15 +2,14 @@ package com.anje.kelvin.aconting.Operacoes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import com.anje.kelvin.aconting.R;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Transicoes_Activity;
 import com.anje.kelvin.aconting.Relatorios.Relatorio_de_Despesas_Activity;
-import com.anje.kelvin.aconting.Relatorios.Relatorio_de_renda_Activity;
 import com.anje.kelvin.aconting.Relatorios.RelatoriodeactividadesActivity;
 
 import java.util.Date;

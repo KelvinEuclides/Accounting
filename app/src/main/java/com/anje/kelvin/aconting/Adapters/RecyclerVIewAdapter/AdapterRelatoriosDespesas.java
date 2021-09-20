@@ -1,9 +1,8 @@
 package com.anje.kelvin.aconting.Adapters.RecyclerVIewAdapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.anje.kelvin.aconting.Adapters.AdapterObjects.Relatorio;
 import com.anje.kelvin.aconting.Classes.Convertar_Datas;
 import com.anje.kelvin.aconting.R;
 
-import java.util.Date;
 import java.util.List;
 
 /**
