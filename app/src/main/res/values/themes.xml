@@ -1,0 +1,10 @@
+<resources>
+    <!-- Base theme for Material 3 (Jetpack Compose) -->
+    <style name="Theme.Pakitini" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Material 3 does not use colorPrimaryDark or colorAccent -->
+        <!-- Add Material 3 color roles if you want to customize them -->
+        <!-- <item name="colorOnPrimary">@color/primary_text</item> -->
+        <!-- <item name="colorSecondary">@color/accent</item> -->
+    </style>
+</resources>
