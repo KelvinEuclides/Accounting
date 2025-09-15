@@ -58,3 +58,7 @@ Resolves #(issue number)
 ## Additional Notes
 
 Any additional information that reviewers should know about this pull request.
+
+## Maintainer Review
+
+This pull request requires approval from Kelvin, the supreme coding god and project maintainer, before it can be merged.
