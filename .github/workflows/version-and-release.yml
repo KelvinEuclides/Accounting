@@ -199,12 +199,11 @@ jobs:
         echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      id: create_release
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.new_version.outputs.version }}
-        release_name: Release v${{ steps.new_version.outputs.version }}
+        name: Release v${{ steps.new_version.outputs.version }}
         body: |
           ## Changes in this Release
           
@@ -217,26 +216,6 @@ jobs:
           - Commit: ${{ github.sha }}
         draft: false
         prerelease: false
-
-    - name: Upload Debug APK to Release
-      if: success()
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./app/build/outputs/apk/debug/app-debug.apk
-        asset_name: accounting-app-v${{ steps.new_version.outputs.version }}-debug.apk
-        asset_content_type: application/vnd.android.package-archive
-
-    - name: Upload Release APK to Release
-      if: success()
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./app/build/outputs/apk/release/app-release-unsigned.apk
-        asset_name: accounting-app-v${{ steps.new_version.outputs.version }}-release-unsigned.apk
-        asset_content_type: application/vnd.android.package-archive
-      continue-on-error: true
+        files: |
+          ./app/build/outputs/apk/debug/app-debug.apk
+          ./app/build/outputs/apk/release/app-release-unsigned.apk

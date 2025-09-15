@@ -156,12 +156,10 @@ jobs:
         git push origin "v${{ steps.new_version.outputs.version }}"
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.new_version.outputs.version }}
-        release_name: Release v${{ steps.new_version.outputs.version }}
+        name: Release v${{ steps.new_version.outputs.version }}
         body: |
           ## Manual Release v${{ steps.new_version.outputs.version }}
           
@@ -174,3 +172,5 @@ jobs:
           - Commit: ${{ github.sha }}
         draft: false
         prerelease: false
+        files: |
+          ./app/build/outputs/apk/debug/app-debug.apk
