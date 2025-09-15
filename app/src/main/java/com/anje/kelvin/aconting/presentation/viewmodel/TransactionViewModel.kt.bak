@@ -1,0 +1,111 @@
+package com.anje.kelvin.aconting.presentation.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.anje.kelvin.aconting.data.entity.Transaction
+import com.anje.kelvin.aconting.data.repository.TransactionRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+data class TransactionUiState(
+    val transactions: List<Transaction> = emptyList(),
+    val filteredTransactions: List<Transaction> = emptyList(),
+    val selectedFilter: String = "Todas",
+    val totalIncome: Double = 0.0,
+    val totalExpenses: Double = 0.0,
+    val isLoading: Boolean = false,
+    val error: String? = null
+)
+
+@HiltViewModel
+class TransactionViewModel @Inject constructor(
+    private val transactionRepository: TransactionRepository
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(TransactionUiState())
+    val uiState: StateFlow<TransactionUiState> = _uiState.asStateFlow()
+
+    val filterOptions = listOf("Todas", "Vendas", "Despesas", "Depósitos")
+
+    init {
+        loadTransactions()
+    }
+
+    private fun loadTransactions() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                transactionRepository.getAllTransactions().collect { transactions ->
+                    val sortedTransactions = transactions.sortedByDescending { it.date }
+                    
+                    val totalIncome = transactions
+                        .filter { it.type == "DEPOSIT" || it.type == "SALE" }
+                        .sumOf { it.amount }
+                    
+                    val totalExpenses = transactions
+                        .filter { it.type == "EXPENSE" }
+                        .sumOf { it.amount }
+                    
+                    _uiState.update { 
+                        val newState = it.copy(
+                            transactions = sortedTransactions,
+                            totalIncome = totalIncome,
+                            totalExpenses = totalExpenses,
+                            isLoading = false,
+                            error = null
+                        )
+                        newState.copy(
+                            filteredTransactions = applyFilter(sortedTransactions, newState.selectedFilter)
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.update { 
+                    it.copy(
+                        isLoading = false,
+                        error = "Erro ao carregar transações: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    fun setFilter(filter: String) {
+        val currentState = _uiState.value
+        val filteredTransactions = applyFilter(currentState.transactions, filter)
+        
+        _uiState.update { 
+            it.copy(
+                selectedFilter = filter,
+                filteredTransactions = filteredTransactions
+            )
+        }
+    }
+
+    private fun applyFilter(transactions: List<Transaction>, filter: String): List<Transaction> {
+        return when (filter) {
+            "Vendas" -> transactions.filter { it.type == "SALE" }
+            "Despesas" -> transactions.filter { it.type == "EXPENSE" }
+            "Depósitos" -> transactions.filter { it.type == "DEPOSIT" }
+            else -> transactions
+        }
+    }
+
+    fun deleteTransaction(transactionId: String) {
+        viewModelScope.launch {
+            try {
+                transactionRepository.deleteTransaction(transactionId)
+            } catch (e: Exception) {
+                _uiState.update { 
+                    it.copy(error = "Erro ao deletar transação: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+}

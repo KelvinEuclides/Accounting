@@ -1,0 +1,231 @@
+package com.anje.kelvin.aconting.presentation.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.anje.kelvin.aconting.data.entity.Expense
+import com.anje.kelvin.aconting.data.entity.Item
+import com.anje.kelvin.aconting.data.entity.Transaction
+import com.anje.kelvin.aconting.data.repository.ExpenseRepository
+import com.anje.kelvin.aconting.data.repository.ItemRepository
+import com.anje.kelvin.aconting.data.repository.TransactionRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.*
+import javax.inject.Inject
+
+data class InventoryUiState(
+    val items: List<Item> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val showAddDialog: Boolean = false,
+    val lowStockItems: List<Item> = emptyList()
+)
+
+data class AddItemUiState(
+    val name: String = "",
+    val quantity: String = "",
+    val purchasePrice: String = "",
+    val salePrice: String = "",
+    val unit: String = "Unidades",
+    val isLoading: Boolean = false,
+    val error: String? = null
+)
+
+@HiltViewModel
+class InventoryViewModel @Inject constructor(
+    private val itemRepository: ItemRepository,
+    private val expenseRepository: ExpenseRepository,
+    private val transactionRepository: TransactionRepository
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(InventoryUiState())
+    val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
+
+    private val _addItemState = MutableStateFlow(AddItemUiState())
+    val addItemState: StateFlow<AddItemUiState> = _addItemState.asStateFlow()
+
+    val units = listOf("Unidades", "Kg", "Litros")
+
+    init {
+        loadItems()
+    }
+
+    private fun loadItems() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                itemRepository.getAllItems().collect { items ->
+                    val lowStockItems = items.filter { it.availableQuantity < 5 }
+                    _uiState.update { 
+                        it.copy(
+                            items = items,
+                            lowStockItems = lowStockItems,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.update { 
+                    it.copy(
+                        isLoading = false,
+                        error = "Erro ao carregar itens: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    fun showAddDialog() {
+        _uiState.update { it.copy(showAddDialog = true) }
+        _addItemState.value = AddItemUiState()
+    }
+
+    fun hideAddDialog() {
+        _uiState.update { it.copy(showAddDialog = false) }
+        _addItemState.value = AddItemUiState()
+    }
+
+    fun updateItemName(name: String) {
+        _addItemState.update { it.copy(name = name, error = null) }
+    }
+
+    fun updateItemQuantity(quantity: String) {
+        _addItemState.update { it.copy(quantity = quantity, error = null) }
+    }
+
+    fun updatePurchasePrice(price: String) {
+        _addItemState.update { it.copy(purchasePrice = price, error = null) }
+    }
+
+    fun updateSalePrice(price: String) {
+        _addItemState.update { it.copy(salePrice = price, error = null) }
+    }
+
+    fun updateUnit(unit: String) {
+        _addItemState.update { it.copy(unit = unit) }
+    }
+
+    fun addItem() {
+        viewModelScope.launch {
+            val state = _addItemState.value
+            
+            // Validation
+            if (state.name.isBlank()) {
+                _addItemState.update { it.copy(error = "Nome do item é obrigatório") }
+                return@launch
+            }
+            
+            if (state.quantity.isBlank()) {
+                _addItemState.update { it.copy(error = "Quantidade é obrigatória") }
+                return@launch
+            }
+            
+            val quantityValue = state.quantity.toIntOrNull()
+            if (quantityValue == null || quantityValue <= 0) {
+                _addItemState.update { it.copy(error = "Quantidade deve ser um número positivo") }
+                return@launch
+            }
+            
+            if (state.purchasePrice.isBlank()) {
+                _addItemState.update { it.copy(error = "Preço de compra é obrigatório") }
+                return@launch
+            }
+            
+            val purchasePriceValue = state.purchasePrice.toDoubleOrNull()
+            if (purchasePriceValue == null || purchasePriceValue <= 0) {
+                _addItemState.update { it.copy(error = "Preço de compra deve ser um número positivo") }
+                return@launch
+            }
+            
+            if (state.salePrice.isBlank()) {
+                _addItemState.update { it.copy(error = "Preço de venda é obrigatório") }
+                return@launch
+            }
+            
+            val salePriceValue = state.salePrice.toDoubleOrNull()
+            if (salePriceValue == null || salePriceValue <= 0) {
+                _addItemState.update { it.copy(error = "Preço de venda deve ser um número positivo") }
+                return@launch
+            }
+
+            _addItemState.update { it.copy(isLoading = true, error = null) }
+
+            try {
+                // Create new item
+                val item = Item(
+                    id = UUID.randomUUID().toString(),
+                    name = state.name,
+                    totalQuantity = quantityValue,
+                    availableQuantity = quantityValue,
+                    purchasePrice = purchasePriceValue,
+                    salePrice = salePriceValue,
+                    unit = state.unit,
+                    userId = "current_user", // TODO: Get from user session
+                    createdAt = Date()
+                )
+                
+                itemRepository.insertItem(item)
+
+                // Create expense for the purchase
+                val expense = Expense(
+                    id = UUID.randomUUID().toString(),
+                    description = "Compra de ${quantityValue} ${state.unit.lowercase()} de ${state.name}",
+                    amount = purchasePriceValue,
+                    category = "Compra",
+                    recurrence = "Nenhuma",
+                    startDate = Date(),
+                    endDate = null,
+                    userId = "current_user",
+                    createdAt = Date()
+                )
+                
+                expenseRepository.insertExpense(expense)
+
+                // Create transaction for the purchase
+                val transaction = Transaction(
+                    id = UUID.randomUUID().toString(),
+                    description = expense.description,
+                    amount = purchasePriceValue,
+                    type = "EXPENSE",
+                    category = "Compra",
+                    date = Date(),
+                    userId = "current_user"
+                )
+                
+                transactionRepository.insertTransaction(transaction)
+
+                hideAddDialog()
+
+            } catch (e: Exception) {
+                _addItemState.update { 
+                    it.copy(
+                        isLoading = false,
+                        error = "Erro ao adicionar item: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    fun deleteItem(itemId: String) {
+        viewModelScope.launch {
+            try {
+                itemRepository.deleteItem(itemId)
+            } catch (e: Exception) {
+                _uiState.update { 
+                    it.copy(error = "Erro ao deletar item: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+
+    fun clearAddItemError() {
+        _addItemState.update { it.copy(error = null) }
+    }
+}

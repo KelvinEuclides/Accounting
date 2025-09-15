@@ -1,89 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anje.kelvin.aconting">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".AccountingApplication"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/iconeapp"
         android:label="Pakitini"
         android:roundIcon="@drawable/iconeapp"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@android:style/Theme.NoTitleBar"
+        tools:replace="android:label">
+        
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".Operacoes.Adicionar_despesaActivity"
-            android:label="Adicionar Despesa"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.MainActivity" />
-        </activity>
-
-
-        <activity
-            android:name=".Operacoes.Adicionar_deposito_Activity"
-            android:label="Adicionar Deposito"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".login"
+            android:name=".ComposeMainActivity"
             android:label="Pakitini"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Operacoes.Venda_Activity"
-            android:label="Vender"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Operacoes.RelatorioActivity"
-            android:label="Relatorios"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Relatorios.RelatoriodeactividadesActivity" />
-        <activity
-            android:name=".Relatorios.Relatorio_de_Despesas_Activity"
-            android:label="Relatorio de Despesas"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".RegistrarActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Relatorios.Relatorio_de_renda_Activity"
-            android:label="Relatorio de Renda"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Operacoes.TransicoesActivity"
-            android:label="Transacoes"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Relatorios.Relatorio_de_Transicoes_Activity"
-            android:label="@string/title_activity_relatorio_de__transicoes_"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Operacoes.Gerir_estoque"
-            android:label="@string/title_activity_gerir_estoque"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anje.kelvin.aconting.MainActivity" />
-        </activity>
+        
     </application>
 
 </manifest>

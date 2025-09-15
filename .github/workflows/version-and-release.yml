@@ -1,0 +1,242 @@
+name: Automated Versioning and Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+    types: [closed]
+
+jobs:
+  version-and-tag:
+    if: github.event_name == 'push' || (github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Read current version
+      id: current_version
+      run: |
+        if [ -f version.properties ]; then
+          source version.properties
+          echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
+          echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
+          echo "patch=$VERSION_PATCH" >> $GITHUB_OUTPUT
+          echo "build=$VERSION_BUILD" >> $GITHUB_OUTPUT
+          echo "current_version=$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH" >> $GITHUB_OUTPUT
+        else
+          echo "major=1" >> $GITHUB_OUTPUT
+          echo "minor=0" >> $GITHUB_OUTPUT
+          echo "patch=0" >> $GITHUB_OUTPUT
+          echo "build=1" >> $GITHUB_OUTPUT
+          echo "current_version=1.0.0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Determine version bump type
+      id: version_bump
+      run: |
+        # Get the commit messages since the last tag
+        if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+          LAST_TAG=$(git describe --tags --abbrev=0)
+          COMMIT_MESSAGES=$(git log $LAST_TAG..HEAD --pretty=format:"%s" || echo "")
+        else
+          # If no tags exist, get all commit messages
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s")
+        fi
+        
+        echo "Commit messages since last tag:"
+        echo "$COMMIT_MESSAGES"
+        
+        # Determine version bump based on commit messages
+        if echo "$COMMIT_MESSAGES" | grep -qiE "(breaking|major|BREAKING CHANGE)"; then
+          echo "bump_type=major" >> $GITHUB_OUTPUT
+          echo "Detected major version bump"
+        elif echo "$COMMIT_MESSAGES" | grep -qiE "(feat|feature|minor)"; then
+          echo "bump_type=minor" >> $GITHUB_OUTPUT
+          echo "Detected minor version bump"
+        else
+          echo "bump_type=patch" >> $GITHUB_OUTPUT
+          echo "Detected patch version bump"
+        fi
+
+    - name: Calculate new version
+      id: new_version
+      run: |
+        MAJOR=${{ steps.current_version.outputs.major }}
+        MINOR=${{ steps.current_version.outputs.minor }}
+        PATCH=${{ steps.current_version.outputs.patch }}
+        BUILD=${{ steps.current_version.outputs.build }}
+        
+        case "${{ steps.version_bump.outputs.bump_type }}" in
+          major)
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+            BUILD=1
+            ;;
+          minor)
+            MINOR=$((MINOR + 1))
+            PATCH=0
+            BUILD=$((BUILD + 1))
+            ;;
+          patch)
+            PATCH=$((PATCH + 1))
+            BUILD=$((BUILD + 1))
+            ;;
+        esac
+        
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "major=$MAJOR" >> $GITHUB_OUTPUT
+        echo "minor=$MINOR" >> $GITHUB_OUTPUT
+        echo "patch=$PATCH" >> $GITHUB_OUTPUT
+        echo "build=$BUILD" >> $GITHUB_OUTPUT
+        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "version_code=$((MAJOR * 10000 + MINOR * 1000 + PATCH * 100 + BUILD))" >> $GITHUB_OUTPUT
+        
+        echo "New version: $NEW_VERSION"
+        echo "New version code: $((MAJOR * 10000 + MINOR * 1000 + PATCH * 100 + BUILD))"
+
+    - name: Update version.properties
+      run: |
+        cat > version.properties << EOF
+        # Version configuration for Accounting App
+        # This file is automatically updated by CI/CD pipeline
+        
+        # Major version - increment for breaking changes
+        VERSION_MAJOR=${{ steps.new_version.outputs.major }}
+        
+        # Minor version - increment for new features  
+        VERSION_MINOR=${{ steps.new_version.outputs.minor }}
+        
+        # Patch version - increment for bug fixes
+        VERSION_PATCH=${{ steps.new_version.outputs.patch }}
+        
+        # Build number - automatically incremented by CI
+        VERSION_BUILD=${{ steps.new_version.outputs.build }}
+        EOF
+
+    - name: Build debug APK
+      run: ./gradlew assembleDebug
+
+    - name: Build release APK
+      run: ./gradlew assembleRelease
+      continue-on-error: true
+
+    - name: Run tests
+      run: ./gradlew test
+      continue-on-error: true
+
+    - name: Commit version update
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add version.properties
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "chore: bump version to ${{ steps.new_version.outputs.version }} [skip ci]"
+          git push
+        fi
+
+    - name: Create Git Tag
+      run: |
+        git tag -a "v${{ steps.new_version.outputs.version }}" -m "Release version ${{ steps.new_version.outputs.version }}"
+        git push origin "v${{ steps.new_version.outputs.version }}"
+
+    - name: Generate changelog
+      id: changelog
+      run: |
+        if git describe --tags --abbrev=0 HEAD~1 >/dev/null 2>&1; then
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD~1)
+          CHANGELOG=$(git log $LAST_TAG..HEAD --pretty=format:"- %s (%an)" --no-merges)
+        else
+          # If this is the first tag, get all commits
+          CHANGELOG=$(git log --pretty=format:"- %s (%an)" --no-merges)
+        fi
+        
+        if [ -z "$CHANGELOG" ]; then
+          CHANGELOG="- Initial release"
+        fi
+        
+        echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+        echo "$CHANGELOG" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.new_version.outputs.version }}
+        release_name: Release v${{ steps.new_version.outputs.version }}
+        body: |
+          ## Changes in this Release
+          
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ## Build Information
+          - Version: ${{ steps.new_version.outputs.version }}
+          - Version Code: ${{ steps.new_version.outputs.version_code }}
+          - Branch: ${{ github.ref_name }}
+          - Commit: ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Debug APK to Release
+      if: success()
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./app/build/outputs/apk/debug/app-debug.apk
+        asset_name: accounting-app-v${{ steps.new_version.outputs.version }}-debug.apk
+        asset_content_type: application/vnd.android.package-archive
+
+    - name: Upload Release APK to Release
+      if: success()
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./app/build/outputs/apk/release/app-release-unsigned.apk
+        asset_name: accounting-app-v${{ steps.new_version.outputs.version }}-release-unsigned.apk
+        asset_content_type: application/vnd.android.package-archive
+      continue-on-error: true

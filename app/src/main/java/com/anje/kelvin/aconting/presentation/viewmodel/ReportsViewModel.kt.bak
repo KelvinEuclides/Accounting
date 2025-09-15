@@ -1,0 +1,175 @@
+package com.anje.kelvin.aconting.presentation.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.anje.kelvin.aconting.data.entity.Expense
+import com.anje.kelvin.aconting.data.entity.Item
+import com.anje.kelvin.aconting.data.entity.Transaction
+import com.anje.kelvin.aconting.data.repository.ExpenseRepository
+import com.anje.kelvin.aconting.data.repository.ItemRepository
+import com.anje.kelvin.aconting.data.repository.TransactionRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
+
+data class ReportSummary(
+    val totalSales: Double = 0.0,
+    val totalExpenses: Double = 0.0,
+    val totalProfit: Double = 0.0,
+    val totalItems: Int = 0,
+    val lowStockItems: Int = 0,
+    val todaySales: Double = 0.0,
+    val monthlyProfit: Double = 0.0
+)
+
+data class ReportsUiState(
+    val summary: ReportSummary = ReportSummary(),
+    val isLoading: Boolean = false,
+    val error: String? = null
+)
+
+@HiltViewModel
+class ReportsViewModel @Inject constructor(
+    private val transactionRepository: TransactionRepository,
+    private val expenseRepository: ExpenseRepository,
+    private val itemRepository: ItemRepository
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(ReportsUiState())
+    val uiState: StateFlow<ReportsUiState> = _uiState.asStateFlow()
+
+    init {
+        loadReportData()
+    }
+
+    private fun loadReportData() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            
+            try {
+                // Combine data from all repositories
+                combine(
+                    transactionRepository.getAllTransactions(),
+                    expenseRepository.getAllExpenses(),
+                    itemRepository.getAllItems()
+                ) { transactions, expenses, items ->
+                    Triple(transactions, expenses, items)
+                }.collect { (transactions, expenses, items) ->
+                    
+                    val calendar = Calendar.getInstance()
+                    val today = calendar.time
+                    calendar.set(Calendar.HOUR_OF_DAY, 0)
+                    calendar.set(Calendar.MINUTE, 0)
+                    calendar.set(Calendar.SECOND, 0)
+                    calendar.set(Calendar.MILLISECOND, 0)
+                    val startOfToday = calendar.time
+                    
+                    // Get start of current month
+                    calendar.set(Calendar.DAY_OF_MONTH, 1)
+                    val startOfMonth = calendar.time
+                    
+                    // Calculate totals
+                    val totalSales = transactions
+                        .filter { it.type == "SALE" }
+                        .sumOf { it.amount }
+                    
+                    val totalExpenses = transactions
+                        .filter { it.type == "EXPENSE" }
+                        .sumOf { it.amount }
+                    
+                    val totalDeposits = transactions
+                        .filter { it.type == "DEPOSIT" }
+                        .sumOf { it.amount }
+                    
+                    val totalProfit = totalSales + totalDeposits - totalExpenses
+                    
+                    // Today's sales
+                    val todaySales = transactions
+                        .filter { it.type == "SALE" && it.date >= startOfToday && it.date <= today }
+                        .sumOf { it.amount }
+                    
+                    // Monthly profit
+                    val monthlySales = transactions
+                        .filter { it.type == "SALE" && it.date >= startOfMonth }
+                        .sumOf { it.amount }
+                    
+                    val monthlyDeposits = transactions
+                        .filter { it.type == "DEPOSIT" && it.date >= startOfMonth }
+                        .sumOf { it.amount }
+                    
+                    val monthlyExpenses = transactions
+                        .filter { it.type == "EXPENSE" && it.date >= startOfMonth }
+                        .sumOf { it.amount }
+                    
+                    val monthlyProfit = monthlySales + monthlyDeposits - monthlyExpenses
+                    
+                    // Item statistics
+                    val totalItems = items.size
+                    val lowStockItems = items.count { it.availableQuantity < 5 }
+                    
+                    val summary = ReportSummary(
+                        totalSales = totalSales,
+                        totalExpenses = totalExpenses,
+                        totalProfit = totalProfit,
+                        totalItems = totalItems,
+                        lowStockItems = lowStockItems,
+                        todaySales = todaySales,
+                        monthlyProfit = monthlyProfit
+                    )
+                    
+                    _uiState.update { 
+                        it.copy(
+                            summary = summary,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                }
+                
+            } catch (e: Exception) {
+                _uiState.update { 
+                    it.copy(
+                        isLoading = false,
+                        error = "Erro ao carregar dados dos relatórios: ${e.message}"
+                    )
+                }
+            }
+        }
+    }
+
+    fun generateSalesReport(): String {
+        // TODO: Generate detailed sales report
+        return "Relatório de vendas detalhado seria gerado aqui"
+    }
+
+    fun generateExpenseReport(): String {
+        // TODO: Generate detailed expense report
+        return "Relatório de despesas detalhado seria gerado aqui"
+    }
+
+    fun generateTransactionReport(): String {
+        // TODO: Generate detailed transaction report
+        return "Relatório de transações detalhado seria gerado aqui"
+    }
+
+    fun generateActivityReport(): String {
+        // TODO: Generate detailed activity report
+        return "Relatório de atividades detalhado seria gerado aqui"
+    }
+
+    fun generateIncomeReport(): String {
+        // TODO: Generate detailed income report
+        return "Relatório de renda detalhado seria gerado aqui"
+    }
+
+    fun refreshData() {
+        loadReportData()
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+}
