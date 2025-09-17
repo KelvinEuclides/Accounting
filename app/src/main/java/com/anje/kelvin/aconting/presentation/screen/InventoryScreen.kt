@@ -34,6 +34,8 @@ fun InventoryScreen(
     onNavigateBack: () -> Unit
 ) {
     var showAddDialog by remember { mutableStateOf(false) }
+    var showEditDialog by remember { mutableStateOf(false) }
+    var selectedItemForEdit by remember { mutableStateOf<StockItem?>(null) }
     var stockItems by remember { mutableStateOf(getSampleStockItems()) }
 
     Scaffold(
@@ -106,7 +108,10 @@ fun InventoryScreen(
                 items(stockItems) { item ->
                     StockItemCard(
                         item = item,
-                        onEdit = { /* TODO: Edit item */ },
+                        onEdit = { 
+                            selectedItemForEdit = item
+                            showEditDialog = true
+                        },
                         onDelete = { 
                             stockItems = stockItems.filter { it.id != item.id }
                         }
@@ -122,6 +127,23 @@ fun InventoryScreen(
             onAdd = { newItem ->
                 stockItems = stockItems + newItem
                 showAddDialog = false
+            }
+        )
+    }
+
+    if (showEditDialog && selectedItemForEdit != null) {
+        EditStockItemDialog(
+            item = selectedItemForEdit!!,
+            onDismiss = { 
+                showEditDialog = false
+                selectedItemForEdit = null
+            },
+            onSave = { updatedItem ->
+                stockItems = stockItems.map { item ->
+                    if (item.id == updatedItem.id) updatedItem else item
+                }
+                showEditDialog = false
+                selectedItemForEdit = null
             }
         )
     }
@@ -375,6 +397,143 @@ private fun AddStockItemDialog(
                          salePrice.isNotBlank()
             ) {
                 Text("Adicionar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EditStockItemDialog(
+    item: StockItem,
+    onDismiss: () -> Unit,
+    onSave: (StockItem) -> Unit
+) {
+    var name by remember { mutableStateOf(item.name) }
+    var quantity by remember { mutableStateOf(item.totalQuantity.toString()) }
+    var availableQuantity by remember { mutableStateOf(item.availableQuantity.toString()) }
+    var purchasePrice by remember { mutableStateOf(item.purchasePrice.toString()) }
+    var salePrice by remember { mutableStateOf(item.unitPrice.toString()) }
+    var selectedUnit by remember { mutableStateOf(item.unit) }
+
+    val units = listOf("Unidades", "Kg", "Litros")
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Editar Item do Estoque") },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Nome do Item") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+                
+                OutlinedTextField(
+                    value = quantity,
+                    onValueChange = { quantity = it },
+                    label = { Text("Quantidade Total") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true
+                )
+                
+                OutlinedTextField(
+                    value = availableQuantity,
+                    onValueChange = { availableQuantity = it },
+                    label = { Text("Quantidade Disponível") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true
+                )
+                
+                OutlinedTextField(
+                    value = purchasePrice,
+                    onValueChange = { purchasePrice = it },
+                    label = { Text("Preço de Compra (MZN)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true
+                )
+                
+                OutlinedTextField(
+                    value = salePrice,
+                    onValueChange = { salePrice = it },
+                    label = { Text("Preço de Venda (MZN)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true
+                )
+
+                Text(
+                    text = "Unidade de Medida",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                
+                Column(Modifier.selectableGroup()) {
+                    units.forEach { unit ->
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .selectable(
+                                    selected = (unit == selectedUnit),
+                                    onClick = { selectedUnit = unit },
+                                    role = Role.RadioButton
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = (unit == selectedUnit),
+                                onClick = null
+                            )
+                            Text(
+                                text = unit,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (name.isNotBlank() && 
+                        quantity.isNotBlank() && 
+                        availableQuantity.isNotBlank() &&
+                        purchasePrice.isNotBlank() && 
+                        salePrice.isNotBlank()) {
+                        
+                        val updatedItem = item.copy(
+                            name = name,
+                            totalQuantity = quantity.toIntOrNull() ?: item.totalQuantity,
+                            availableQuantity = availableQuantity.toIntOrNull() ?: item.availableQuantity,
+                            unitPrice = salePrice.toDoubleOrNull() ?: item.unitPrice,
+                            purchasePrice = purchasePrice.toDoubleOrNull() ?: item.purchasePrice,
+                            unit = selectedUnit
+                        )
+                        onSave(updatedItem)
+                    }
+                },
+                enabled = name.isNotBlank() && 
+                         quantity.isNotBlank() && 
+                         availableQuantity.isNotBlank() &&
+                         purchasePrice.isNotBlank() && 
+                         salePrice.isNotBlank()
+            ) {
+                Text("Salvar")
             }
         },
         dismissButton = {
