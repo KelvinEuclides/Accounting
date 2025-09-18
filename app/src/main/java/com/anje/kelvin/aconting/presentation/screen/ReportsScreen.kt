@@ -24,7 +24,12 @@ data class ReportItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReportsScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToSalesReport: () -> Unit = {},
+    onNavigateToExpensesReport: () -> Unit = {},
+    onNavigateToTransactionsReport: () -> Unit = {},
+    onNavigateToActivitiesReport: () -> Unit = {},
+    onNavigateToIncomeReport: () -> Unit = {}
 ) {
     val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     val currentDate = dateFormatter.format(Date())
@@ -34,27 +39,27 @@ fun ReportsScreen(
             title = "Relatório de Vendas",
             description = "Relatório detalhado de todas as vendas",
             icon = Icons.Default.ShoppingCart
-        ) { /* TODO: Navigate to sales report */ },
+        ) { onNavigateToSalesReport() },
         ReportItem(
             title = "Relatório de Despesas",
             description = "Relatório detalhado de todas as despesas",
             icon = Icons.Default.TrendingDown
-        ) { /* TODO: Navigate to expenses report */ },
+        ) { onNavigateToExpensesReport() },
         ReportItem(
             title = "Relatório de Transações",
             description = "Histórico completo de transações",
             icon = Icons.Default.CompareArrows
-        ) { /* TODO: Navigate to transactions report */ },
+        ) { onNavigateToTransactionsReport() },
         ReportItem(
             title = "Relatório de Actividades",
             description = "Resumo geral das actividades",
             icon = Icons.Default.Analytics
-        ) { /* TODO: Navigate to activities report */ },
+        ) { onNavigateToActivitiesReport() },
         ReportItem(
             title = "Relatório de Renda",
             description = "Análise de receitas e lucros",
             icon = Icons.Default.TrendingUp
-        ) { /* TODO: Navigate to income report */ }
+        ) { onNavigateToIncomeReport() }
     )
 
     Scaffold(

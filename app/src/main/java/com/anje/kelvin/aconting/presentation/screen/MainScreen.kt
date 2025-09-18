@@ -87,6 +87,41 @@ fun MainNavHost(
         
         composable("relatorios") {
             ReportsScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToSalesReport = { navController.navigate("relatorio_vendas") },
+                onNavigateToExpensesReport = { navController.navigate("relatorio_despesas") },
+                onNavigateToTransactionsReport = { navController.navigate("relatorio_transacoes") },
+                onNavigateToActivitiesReport = { navController.navigate("relatorio_actividades") },
+                onNavigateToIncomeReport = { navController.navigate("relatorio_receitas") }
+            )
+        }
+        
+        composable("relatorio_vendas") {
+            SalesReportScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        
+        composable("relatorio_despesas") {
+            ExpensesReportScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        
+        composable("relatorio_transacoes") {
+            TransactionsReportScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        
+        composable("relatorio_actividades") {
+            ActivitiesReportScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        
+        composable("relatorio_receitas") {
+            IncomeReportScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
