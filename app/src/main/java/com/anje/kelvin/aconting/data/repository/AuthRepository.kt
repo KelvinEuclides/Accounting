@@ -9,6 +9,7 @@ import com.anje.kelvin.aconting.data.database.entities.UserProfile
 import com.anje.kelvin.aconting.data.database.entities.UserRegistrationRequest
 import com.anje.kelvin.aconting.data.database.entities.UserLoginRequest
 import com.anje.kelvin.aconting.data.database.entities.UserUpdateRequest
+import com.anje.kelvin.aconting.util.AppConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -57,9 +58,6 @@ class AuthRepository @Inject constructor(
 
     companion object {
         private const val KEY_USER_ID = "user_id"
-        private const val KEY_SESSION_TOKEN = "session_token"
-        private const val KEY_SESSION_EXPIRY = "session_expiry"
-        private const val SESSION_DURATION_HOURS = 24
     }
     
     init {
@@ -232,7 +230,7 @@ class AuthRepository @Inject constructor(
     
     private fun checkAuthState(): Boolean {
         val hasSession = authPrefs.contains(KEY_USER_ID) && 
-                        authPrefs.contains(KEY_SESSION_TOKEN)
+                        authPrefs.contains(AppConstants.PreferenceKeys.SESSION_TOKEN)
         val isSessionValid = checkSessionValidity()
         return hasSession && isSessionValid
     }
@@ -245,7 +243,7 @@ class AuthRepository @Inject constructor(
     }
     
     private fun checkSessionValidity(): Boolean {
-        val sessionExpiry = authPrefs.getLong(KEY_SESSION_EXPIRY, 0L)
+        val sessionExpiry = authPrefs.getLong(AppConstants.PreferenceKeys.SESSION_EXPIRY, 0L)
         val currentTime = System.currentTimeMillis()
         
         return if (sessionExpiry > currentTime) {
@@ -265,12 +263,12 @@ class AuthRepository @Inject constructor(
     
     private fun startSession(userProfile: UserProfile) {
         val sessionToken = generateSessionToken()
-        val expiryTime = System.currentTimeMillis() + (SESSION_DURATION_HOURS * 60 * 60 * 1000)
+        val expiryTime = System.currentTimeMillis() + (AppConstants.SESSION_DURATION_HOURS * 60 * 60 * 1000)
         
         authPrefs.edit()
             .putLong(KEY_USER_ID, userProfile.id)
-            .putString(KEY_SESSION_TOKEN, sessionToken)
-            .putLong(KEY_SESSION_EXPIRY, expiryTime)
+            .putString(AppConstants.PreferenceKeys.SESSION_TOKEN, sessionToken)
+            .putLong(AppConstants.PreferenceKeys.SESSION_EXPIRY, expiryTime)
             .apply()
         
         _isLoggedIn.value = true
@@ -281,8 +279,8 @@ class AuthRepository @Inject constructor(
     private fun clearSession() {
         authPrefs.edit()
             .remove(KEY_USER_ID)
-            .remove(KEY_SESSION_TOKEN)
-            .remove(KEY_SESSION_EXPIRY)
+            .remove(AppConstants.PreferenceKeys.SESSION_TOKEN)
+            .remove(AppConstants.PreferenceKeys.SESSION_EXPIRY)
             .apply()
     }
     
@@ -302,9 +300,9 @@ class AuthRepository @Inject constructor(
      * Check if session will expire soon (within 1 hour)
      */
     fun isSessionExpiringSoon(): Boolean {
-        val sessionExpiry = authPrefs.getLong(KEY_SESSION_EXPIRY, 0L)
+        val sessionExpiry = authPrefs.getLong(AppConstants.PreferenceKeys.SESSION_EXPIRY, 0L)
         val currentTime = System.currentTimeMillis()
-        val oneHourInMillis = 60 * 60 * 1000
+        val oneHourInMillis = AppConstants.MILLISECONDS_IN_HOUR
         
         return (sessionExpiry - currentTime) <= oneHourInMillis
     }
@@ -314,9 +312,9 @@ class AuthRepository @Inject constructor(
      */
     fun extendSession() {
         if (_isLoggedIn.value) {
-            val newExpiryTime = System.currentTimeMillis() + (SESSION_DURATION_HOURS * 60 * 60 * 1000)
+            val newExpiryTime = System.currentTimeMillis() + (AppConstants.SESSION_DURATION_HOURS * 60 * 60 * 1000)
             authPrefs.edit()
-                .putLong(KEY_SESSION_EXPIRY, newExpiryTime)
+                .putLong(AppConstants.PreferenceKeys.SESSION_EXPIRY, newExpiryTime)
                 .apply()
             _sessionExpiry.value = Date(newExpiryTime)
         }

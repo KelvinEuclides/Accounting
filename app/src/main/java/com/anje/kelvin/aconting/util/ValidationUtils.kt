@@ -19,10 +19,6 @@ object ValidationUtils {
     // Name validation
     private val NAME_PATTERN = Pattern.compile("^[a-zA-ZÀ-ÿ\\s]{2,50}$")
 
-    // PIN validation
-    private const val MIN_PIN_LENGTH = 4
-    private const val MAX_PIN_LENGTH = 8
-
     /**
      * Validates phone number format
      */
@@ -91,10 +87,10 @@ object ValidationUtils {
         }
 
         return when {
-            pin.length < MIN_PIN_LENGTH -> 
-                ValidationResult(false, "PIN must be at least $MIN_PIN_LENGTH digits")
-            pin.length > MAX_PIN_LENGTH -> 
-                ValidationResult(false, "PIN must be less than $MAX_PIN_LENGTH digits")
+            pin.length < AppConstants.MIN_PIN_LENGTH -> 
+                ValidationResult(false, "PIN must be at least ${AppConstants.MIN_PIN_LENGTH} digits")
+            pin.length > AppConstants.MAX_PIN_LENGTH -> 
+                ValidationResult(false, "PIN must be less than ${AppConstants.MAX_PIN_LENGTH} digits")
             !pin.all { it.isDigit() } -> 
                 ValidationResult(false, "PIN must contain only digits")
             isWeakPin(pin) -> 
@@ -130,8 +126,7 @@ object ValidationUtils {
         if (sequential.any { pin.contains(it) }) return true
 
         // Check for common weak PINs
-        val weakPins = listOf("0000", "1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888", "9999", "1234", "4321", "0123", "9876")
-        return weakPins.contains(pin)
+        return AppConstants.WEAK_PINS.contains(pin)
     }
 
     /**
@@ -219,15 +214,12 @@ object ValidationUtils {
  */
 object SecurityUtils {
 
-    private const val HASH_ALGORITHM = "SHA-256"
-    private const val SALT_LENGTH = 32
-
     /**
      * Generates a random salt
      */
     fun generateSalt(): String {
         val random = SecureRandom()
-        val salt = ByteArray(SALT_LENGTH)
+        val salt = ByteArray(AppConstants.SALT_LENGTH)
         random.nextBytes(salt)
         return Base64.encodeToString(salt, Base64.NO_WRAP)
     }
@@ -236,7 +228,7 @@ object SecurityUtils {
      * Hashes PIN with salt
      */
     fun hashPin(pin: String, salt: String): String {
-        val digest = MessageDigest.getInstance(HASH_ALGORITHM)
+        val digest = MessageDigest.getInstance(AppConstants.HASH_ALGORITHM)
         val saltBytes = Base64.decode(salt, Base64.NO_WRAP)
         
         digest.update(saltBytes)
