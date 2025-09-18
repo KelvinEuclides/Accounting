@@ -14,14 +14,51 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
+package com.anje.kelvin.aconting.presentation.screen
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.anje.kelvin.aconting.presentation.viewmodel.SalesViewModel
+import com.anje.kelvin.aconting.presentation.viewmodel.UiSaleItem
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SalesScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    viewModel: SalesViewModel = hiltViewModel()
 ) {
-    var selectedItems by remember { mutableStateOf(listOf<SaleItem>()) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showAddItemDialog by remember { mutableStateOf(false) }
-    var total by remember { mutableStateOf(0.0) }
+
+    // Handle success state
+    LaunchedEffect(uiState.success) {
+        if (uiState.success) {
+            viewModel.resetSuccess()
+            onNavigateBack()
+        }
+    }
+
+    // Handle error state
+    uiState.error?.let { error ->
+        LaunchedEffect(error) {
+            // Error will be shown in UI, clear after showing
+            kotlinx.coroutines.delay(3000)
+            viewModel.clearError()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -48,81 +85,135 @@ fun SalesScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
+                    // Show tax breakdown
+                    if (uiState.selectedItems.isNotEmpty()) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("Subtotal:")
+                            Text("${String.format("%.2f", uiState.total)} MZN")
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("IVA (17%):")
+                            Text("${String.format("%.2f", uiState.taxAmount)} MZN")
+                        }
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    }
+                    
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Total: ${String.format("%.2f", total)} MZN",
+                            text = "Total: ${String.format("%.2f", uiState.finalAmount)} MZN",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
                         Button(
-                            onClick = { /* TODO: Process sale */ },
-                            enabled = selectedItems.isNotEmpty()
+                            onClick = { viewModel.processSale() },
+                            enabled = uiState.selectedItems.isNotEmpty() && !uiState.isLoading
                         ) {
-                            Text("Finalizar Venda")
+                            if (uiState.isLoading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(16.dp),
+                                    strokeWidth = 2.dp
+                                )
+                            } else {
+                                Text("Finalizar Venda")
+                            }
                         }
                     }
                 }
             }
         }
     ) { paddingValues ->
-        if (selectedItems.isEmpty()) {
-            // Empty state
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            // Error banner
+            uiState.error?.let { error ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    )
                 ) {
-                    Icon(
-                        Icons.Default.ShoppingCart,
-                        contentDescription = null,
-                        modifier = Modifier.size(64.dp),
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-                    Text(
-                        text = "Nenhum item adicionado",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                    TextButton(
-                        onClick = { showAddItemDialog = true },
-                        modifier = Modifier.padding(top = 8.dp)
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Adicionar Item")
+                        Icon(
+                            Icons.Default.Error,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                 }
             }
-        } else {
-            // Items list
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(selectedItems) { item ->
-                    SaleItemCard(
-                        item = item,
-                        onQuantityChange = { newQuantity ->
-                            selectedItems = selectedItems.map { 
-                                if (it.id == item.id) it.copy(quantity = newQuantity) else it 
-                            }
-                            total = selectedItems.sumOf { it.preco * it.quantity }
-                        },
-                        onRemove = {
-                            selectedItems = selectedItems.filter { it.id != item.id }
-                            total = selectedItems.sumOf { it.preco * it.quantity }
+
+            if (uiState.selectedItems.isEmpty()) {
+                // Empty state
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            Icons.Default.ShoppingCart,
+                            contentDescription = null,
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.outline
+                        )
+                        Text(
+                            text = "Nenhum item adicionado",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.outline,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        TextButton(
+                            onClick = { showAddItemDialog = true },
+                            modifier = Modifier.padding(top = 8.dp)
+                        ) {
+                            Text("Adicionar Item")
                         }
-                    )
+                    }
+                }
+            } else {
+                // Items list
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(uiState.selectedItems) { item ->
+                        SaleItemCard(
+                            item = item,
+                            onQuantityChange = { newQuantity ->
+                                viewModel.updateItemQuantity(item.id, newQuantity)
+                            },
+                            onRemove = {
+                                viewModel.removeItem(item.id)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -131,9 +222,9 @@ fun SalesScreen(
     if (showAddItemDialog) {
         AddItemDialog(
             onDismiss = { showAddItemDialog = false },
-            onAddItem = { item ->
-                selectedItems = selectedItems + item
-                total = selectedItems.sumOf { it.preco * it.quantity }
+            products = uiState.availableProducts,
+            onAddItem = { productId, productName, price, unit, quantity ->
+                viewModel.addItem(productId, productName, price, unit, quantity)
                 showAddItemDialog = false
             }
         )
@@ -143,7 +234,7 @@ fun SalesScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SaleItemCard(
-    item: SaleItem,
+    item: UiSaleItem,
     onQuantityChange: (Int) -> Unit,
     onRemove: () -> Unit
 ) {
@@ -205,7 +296,7 @@ fun SaleItemCard(
                 }
                 
                 Text(
-                    text = "${String.format("%.2f", item.preco * item.quantity)} MZN",
+                    text = "${String.format("%.2f", item.totalPrice)} MZN",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -218,20 +309,11 @@ fun SaleItemCard(
 @Composable
 fun AddItemDialog(
     onDismiss: () -> Unit,
-    onAddItem: (SaleItem) -> Unit
+    products: List<com.anje.kelvin.aconting.data.database.entities.Product>,
+    onAddItem: (productId: Long, productName: String, price: Double, unit: String, quantity: Int) -> Unit
 ) {
-    var selectedItem by remember { mutableStateOf<InventoryItem?>(null) }
+    var selectedProduct by remember { mutableStateOf<com.anje.kelvin.aconting.data.database.entities.Product?>(null) }
     var quantity by remember { mutableStateOf("1") }
-    
-    // Sample inventory items - in real app, this would come from ViewModel
-    val inventoryItems = remember {
-        listOf(
-            InventoryItem(1, "Coca-Cola 500ml", 25.0, "unidade", 100),
-            InventoryItem(2, "Pão", 5.0, "unidade", 50),
-            InventoryItem(3, "Leite", 30.0, "litro", 20),
-            InventoryItem(4, "Açúcar", 45.0, "kg", 10)
-        )
-    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -239,54 +321,84 @@ fun AddItemDialog(
         text = {
             Column {
                 Text(
-                    text = "Selecione um item do estoque:",
+                    text = "Selecione um produto:",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 
-                LazyColumn(
-                    modifier = Modifier.height(200.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(inventoryItems) { item ->
-                        Card(
-                            onClick = { selectedItem = item },
-                            colors = CardDefaults.cardColors(
-                                containerColor = if (selectedItem?.id == item.id) 
-                                    MaterialTheme.colorScheme.primaryContainer 
-                                else MaterialTheme.colorScheme.surface
-                            )
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(12.dp)
+                if (products.isEmpty()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Nenhum produto disponível no estoque",
+                            modifier = Modifier.padding(16.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.outline
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.height(200.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(products) { product ->
+                            Card(
+                                onClick = { selectedProduct = product },
+                                colors = CardDefaults.cardColors(
+                                    containerColor = if (selectedProduct?.id == product.id) 
+                                        MaterialTheme.colorScheme.primaryContainer 
+                                    else MaterialTheme.colorScheme.surface
+                                )
                             ) {
-                                Text(
-                                    text = item.nome,
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    text = "${String.format("%.2f", item.preco)} MZN por ${item.unidade}",
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Text(
-                                    text = "Estoque: ${item.estoque}",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.outline
-                                )
+                                Column(
+                                    modifier = Modifier.padding(12.dp)
+                                ) {
+                                    Text(
+                                        text = product.name,
+                                        style = MaterialTheme.typography.titleSmall,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = "${String.format("%.2f", product.price)} MZN",
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                    Text(
+                                        text = "Estoque: ${product.quantity}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = if (product.isOutOfStock) 
+                                            MaterialTheme.colorScheme.error 
+                                        else if (product.isLowStock) 
+                                            MaterialTheme.colorScheme.tertiary 
+                                        else MaterialTheme.colorScheme.outline
+                                    )
+                                    if (product.description?.isNotBlank() == true) {
+                                        Text(
+                                            text = product.description,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.outline,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 
-                if (selectedItem != null) {
+                if (selectedProduct != null) {
                     Spacer(modifier = Modifier.height(16.dp))
                     OutlinedTextField(
                         value = quantity,
                         onValueChange = { quantity = it },
                         label = { Text("Quantidade") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        supportingText = {
+                            selectedProduct?.let { product ->
+                                Text("Disponível: ${product.quantity}")
+                            }
+                        }
                     )
                 }
             }
@@ -294,20 +406,21 @@ fun AddItemDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    selectedItem?.let { item ->
+                    selectedProduct?.let { product ->
                         val qty = quantity.toIntOrNull() ?: 1
                         onAddItem(
-                            SaleItem(
-                                id = System.currentTimeMillis(), // Simple ID generation
-                                nome = item.nome,
-                                preco = item.preco,
-                                unidade = item.unidade,
-                                quantity = qty
-                            )
+                            product.id,
+                            product.name,
+                            product.price,
+                            "unidade", // Default unit, could be enhanced
+                            qty
                         )
                     }
                 },
-                enabled = selectedItem != null && quantity.toIntOrNull() != null && quantity.toIntOrNull()!! > 0
+                enabled = selectedProduct != null && 
+                         quantity.toIntOrNull() != null && 
+                         quantity.toIntOrNull()!! > 0 &&
+                         (selectedProduct?.quantity ?: 0) >= (quantity.toIntOrNull() ?: 0)
             ) {
                 Text("Adicionar")
             }
@@ -320,18 +433,3 @@ fun AddItemDialog(
     )
 }
 
-data class SaleItem(
-    val id: Long,
-    val nome: String,
-    val preco: Double,
-    val unidade: String,
-    val quantity: Int
-)
-
-data class InventoryItem(
-    val id: Long,
-    val nome: String,
-    val preco: Double,
-    val unidade: String,
-    val estoque: Int
-)
