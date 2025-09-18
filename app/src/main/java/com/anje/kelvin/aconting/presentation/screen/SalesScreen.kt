@@ -397,7 +397,7 @@ fun AddItemDialog(
                             product.id,
                             product.name,
                             product.price,
-                            "unidade", // Default unit, could be enhanced
+                            product.unit ?: "unidade", // Use actual unit, fallback to "unidade"
                             qty
                         )
                     }
