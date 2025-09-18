@@ -41,6 +41,13 @@ sealed class Screen(val route: String, val title: String, val icon: androidx.com
     object Inventory : Screen("inventory", "Estoque", Icons.Default.Inventory)
     object Transactions : Screen("transactions", "Transações", Icons.Default.CompareArrows)
     object Reports : Screen("reports", "Relatórios", Icons.Default.Assessment)
+    
+    // Report screens
+    object SalesReport : Screen("sales_report", "Relatório de Vendas", Icons.Default.ShoppingCart)
+    object ExpensesReport : Screen("expenses_report", "Relatório de Despesas", Icons.Default.TrendingDown)
+    object TransactionsReport : Screen("transactions_report", "Relatório de Transações", Icons.Default.CompareArrows)
+    object ActivitiesReport : Screen("activities_report", "Relatório de Actividades", Icons.Default.Analytics)
+    object IncomeReport : Screen("income_report", "Relatório de Receitas", Icons.Default.TrendingUp)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,7 +118,29 @@ fun AlternativeMainScreen(@Suppress("UNUSED_PARAMETER") onLogout: () -> Unit) {
                 TransactionScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(Screen.Reports.route) {
-                ReportsScreen(onNavigateBack = { navController.popBackStack() })
+                ReportsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToSalesReport = { navController.navigate(Screen.SalesReport.route) },
+                    onNavigateToExpensesReport = { navController.navigate(Screen.ExpensesReport.route) },
+                    onNavigateToTransactionsReport = { navController.navigate(Screen.TransactionsReport.route) },
+                    onNavigateToActivitiesReport = { navController.navigate(Screen.ActivitiesReport.route) },
+                    onNavigateToIncomeReport = { navController.navigate(Screen.IncomeReport.route) }
+                )
+            }
+            composable(Screen.SalesReport.route) {
+                SalesReportScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.ExpensesReport.route) {
+                ExpensesReportScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.TransactionsReport.route) {
+                TransactionsReportScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.ActivitiesReport.route) {
+                ActivitiesReportScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.IncomeReport.route) {
+                IncomeReportScreen(onNavigateBack = { navController.popBackStack() })
             }
         }
     }
