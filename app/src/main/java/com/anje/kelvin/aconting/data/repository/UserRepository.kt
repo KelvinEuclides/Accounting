@@ -13,6 +13,7 @@ import com.anje.kelvin.aconting.data.database.entities.toUserProfile
 import com.anje.kelvin.aconting.util.ValidationUtils
 import com.anje.kelvin.aconting.util.SecurityUtils
 import com.anje.kelvin.aconting.util.ValidationResult
+import com.anje.kelvin.aconting.util.AppConstants
 import com.anje.kelvin.aconting.util.RegistrationValidationResult
 import com.anje.kelvin.aconting.util.LoginValidationResult
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,8 +32,6 @@ class UserRepository @Inject constructor(
 
     // Constants
     companion object {
-        private const val MAX_LOGIN_ATTEMPTS = 5
-        private const val LOCKOUT_DURATION_MINUTES = 30
     }
 
     // User Registration
@@ -126,8 +125,8 @@ class UserRepository @Inject constructor(
                 userDao.updateLoginAttempts(user.id, newAttempts)
 
                 // Lock account if too many attempts
-                if (newAttempts >= MAX_LOGIN_ATTEMPTS) {
-                    val lockUntil = Date(currentTime.time + (LOCKOUT_DURATION_MINUTES * 60 * 1000))
+                if (newAttempts >= AppConstants.MAX_LOGIN_ATTEMPTS) {
+                    val lockUntil = Date(currentTime.time + (AppConstants.LOCKOUT_DURATION_MINUTES * 60 * 1000))
                     userDao.updateUserLockStatus(user.id, true, lockUntil)
                     return UserLoginResult.AccountLocked(lockUntil)
                 }
@@ -287,8 +286,8 @@ class UserRepository @Inject constructor(
         return try {
             val totalUsers = userDao.getActiveUserCount()
             val currentTime = Date()
-            val oneDayAgo = Date(currentTime.time - (24 * 60 * 60 * 1000))
-            val oneWeekAgo = Date(currentTime.time - (7 * 24 * 60 * 60 * 1000))
+            val oneDayAgo = Date(currentTime.time - AppConstants.MILLISECONDS_IN_DAY)
+            val oneWeekAgo = Date(currentTime.time - AppConstants.MILLISECONDS_IN_WEEK)
             
             val newUsersToday = userDao.getUserRegistrationCount(oneDayAgo, currentTime)
             val newUsersThisWeek = userDao.getUserRegistrationCount(oneWeekAgo, currentTime)

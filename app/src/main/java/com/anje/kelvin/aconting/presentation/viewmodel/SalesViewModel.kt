@@ -7,7 +7,8 @@ import com.anje.kelvin.aconting.data.repository.AuthRepository
 import com.anje.kelvin.aconting.data.repository.ProductRepository
 import com.anje.kelvin.aconting.data.database.entities.Product
 import com.anje.kelvin.aconting.data.database.entities.SaleItem as EntitySaleItem
-import com.anje.kelvin.aconting.util.TaxConstants
+import com.anje.kelvin.aconting.util.AppConstants
+import com.anje.kelvin.aconting.util.IdGenerator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -71,7 +72,7 @@ class SalesViewModel @Inject constructor(
 
     fun addItem(productId: Long, productName: String, price: Double, unit: String, quantity: Int) {
         val newItem = UiSaleItem(
-            id = System.currentTimeMillis(),
+            id = IdGenerator.generateLongId(),
             productId = productId,
             nome = productName,
             preco = price,
@@ -82,7 +83,7 @@ class SalesViewModel @Inject constructor(
         _uiState.update { state ->
             val updatedItems = state.selectedItems + newItem
             val total = updatedItems.sumOf { it.totalPrice }
-            val taxAmount = total * TaxConstants.IVA_TAX_RATE
+            val taxAmount = total * AppConstants.IVA_TAX_RATE
             val finalAmount = total + taxAmount
             
             state.copy(
@@ -101,7 +102,7 @@ class SalesViewModel @Inject constructor(
                 if (item.id == itemId) item.copy(quantity = newQuantity) else item
             }
             val total = updatedItems.sumOf { it.totalPrice }
-            val taxAmount = total * TaxConstants.IVA_TAX_RATE
+            val taxAmount = total * AppConstants.IVA_TAX_RATE
             val finalAmount = total + taxAmount
             
             state.copy(
@@ -117,7 +118,7 @@ class SalesViewModel @Inject constructor(
         _uiState.update { state ->
             val updatedItems = state.selectedItems.filter { it.id != itemId }
             val total = updatedItems.sumOf { it.totalPrice }
-            val taxAmount = total * TaxConstants.IVA_TAX_RATE
+            val taxAmount = total * AppConstants.IVA_TAX_RATE
             val finalAmount = total + taxAmount
             
             state.copy(

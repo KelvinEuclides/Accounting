@@ -17,7 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anje.kelvin.aconting.presentation.viewmodel.SalesViewModel
 import com.anje.kelvin.aconting.presentation.viewmodel.UiSaleItem
-import com.anje.kelvin.aconting.util.TaxConstants
+import com.anje.kelvin.aconting.util.AppConstants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +40,7 @@ fun SalesScreen(
     uiState.error?.let { error ->
         LaunchedEffect(error) {
             // Error will be shown in UI, clear after showing
-            kotlinx.coroutines.delay(3000)
+            kotlinx.coroutines.delay(AppConstants.SUCCESS_MESSAGE_DELAY)
             viewModel.clearError()
         }
     }
@@ -83,7 +83,7 @@ fun SalesScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("IVA (${TaxConstants.IVA_TAX_RATE_PERCENTAGE}%):")
+                            Text("IVA (${AppConstants.IVA_TAX_RATE_PERCENTAGE}%):")
                             Text("${String.format("%.2f", uiState.taxAmount)} MZN")
                         }
                         Divider(modifier = Modifier.padding(vertical = 8.dp))
