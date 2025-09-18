@@ -40,7 +40,7 @@ object AppConstants {
     }
     object Defaults {
         const val STOCK_THRESHOLD = 10
-        const val CURRENCY = "MZN"
+        const val CURRENCY = "MT"
         const val LANGUAGE = "pt"
         const val QUANTITY = 1
     }
