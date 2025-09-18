@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anje.kelvin.aconting.presentation.viewmodel.SalesViewModel
 import com.anje.kelvin.aconting.presentation.viewmodel.UiSaleItem
+import com.anje.kelvin.aconting.util.TaxConstants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +83,7 @@ fun SalesScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("IVA (17%):")
+                            Text("IVA (${TaxConstants.IVA_TAX_RATE_PERCENTAGE}%):")
                             Text("${String.format("%.2f", uiState.taxAmount)} MZN")
                         }
                         Divider(modifier = Modifier.padding(vertical = 8.dp))

@@ -6,6 +6,7 @@ import com.anje.kelvin.aconting.data.database.dao.ProductDao
 import com.anje.kelvin.aconting.data.database.entities.Sale
 import com.anje.kelvin.aconting.data.database.entities.SaleItem
 import com.anje.kelvin.aconting.data.database.entities.Product
+import com.anje.kelvin.aconting.util.TaxConstants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class SalesRepository @Inject constructor(
     ): Result<Sale> {
         return try {
             val subtotal = items.sumOf { it.finalAmount }
-            val taxAmount = subtotal * 0.17 // 17% tax
+            val taxAmount = subtotal * TaxConstants.IVA_TAX_RATE
             val finalAmount = subtotal + taxAmount
             val itemCount = items.sumOf { it.quantity }
 
