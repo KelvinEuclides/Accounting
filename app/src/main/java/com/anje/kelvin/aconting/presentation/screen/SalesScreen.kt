@@ -40,7 +40,7 @@ fun SalesScreen(
     uiState.error?.let { error ->
         LaunchedEffect(error) {
             // Error will be shown in UI, clear after showing
-            kotlinx.coroutines.delay(AppConstants.SUCCESS_MESSAGE_DELAY)
+            kotlinx.coroutines.delay(AppConstants.ERROR_MESSAGE_DELAY)
             viewModel.clearError()
         }
     }
