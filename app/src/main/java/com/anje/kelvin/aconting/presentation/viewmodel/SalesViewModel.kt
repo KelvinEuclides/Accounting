@@ -9,6 +9,7 @@ import com.anje.kelvin.aconting.data.database.entities.Product
 import com.anje.kelvin.aconting.data.database.entities.SaleItem as EntitySaleItem
 import com.anje.kelvin.aconting.util.AppConstants
 import com.anje.kelvin.aconting.util.IdGenerator
+import com.anje.kelvin.aconting.domain.model.PaymentMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +27,9 @@ data class SalesUiState(
     val selectedItems: List<UiSaleItem> = emptyList(),
     val total: Double = 0.0,
     val taxAmount: Double = 0.0,
-    val finalAmount: Double = 0.0
+    val finalAmount: Double = 0.0,
+    val selectedPaymentMethod: PaymentMethod = PaymentMethod.DEFAULT,
+    val availablePaymentMethods: List<PaymentMethod> = PaymentMethod.values().toList()
 )
 
 data class UiSaleItem(
@@ -163,7 +166,7 @@ class SalesViewModel @Inject constructor(
                 val result = salesRepository.createSale(
                     userId = state.currentUserId,
                     items = saleItems,
-                    paymentMethod = "Cash",
+                    paymentMethod = state.selectedPaymentMethod.displayName,
                     customerName = null,
                     customerPhone = null,
                     notes = null
@@ -219,5 +222,9 @@ class SalesViewModel @Inject constructor(
                 success = false
             )
         }
+    }
+
+    fun selectPaymentMethod(paymentMethod: PaymentMethod) {
+        _uiState.update { it.copy(selectedPaymentMethod = paymentMethod) }
     }
 }

@@ -41,7 +41,7 @@ class SalesRepository @Inject constructor(
     suspend fun createSale(
         userId: Long,
         items: List<SaleItem>,
-        paymentMethod: String = "Cash",
+        paymentMethod: String = AppConstants.PaymentMethods.DEFAULT,
         customerName: String? = null,
         customerPhone: String? = null,
         notes: String? = null

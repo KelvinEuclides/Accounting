@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import com.anje.kelvin.aconting.util.AppConstants
 import java.util.Date
 
 @Parcelize
@@ -33,7 +34,7 @@ data class Sale(
     val taxAmount: Double = 0.0,
     val finalAmount: Double,
     val itemCount: Int,
-    val paymentMethod: String = "Cash",
+    val paymentMethod: String = AppConstants.PaymentMethods.DEFAULT,
     val customerName: String? = null,
     val customerPhone: String? = null,
     val status: SaleStatus = SaleStatus.COMPLETED,

@@ -38,12 +38,59 @@ object AppConstants {
         const val SESSION_TOKEN = "session_token"
         const val SESSION_EXPIRY = "session_expiry"
     }
+    
+    /**
+     * Default values for various application settings
+     */
     object Defaults {
         const val STOCK_THRESHOLD = 10
-        const val CURRENCY = "MT"
+        const val CURRENCY = "MZN"
         const val LANGUAGE = "pt"
         const val QUANTITY = 1
     }
+    
+    // ========================================================================================
+    // PAYMENT METHOD CONSTANTS
+    // ========================================================================================
+    
+    /**
+     * Available payment methods in the application
+     */
+    object PaymentMethods {
+        const val CASH = "Cash"
+        const val CARD = "Card"
+        const val MOBILE_MONEY = "Mobile Money"
+        const val BANK_TRANSFER = "Bank Transfer"
+        const val CREDIT = "Credit"
+        
+        /**
+         * Default payment method for new transactions
+         */
+        const val DEFAULT = CASH
+        
+        /**
+         * List of all available payment methods for UI selection
+         */
+        val ALL = listOf(CASH, CARD, MOBILE_MONEY, BANK_TRANSFER, CREDIT)
+        
+        /**
+         * Payment methods that require immediate settlement
+         */
+        val IMMEDIATE_SETTLEMENT = listOf(CASH, CARD, MOBILE_MONEY, BANK_TRANSFER)
+        
+        /**
+         * Payment methods that allow deferred payment
+         */
+        val DEFERRED_PAYMENT = listOf(CREDIT)
+    }
+    
+    // ========================================================================================
+    // WEAK PIN PATTERNS (for validation)
+    // ========================================================================================
+    
+    /**
+     * Common weak PIN patterns that should be rejected
+     */
     val WEAK_PINS = listOf(
         "0000", "1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888", "9999",
         "1234", "4321", "0123", "9876"
