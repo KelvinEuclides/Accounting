@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import com.anje.kelvin.aconting.util.AppConstants
 import java.util.Date
 
 @Parcelize
@@ -32,7 +33,7 @@ data class Expense(
     val amount: Double,
     val description: String,
     val category: String,
-    val paymentMethod: String = "Cash",
+    val paymentMethod: String = AppConstants.PaymentMethods.DEFAULT,
     val vendor: String? = null,
     val receiptNumber: String? = null,
     val notes: String? = null,

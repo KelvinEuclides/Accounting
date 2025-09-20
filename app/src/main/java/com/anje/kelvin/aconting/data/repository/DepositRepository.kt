@@ -5,6 +5,7 @@ import com.anje.kelvin.aconting.data.database.dao.CategoryDao
 import com.anje.kelvin.aconting.data.database.entities.Deposit
 import com.anje.kelvin.aconting.data.database.entities.Category
 import com.anje.kelvin.aconting.data.database.entities.CategoryType
+import com.anje.kelvin.aconting.util.AppConstants
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -37,7 +38,7 @@ class DepositRepository @Inject constructor(
         amount: Double,
         description: String,
         category: String,
-        paymentMethod: String = "Cash",
+        paymentMethod: String = AppConstants.PaymentMethods.DEFAULT,
         source: String? = null,
         referenceNumber: String? = null,
         notes: String? = null,

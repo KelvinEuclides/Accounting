@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anje.kelvin.aconting.presentation.viewmodel.SalesViewModel
 import com.anje.kelvin.aconting.presentation.viewmodel.UiSaleItem
 import com.anje.kelvin.aconting.util.AppConstants
+import com.anje.kelvin.aconting.domain.model.PaymentMethod
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +41,7 @@ fun SalesScreen(
     uiState.error?.let { error ->
         LaunchedEffect(error) {
             // Error will be shown in UI, clear after showing
-            kotlinx.coroutines.delay(AppConstants.ERROR_MESSAGE_DELAY)
+            kotlinx.coroutines.delay(AppConstants.SUCCESS_MESSAGE_DELAY)
             viewModel.clearError()
         }
     }
@@ -86,6 +87,15 @@ fun SalesScreen(
                             Text("IVA (${AppConstants.IVA_TAX_RATE_PERCENTAGE}%):")
                             Text("${String.format("%.2f", uiState.taxAmount)} MZN")
                         }
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
+                        
+                        // Payment Method Selector
+                        PaymentMethodSelector(
+                            selectedPaymentMethod = uiState.selectedPaymentMethod,
+                            availablePaymentMethods = uiState.availablePaymentMethods,
+                            onPaymentMethodSelected = { viewModel.selectPaymentMethod(it) }
+                        )
+                        
                         Divider(modifier = Modifier.padding(vertical = 8.dp))
                     }
                     
@@ -397,7 +407,7 @@ fun AddItemDialog(
                             product.id,
                             product.name,
                             product.price,
-                            product.unit,
+                            "Unidades", // Default unit since Product entity doesn't have unit field
                             qty
                         )
                     }
@@ -418,3 +428,76 @@ fun AddItemDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PaymentMethodSelector(
+    selectedPaymentMethod: PaymentMethod,
+    availablePaymentMethods: List<PaymentMethod>,
+    onPaymentMethodSelected: (PaymentMethod) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    
+    Column(modifier = modifier) {
+        Text(
+            text = "Método de Pagamento:",
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                value = selectedPaymentMethod.displayName,
+                onValueChange = { },
+                readOnly = true,
+                label = { Text("Selecionar método") },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+            )
+            
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                availablePaymentMethods.forEach { paymentMethod ->
+                    DropdownMenuItem(
+                        text = { 
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(paymentMethod.displayName)
+                                if (!paymentMethod.requiresImmediateSettlement) {
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "A prazo",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                            }
+                        },
+                        onClick = {
+                            onPaymentMethodSelected(paymentMethod)
+                            expanded = false
+                        },
+                        leadingIcon = {
+                            RadioButton(
+                                selected = selectedPaymentMethod == paymentMethod,
+                                onClick = null
+                            )
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
