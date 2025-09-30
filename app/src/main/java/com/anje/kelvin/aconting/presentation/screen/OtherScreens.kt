@@ -28,6 +28,7 @@ import com.anje.kelvin.aconting.ui.localization.LocalStrings
 import com.anje.kelvin.aconting.ui.localization.Strings
 import com.anje.kelvin.aconting.presentation.viewmodel.SettingsViewModel
 import com.anje.kelvin.aconting.presentation.viewmodel.AuthViewModel
+import kotlinx.coroutines.delay
 
 sealed class Screen(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     object Home : Screen("home", "Menu", Icons.Default.Home)
@@ -283,6 +284,7 @@ private fun StatCard(
 fun SettingsScreen(onLogout: () -> Unit) {
     val userPreferences: UserPreferences = hiltViewModel<SettingsViewModel>().userPreferences
     val authViewModel: AuthViewModel = hiltViewModel()
+    val dataClearingViewModel: com.anje.kelvin.aconting.presentation.viewmodel.DataClearingViewModel = hiltViewModel()
     val strings = LocalStrings.current
     
     val currency by userPreferences.currency.collectAsState()
@@ -294,9 +296,13 @@ fun SettingsScreen(onLogout: () -> Unit) {
     val stockThreshold by userPreferences.stockThreshold.collectAsState()
     val dailyReports by userPreferences.dailyReports.collectAsState()
     
+    val currentUser by authViewModel.currentUser.collectAsState()
+    val clearingUiState by dataClearingViewModel.uiState.collectAsState()
+    
     var showConfirmDialog by remember { mutableStateOf(false) }
     var showCurrencyDialog by remember { mutableStateOf(false) }
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showClearDataDialog by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -427,7 +433,7 @@ fun SettingsScreen(onLogout: () -> Unit) {
                     title = strings.clearData,
                     subtitle = strings.clearDataDescription,
                     icon = Icons.Default.DeleteForever,
-                    onClick = { /* TODO: Implementar limpeza de dados */ },
+                    onClick = { showClearDataDialog = true },
                     isDestructive = true
                 )
             }
@@ -562,6 +568,336 @@ fun SettingsScreen(onLogout: () -> Unit) {
                     Text(strings.cancel)
                 }
             }
+        )
+    }
+    
+    // Data Clearing Dialog
+    if (showClearDataDialog) {
+        DataClearingDialog(
+            strings = strings,
+            clearingUiState = clearingUiState,
+            onDismiss = { 
+                showClearDataDialog = false
+                dataClearingViewModel.clearMessages()
+            },
+            onOptionSelected = { option, isSelected ->
+                dataClearingViewModel.updateSelectedOptions(option, isSelected)
+            },
+            onConfirm = {
+                currentUser?.id?.let { userId ->
+                    dataClearingViewModel.clearData(userId)
+                }
+            }
+        )
+    }
+    
+    // Show success/error messages
+    if (clearingUiState.successMessage.isNotEmpty()) {
+        LaunchedEffect(clearingUiState.successMessage) {
+            kotlinx.coroutines.delay(2000)
+            dataClearingViewModel.clearMessages()
+            showClearDataDialog = false
+        }
+    }
+}
+
+@Composable
+private fun DataClearingDialog(
+    strings: Strings,
+    clearingUiState: com.anje.kelvin.aconting.presentation.viewmodel.DataClearingUiState,
+    onDismiss: () -> Unit,
+    onOptionSelected: (com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption, Boolean) -> Unit,
+    onConfirm: () -> Unit
+) {
+    var confirmationText by remember { mutableStateOf("") }
+    var showFinalConfirmation by remember { mutableStateOf(false) }
+    
+    if (!showFinalConfirmation) {
+        // First dialog: Select what to clear
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { 
+                Text(
+                    strings.selectDataToClear,
+                    style = MaterialTheme.typography.headlineSmall
+                ) 
+            },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        strings.thisActionCannotBeUndone,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    
+                    // Clear All Data option
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { 
+                                onOptionSelected(
+                                    com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.ALL,
+                                    !clearingUiState.selectedOptions.contains(
+                                        com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.ALL
+                                    )
+                                )
+                            }
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = clearingUiState.selectedOptions.contains(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.ALL
+                            ),
+                            onCheckedChange = { isChecked ->
+                                onOptionSelected(
+                                    com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.ALL,
+                                    isChecked
+                                )
+                            }
+                        )
+                        Text(
+                            strings.clearAllData,
+                            modifier = Modifier.padding(start = 8.dp),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.error,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    
+                    Text(
+                        "Ou selecione itens específicos:",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    
+                    // Individual options
+                    DataClearOption(
+                        label = strings.clearSales,
+                        isSelected = clearingUiState.selectedOptions.contains(
+                            com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.SALES
+                        ),
+                        onCheckedChange = { isChecked ->
+                            onOptionSelected(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.SALES,
+                                isChecked
+                            )
+                        }
+                    )
+                    
+                    DataClearOption(
+                        label = strings.clearExpenses,
+                        isSelected = clearingUiState.selectedOptions.contains(
+                            com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.EXPENSES
+                        ),
+                        onCheckedChange = { isChecked ->
+                            onOptionSelected(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.EXPENSES,
+                                isChecked
+                            )
+                        }
+                    )
+                    
+                    DataClearOption(
+                        label = strings.clearDeposits,
+                        isSelected = clearingUiState.selectedOptions.contains(
+                            com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.DEPOSITS
+                        ),
+                        onCheckedChange = { isChecked ->
+                            onOptionSelected(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.DEPOSITS,
+                                isChecked
+                            )
+                        }
+                    )
+                    
+                    DataClearOption(
+                        label = strings.clearTransactions,
+                        isSelected = clearingUiState.selectedOptions.contains(
+                            com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.TRANSACTIONS
+                        ),
+                        onCheckedChange = { isChecked ->
+                            onOptionSelected(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.TRANSACTIONS,
+                                isChecked
+                            )
+                        }
+                    )
+                    
+                    DataClearOption(
+                        label = strings.clearProducts,
+                        isSelected = clearingUiState.selectedOptions.contains(
+                            com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.PRODUCTS
+                        ),
+                        onCheckedChange = { isChecked ->
+                            onOptionSelected(
+                                com.anje.kelvin.aconting.presentation.viewmodel.ClearDataOption.PRODUCTS,
+                                isChecked
+                            )
+                        }
+                    )
+                    
+                    if (clearingUiState.errorMessage.isNotEmpty()) {
+                        Text(
+                            clearingUiState.errorMessage,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = { 
+                        if (clearingUiState.selectedOptions.isNotEmpty()) {
+                            showFinalConfirmation = true
+                        }
+                    },
+                    enabled = clearingUiState.selectedOptions.isNotEmpty() && !clearingUiState.isLoading,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text(strings.confirm)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onDismiss,
+                    enabled = !clearingUiState.isLoading
+                ) {
+                    Text(strings.cancel)
+                }
+            }
+        )
+    } else {
+        // Second dialog: Final confirmation with text input
+        AlertDialog(
+            onDismissRequest = { 
+                showFinalConfirmation = false
+                confirmationText = ""
+            },
+            title = { 
+                Text(
+                    strings.confirmClearData,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.error
+                ) 
+            },
+            text = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        strings.confirmClearDataMessage,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    
+                    Text(
+                        strings.typeConfirmToDelete,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    
+                    OutlinedTextField(
+                        value = confirmationText,
+                        onValueChange = { confirmationText = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        placeholder = { Text(strings.confirmText) },
+                        enabled = !clearingUiState.isLoading
+                    )
+                    
+                    if (clearingUiState.isLoading) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator()
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(strings.clearingData)
+                        }
+                    }
+                    
+                    if (clearingUiState.successMessage.isNotEmpty()) {
+                        Text(
+                            clearingUiState.successMessage,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    
+                    if (clearingUiState.errorMessage.isNotEmpty()) {
+                        Text(
+                            clearingUiState.errorMessage,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onConfirm()
+                    },
+                    enabled = confirmationText.uppercase() == strings.confirmText && 
+                             !clearingUiState.isLoading &&
+                             clearingUiState.successMessage.isEmpty(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text(strings.delete)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { 
+                        showFinalConfirmation = false
+                        confirmationText = ""
+                    },
+                    enabled = !clearingUiState.isLoading
+                ) {
+                    Text(strings.cancel)
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun DataClearOption(
+    label: String,
+    isSelected: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCheckedChange(!isSelected) }
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = onCheckedChange
+        )
+        Text(
+            label,
+            modifier = Modifier.padding(start = 8.dp),
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

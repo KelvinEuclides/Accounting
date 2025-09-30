@@ -142,6 +142,23 @@ interface Strings {
     val itemUpdatedSuccess: String
     val itemDeletedSuccess: String
     val operationFailed: String
+    
+    // Data Clearing
+    val confirmClearData: String
+    val confirmClearDataMessage: String
+    val clearingData: String
+    val dataClearedSuccess: String
+    val dataClearingFailed: String
+    val selectDataToClear: String
+    val clearAllData: String
+    val clearTransactions: String
+    val clearProducts: String
+    val clearSales: String
+    val clearExpenses: String
+    val clearDeposits: String
+    val thisActionCannotBeUndone: String
+    val typeConfirmToDelete: String
+    val confirmText: String
 }
 
 class PortugueseStrings : Strings {
@@ -252,6 +269,22 @@ class PortugueseStrings : Strings {
     override val itemUpdatedSuccess = "Item atualizado com sucesso"
     override val itemDeletedSuccess = "Item excluído com sucesso"
     override val operationFailed = "Operação falhou"
+    
+    override val confirmClearData = "Confirmar Limpeza de Dados"
+    override val confirmClearDataMessage = "Esta ação irá apagar permanentemente os dados selecionados. Esta operação NÃO pode ser desfeita!"
+    override val clearingData = "Limpando dados..."
+    override val dataClearedSuccess = "Dados limpos com sucesso"
+    override val dataClearingFailed = "Falha ao limpar dados"
+    override val selectDataToClear = "Selecione os dados para limpar"
+    override val clearAllData = "Limpar Todos os Dados"
+    override val clearTransactions = "Limpar Transações"
+    override val clearProducts = "Limpar Produtos"
+    override val clearSales = "Limpar Vendas"
+    override val clearExpenses = "Limpar Despesas"
+    override val clearDeposits = "Limpar Depósitos"
+    override val thisActionCannotBeUndone = "Esta ação não pode ser desfeita!"
+    override val typeConfirmToDelete = "Digite 'CONFIRMAR' para continuar"
+    override val confirmText = "CONFIRMAR"
 }
 
 class EnglishStrings : Strings {
@@ -362,6 +395,22 @@ class EnglishStrings : Strings {
     override val itemUpdatedSuccess = "Item updated successfully"
     override val itemDeletedSuccess = "Item deleted successfully"
     override val operationFailed = "Operation failed"
+    
+    override val confirmClearData = "Confirm Clear Data"
+    override val confirmClearDataMessage = "This action will permanently delete the selected data. This operation CANNOT be undone!"
+    override val clearingData = "Clearing data..."
+    override val dataClearedSuccess = "Data cleared successfully"
+    override val dataClearingFailed = "Failed to clear data"
+    override val selectDataToClear = "Select data to clear"
+    override val clearAllData = "Clear All Data"
+    override val clearTransactions = "Clear Transactions"
+    override val clearProducts = "Clear Products"
+    override val clearSales = "Clear Sales"
+    override val clearExpenses = "Clear Expenses"
+    override val clearDeposits = "Clear Deposits"
+    override val thisActionCannotBeUndone = "This action cannot be undone!"
+    override val typeConfirmToDelete = "Type 'CONFIRM' to continue"
+    override val confirmText = "CONFIRM"
 }
 
 class FrenchStrings : Strings {
@@ -472,4 +521,20 @@ class FrenchStrings : Strings {
     override val itemUpdatedSuccess = "Article mis à jour avec succès"
     override val itemDeletedSuccess = "Article supprimé avec succès"
     override val operationFailed = "Opération échouée"
+    
+    override val confirmClearData = "Confirmer l'effacement des données"
+    override val confirmClearDataMessage = "Cette action supprimera définitivement les données sélectionnées. Cette opération NE PEUT PAS être annulée!"
+    override val clearingData = "Effacement des données..."
+    override val dataClearedSuccess = "Données effacées avec succès"
+    override val dataClearingFailed = "Échec de l'effacement des données"
+    override val selectDataToClear = "Sélectionner les données à effacer"
+    override val clearAllData = "Effacer toutes les données"
+    override val clearTransactions = "Effacer les transactions"
+    override val clearProducts = "Effacer les produits"
+    override val clearSales = "Effacer les ventes"
+    override val clearExpenses = "Effacer les dépenses"
+    override val clearDeposits = "Effacer les dépôts"
+    override val thisActionCannotBeUndone = "Cette action ne peut pas être annulée!"
+    override val typeConfirmToDelete = "Tapez 'CONFIRMER' pour continuer"
+    override val confirmText = "CONFIRMER"
 }
