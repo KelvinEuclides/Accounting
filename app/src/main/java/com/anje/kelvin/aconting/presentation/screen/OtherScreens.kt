@@ -28,6 +28,7 @@ import com.anje.kelvin.aconting.ui.localization.LocalStrings
 import com.anje.kelvin.aconting.ui.localization.Strings
 import com.anje.kelvin.aconting.presentation.viewmodel.SettingsViewModel
 import com.anje.kelvin.aconting.presentation.viewmodel.AuthViewModel
+import kotlinx.coroutines.delay
 
 sealed class Screen(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     object Home : Screen("home", "Menu", Icons.Default.Home)
