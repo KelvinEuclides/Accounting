@@ -1,6 +1,7 @@
 package com.anje.kelvin.aconting.data.repository
 
 import com.anje.kelvin.aconting.data.database.dao.*
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,12 +18,10 @@ class DataClearingRepository @Inject constructor(
 
     suspend fun clearAllSales(userId: Long): Result<Unit> {
         return try {
-            val sales = saleDao.getSalesByUser(userId)
-            sales.collect { saleList ->
-                saleList.forEach { sale ->
-                    saleItemDao.deleteSaleItemsBySaleId(sale.id)
-                    saleDao.deleteSaleById(sale.id)
-                }
+            val saleList = saleDao.getSalesByUser(userId).first()
+            saleList.forEach { sale ->
+                saleItemDao.deleteSaleItemsBySaleId(sale.id)
+                saleDao.deleteSaleById(sale.id)
             }
             Result.success(Unit)
         } catch (e: Exception) {
@@ -32,11 +31,9 @@ class DataClearingRepository @Inject constructor(
 
     suspend fun clearAllExpenses(userId: Long): Result<Unit> {
         return try {
-            val expenses = expenseDao.getExpensesByUser(userId)
-            expenses.collect { expenseList ->
-                expenseList.forEach { expense ->
-                    expenseDao.deleteExpenseById(expense.id)
-                }
+            val expenseList = expenseDao.getExpensesByUser(userId).first()
+            expenseList.forEach { expense ->
+                expenseDao.deleteExpenseById(expense.id)
             }
             Result.success(Unit)
         } catch (e: Exception) {
@@ -46,11 +43,9 @@ class DataClearingRepository @Inject constructor(
 
     suspend fun clearAllDeposits(userId: Long): Result<Unit> {
         return try {
-            val deposits = depositDao.getDepositsByUser(userId)
-            deposits.collect { depositList ->
-                depositList.forEach { deposit ->
-                    depositDao.deleteDepositById(deposit.id)
-                }
+            val depositList = depositDao.getDepositsByUser(userId).first()
+            depositList.forEach { deposit ->
+                depositDao.deleteDepositById(deposit.id)
             }
             Result.success(Unit)
         } catch (e: Exception) {
@@ -60,11 +55,9 @@ class DataClearingRepository @Inject constructor(
 
     suspend fun clearAllTransactions(): Result<Unit> {
         return try {
-            val transactions = transactionDao.getAllTransactions()
-            transactions.collect { transactionList ->
-                transactionList.forEach { transaction ->
-                    transactionDao.deleteTransactionById(transaction.id)
-                }
+            val transactionList = transactionDao.getAllTransactions().first()
+            transactionList.forEach { transaction ->
+                transactionDao.deleteTransactionById(transaction.id)
             }
             Result.success(Unit)
         } catch (e: Exception) {
@@ -74,11 +67,9 @@ class DataClearingRepository @Inject constructor(
 
     suspend fun clearAllProducts(): Result<Unit> {
         return try {
-            val products = productDao.getAllProducts()
-            products.collect { productList ->
-                productList.forEach { product ->
-                    productDao.deleteProduct(product)
-                }
+            val productList = productDao.getAllProducts().first()
+            productList.forEach { product ->
+                productDao.deleteProduct(product)
             }
             Result.success(Unit)
         } catch (e: Exception) {
